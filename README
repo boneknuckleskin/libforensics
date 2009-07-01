@@ -1,0 +1,18 @@
+Installation instructions:
+0) Make sure you have python 3.1 installed
+   - For Windows and Mac: download the installer from http://www.python.org
+   - For Linux: compile it from source
+     - If this is *REALLY* an issue, I'll try to build a VMware VM with Python
+       3.1, Mecurial, and LibForensics already installed.
+
+1) Put the code/lf directory somewhere in your Python path
+
+2) To run the unit tests:
+   - To check the unit tests, download Word2007RTFSpec9.doc from Microsoft and
+     place it in the unittests/tests/windows/ole/compoundfile directory.
+
+     You can get Word2007RTFSpec9.doc from:
+     http://www.microsoft.com/downloads/details.aspx?FamilyID=dd422b8d-ff06-4207-b476-6b5396a18a2b&displaylang=en
+
+   - Modify unittests/run_tests.py and uncomment the part for
+     "tests.windows.ole.compoundfile.objects"
