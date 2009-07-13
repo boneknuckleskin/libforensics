@@ -26,170 +26,176 @@ http://spreadsheets.google.com/ccc?key=pK5CEcdG9GYGeO7K2dmEcBg
 
 __docformat__ = "restructuredtext en"
 
-from lf.struct.datatype import Bool, Int8, UInt8, Int16, UInt16, Int32
-from lf.struct.datatype import UInt32, Int64, UInt64, Float32, Float64
+from lf.datastruct import (
+    int8, uint8, int16, uint16, int32, uint32, int64, uint64, float32,
+    float64
+)
 
-class BYTE(UInt8):
+class BYTE(uint8):
     pass
 # end class BYTE
 
-class CHAR(Int8):
+class CHAR(int8):
     pass
 # end class CHAR
 
-class DOUBLE(Float64):
+class DOUBLE(float64):
     pass
 # end class DOUBLE
 
-class DWORD(UInt32):
+class DWORD(uint32):
     pass
 # end class DWORD
 
-class DWORD32(UInt32):
+class DWORD32(uint32):
     pass
 # end class DWORD32
 
-class DWORD64(UInt64):
+class DWORD64(uint64):
     pass
 # end class DWORD64
 
-class DWORDLONG(UInt64):
+class DWORDLONG(uint64):
     pass
 # end class DWORDLONG
 
-class HFILE(Int32):
+class FILETIME(uint64):
+    pass
+# end class FILETIME
+
+class HFILE(int32):
     pass
 # end class HFILE
 
-class INT(Int32):
+class INT(int32):
     pass
 # end class INT
 
-class INT8(Int8):
+class INT8(int8):
     pass
 # end class INT8
 
-class INT16(Int16):
+class INT16(int16):
     pass
 # end class INT16
 
-class INT32(Int32):
+class INT32(int32):
     pass
 # end class INT32
 
-class INT64(Int64):
+class INT64(int64):
     pass
 # end class INT64
 
-class LARGE_INTEGER(Int64):
+class LARGE_INTEGER(int64):
     pass
 # end class LARGE_INTEGER
 
-class LONG(Int32):
+class LONG(int32):
     pass
 # end class LONG
 
-class LONG32(Int32):
+class LONG32(int32):
     pass
 # end class LONG32
 
-class LONG64(Int64):
+class LONG64(int64):
     pass
 # end class LONG64
 
-class LONGLONG(Int64):
+class LONGLONG(int64):
     pass
 # end class LONGLONG
 
-class POINTER_32(UInt32):
+class POINTER_32(uint32):
     pass
 # end class POINTER_32
 
-class POINTER_64(UInt64):
+class POINTER_64(uint64):
     pass
 # end class POINTER_64
 
-class REAL(Float32):
+class REAL(float32):
     pass
 # end class REAL
 
-class REAL32(Float32):
+class REAL32(float32):
     pass
 # end class REAL32
 
-class SHORT(Int16):
+class SHORT(int16):
     pass
 # end class SHORT
 
-class UCHAR(UInt8):
+class UCHAR(uint8):
     pass
 # end class UCHAR
 
-class UINT(UInt32):
+class UINT(uint32):
     pass
 # end class UINT
 
-class UINT8(UInt8):
+class UINT8(uint8):
     pass
 # end class UINT8
 
-class UINT16(UInt16):
+class UINT16(uint16):
     pass
 # end class UINT16
 
-class UINT32(UInt32):
+class UINT32(uint32):
     pass
 # end class UINT32
 
-class UINT64(UInt64):
+class UINT64(uint64):
     pass
 # end class UINT64
 
-class ULONG(UInt32):
+class ULONG(uint32):
     pass
 # end class ULONG
 
-class ULONG32(UInt32):
+class ULONG32(uint32):
     pass
 # end class ULONG32
 
-class ULONG64(UInt64):
+class ULONG64(uint64):
     pass
 # end class ULONG64
 
-class ULONGLONG(UInt64):
+class ULONGLONG(uint64):
     pass
 # end class ULONGLONG
 
-class UNSIGNED32(UInt32):
+class UNSIGNED32(uint32):
     pass
 # end class UNSIGNED32
 
-class UNSIGNED64(UInt64):
+class UNSIGNED64(uint64):
     pass
 # end class UNSIGNED64
 
-class USHORT(UInt16):
+class USHORT(uint16):
     pass
 # end class USHORT
 
-class UTIME(UInt32):
+class UTIME(uint32):
     pass
 # end clas UTIME
 
-class WCHAR(UInt16):
+class WCHAR(uint16):
     pass
 # end class WCHAR
 
-class WORD(UInt16):
+class WORD(uint16):
     pass
 # end class WORD
 
-class QWORD(UInt64):
+class QWORD(uint64):
     pass
 # end class QWORD
 
-class SHORT(Int16):
+class SHORT(int16):
     pass
 # end class SHORT
 

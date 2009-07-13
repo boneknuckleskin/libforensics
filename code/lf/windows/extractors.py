@@ -16,68 +16,47 @@
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
 """
-Convenience class that contains extractors for the microsoft_structs module.
+Convenience class that contains extractors for the windows.structs module.
 
 .. moduleauthor:: Michael Murr (mmurr@codeforensics.net)
 
 """
 
-from lf.struct.consts import LITTLE_ENDIAN, BIG_ENDIAN
-from lf.struct.datastruct import DataStruct
-from lf.struct.extract import extractor_factory as factory
-from lf.windows.structs import GUID, CLSID, DECIMAL, FILETIME
+from lf.datastruct import DataStruct_LE, DataStruct_BE, Extractor
+from lf.windows.structs import GUID, CLSID, DECIMAL
 
 __docformat__ = "restructuredtext en"
 __all__ = [
-    "guid_le", "clsid_le", "decimal_le", "filetime_le", "guid_be", "clsid_be",
-    "decimal_be", "filetime_be"
+    "guid_le", "clsid_le", "decimal_le", "guid_be", "clsid_be", "decimal_be"
 ]
 
-class _GUID_LE(DataStruct):
-    byte_order = LITTLE_ENDIAN
+class _GUID_LE(DataStruct_LE):
     fields = [ GUID("value") ]
 # end class _GUID_LE
 
-class _GUID_BE(DataStruct):
-    byte_order = BIG_ENDIAN
+class _GUID_BE(DataStruct_BE):
     fields = [ GUID("value") ]
 # end class _GUID_BE
 
-class _CLSID_LE(DataStruct):
-    byte_order = LITTLE_ENDIAN
+class _CLSID_LE(DataStruct_LE):
     fields = [ CLSID("value") ]
 # end class _CLSID_LE
 
-class _CLSID_BE(DataStruct):
-    byte_order = BIG_ENDIAN
+class _CLSID_BE(DataStruct_BE):
     fields = [ CLSID("value") ]
 # end class _CLSID_BE
 
-class _DECIMAL_LE(DataStruct):
-    byte_order = LITTLE_ENDIAN
+class _DECIMAL_LE(DataStruct_LE):
     fields = [ DECIMAL("value") ]
 # end class _DECIMAL_LE
 
-class _DECIMAL_BE(DataStruct):
-    byte_order = BIG_ENDIAN
+class _DECIMAL_BE(DataStruct_BE):
     fields = [ DECIMAL("value") ]
 # end class _DECIMAL_BE
 
-class _FILETIME_LE(DataStruct):
-    byte_order = LITTLE_ENDIAN
-    fields = [ FILETIME("value") ]
-# end class _FILETIME_LE
-
-class _FILETIME_BE(DataStruct):
-    byte_order = BIG_ENDIAN
-    fields = [ FILETIME("value") ]
-# end class _FILETIME_BE
-
-guid_le = factory.make(_GUID_LE())
-guid_be = factory.make(_GUID_BE())
-clsid_le = factory.make(_CLSID_LE())
-clsid_be = factory.make(_CLSID_BE())
-decimal_le = factory.make(_DECIMAL_LE())
-decimal_be = factory.make(_DECIMAL_BE())
-filetime_le = factory.make(_FILETIME_LE())
-filetime_be = factory.make(_FILETIME_BE())
+guid_le = Extractor(_GUID_LE())
+guid_be = Extractor(_GUID_BE())
+clsid_le = Extractor(_CLSID_LE())
+clsid_be = Extractor(_CLSID_BE())
+decimal_le = Extractor(_DECIMAL_LE())
+decimal_be = Extractor(_DECIMAL_BE())

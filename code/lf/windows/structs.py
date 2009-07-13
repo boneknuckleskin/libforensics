@@ -21,22 +21,20 @@ Common data structures for Microsoft Windows.
 .. moduleauthor:: Michael Murr (mmurr@codeforensics.net)
 """
 
-from lf.struct.consts import LITTLE_ENDIAN
-from lf.struct.datastruct import DataStruct, Array
+from lf.datastruct import DataStruct_LE, array, BIG_ENDIAN
 from lf.windows.types import WORD, DWORD, BYTE, ULONG, ULONGLONG
 
 __docformat__ = "restructuredtext en"
 __all__ = [
-    "GUID", "CLSID", "DECIMAL", "FILETIME"
+    "GUID", "CLSID", "DECIMAL"
 ]
 
-class GUID(DataStruct):
-    byte_order = LITTLE_ENDIAN
+class GUID(DataStruct_LE):
     fields = [
         DWORD("data1"),
         WORD("data2"),
         WORD("data3"),
-        Array(8, BYTE(), "data4")
+        array("data4", BYTE(""), 8)
     ]
 # end class GUID
 
@@ -44,8 +42,7 @@ class CLSID(GUID):
     pass
 # end class CLSID
 
-class DECIMAL(DataStruct):
-    byte_order = LITTLE_ENDIAN
+class DECIMAL(DataStruct_LE):
     fields = [
         WORD("rsvd"),
         BYTE("scale"),
@@ -54,11 +51,3 @@ class DECIMAL(DataStruct):
         ULONGLONG("lo64")
     ]
 # end class DECIMAL
-
-class FILETIME(DataStruct):
-    byte_order = LITTLE_ENDIAN
-    fields = [
-        ULONG("lo"),
-        ULONG("hi")
-    ]
-# end class FILETIME
