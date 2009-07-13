@@ -15,6 +15,14 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
+"""
+Various windows constants.
+
+.. moduleauthor:: Michael Murr (mmurr@codeforensics.net)
+"""
+
+__docformat__ = "restructuredtext en"
 __all__ = [
-    "consts"
+    "lcid", "codepage", "vkcode"
 ]
+
