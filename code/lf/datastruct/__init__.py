@@ -15,6 +15,22 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
+"""
+Describe and read data structures.
+
+.. moduleauthor:: Michael Murr (mmurr@codeforensics.net)
+"""
+
+from lf.datastruct.consts import BIG_ENDIAN, LITTLE_ENDIAN, NETWORK_ENDIAN
+from lf.datastruct.field import (
+    int8, uint8, int16, uint16, int32, uint32, int64, uint64, float32, float64,
+    raw, array, char, DataStruct_LE, DataStruct_BE, bit, Bits8, UBits8, Bits16,
+    UBits16, Bits32, UBits32, Bits64, UBits64, ListStruct
+)
+from lf.datastruct.extract import Extractor
+
+__docformat__ = "restructuredtext en"
 __all__ = [
-    "datastruct", "datatype", "decode", "extract"
+    "consts", "field", "decode", "extract", "extractors", "excepts",
+    "structuple"
 ]

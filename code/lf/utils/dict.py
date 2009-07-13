@@ -89,22 +89,21 @@ class BinaryTree(dict):
             TypeError
                 If node_id is not a valid key.
 
-            KeyError
-                If node_id does not exist.
-
         :rtype: bool
         :returns: True if node_id has children, False otherwise.
         """
 
-        if not isinstance(node_id, int):
+        try:
+            node_id = node_id.__int__()
+        except AttributeError:
             raise TypeError("Invalid type of key {0}".format(node_id))
-        elif node_id < 1:
-            raise TypeError("Invalid type of key {0}".format(node_id))
-        elif node_id not in self:
-            raise KeyError("Key not found {0}".format(node_id))
-        # end if
+        except:
+            raise
+        # end try
 
-        return ((node_id * 2) in self) or (((node_id * 2) + 1) in self)
+        node_id *= 2
+
+        return (node_id in self) or ((node_id + 1) in self)
     # end def is_internal
 
 
@@ -120,27 +119,19 @@ class BinaryTree(dict):
             TypeError
                 If node_id is an invalid key.
 
-            KeyError
-                If node_id does not exist.
-
         :rtype: bool
         :returns: True if node_id does not have children, False otherwise.
         """
 
-        if not isinstance(node_id, int):
+        try:
+            node_id = node_id.__int__()
+        except AttributeError:
             raise TypeError("Invalid type of key {0}".format(node_id))
-        elif node_id < 1:
-            raise TypeError("Invalid type of key {0}".format(node_id))
-        elif node_id not in self:
-            raise KeyError("Key not found {0}".format(node_id))
-        # end if
+        except:
+            raise
+        # end try
 
-        if ((node_id * 2) + 1) in self:
-            return False
-        # end if
-
-        return \
-            ((node_id * 2) not in self) and (((node_id * 2) + 1) not in self)
+        return not (((node_id * 2) in self) or (((node_id * 2) + 1) in self))
     # end def is_external
 
     def get_left_child_id(self, node_id):
@@ -159,11 +150,13 @@ class BinaryTree(dict):
         :returns: The id of the left child.
         """
 
-        if not isinstance(node_id, int):
+        try:
+            node_id = node_id.__int__()
+        except AttributeError:
             raise TypeError("Invalid type of key {0}".format(node_id))
-        elif node_id < 1:
-            raise TypeError("Invalid type of key {0}".format(node_id))
-        # end if
+        except:
+            raise
+        # end try
 
         return node_id * 2
     # end def get_left_child
@@ -205,22 +198,17 @@ class BinaryTree(dict):
             TypeError
                 If node_id is an invalid key.
 
-            KeyError
-                If node_id does not exist.
-
         :rtype: bool
         :returns: True if node_id has a left child, False otherwise.
         """
 
-        if not isinstance(node_id, int):
+        try:
+            return (node_id.__int__() * 2) in self
+        except AttributeError:
             raise TypeError("Invalid type of key {0}".format(node_id))
-        elif node_id < 1:
-            raise TypeError("Invalid type of key {0}".format(node_id))
-        elif node_id not in self:
-            raise KeyError("Key not found {0}".format(node_id))
-        # end if
-
-        return (node_id * 2) in self
+        except:
+            raise
+        # end try
     # end def has_left_child
 
     def has_right_child(self, node_id):
@@ -235,20 +223,17 @@ class BinaryTree(dict):
             TypeError
                 If node_id is an invalid key.
 
-            KeyError
-                If node_id does not exist.
-
         :rtype: bool
         :returns: True if node_id has a right child, False otherwise.
         """
 
-        if not isinstance(node_id, int):
+        try:
+            node_id = node_id.__int__()
+        except AttributeError:
             raise TypeError("Invalid type of key {0}".format(node_id))
-        elif node_id < 1:
-            raise TypeError("Invalid type of key {0}".format(node_id))
-        elif node_id not in self:
-            raise KeyError("Key not found {0}".format(node_id))
-        # end if
+        except:
+            raise
+        # end try
 
         return ((node_id * 2) + 1) in self
     # end def has_right_child
@@ -322,19 +307,16 @@ class NAryTree(BinaryTree):
             TypeError
                 If node_id is an invalid type of key.
 
-            KeyError
-                If key does not exist.
-
         :rtype: list
         :returns: A list of nodes (not including key) to the right of key.
         """
-        if not isinstance(node_id, int):
+        try:
+            node_id = node_id.__int__()
+        except AttributeError:
             raise TypeError("Invalid type of key {0}".format(node_id))
-        elif node_id < 1:
-            raise TypeError("Invalid type of key {0}".format(node_id))
-        elif node_id not in self:
-            raise KeyError("Key not found {0}".format(node_id))
-        # end if
+        except:
+            raise
+        # end try
 
         siblings = list()
 
@@ -347,6 +329,29 @@ class NAryTree(BinaryTree):
 
         return siblings
     # end def get_sibling_ids
+
+    def get_parent_id(self, node_id):
+        """
+        Finds the parent of a given node.
+
+        :parameters:
+            node_id
+                The node id to find the parent of.
+
+        :raises:
+            ValueError
+                If node_id does not exist, or is the root (1).
+
+        :rtype: int
+        :returns: The node id of the parent of node_id
+        """
+
+        while node_id & 0x1:
+            node_id = (node_id - 1) // 2
+        # end while
+
+        return node_id // 2
+    # end def get_parent_id
 
     def walk_postorder(self):
         """

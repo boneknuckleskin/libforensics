@@ -25,15 +25,9 @@ __docformat__ = "restructuredtext en"
 
 __all__ = ["Decoder"]
 
-from collections import namedtuple
-
 class Decoder():
     """
     Decodes bit fields.
-
-    .. attribute:: named_tuple
-
-        A named tuple applied to the extracted bits.
 
     .. attribute:: bit_masks
 
@@ -42,44 +36,51 @@ class Decoder():
     .. attribute:: bit_shifts
 
         A list of the bit shifts used to extract the various bit fields.
+
+    .. attribute:: size
+
+        The total number of bits that get decoded.
+
+    .. attribute:: count
+
+        The number of individual fields that get decoded.
     """
 
-    def __init__(self, tuple_name, bit_fields):
+    def __init__(self, bits):
         """
         Initializes a Decoder object.
 
         :parameters:
-            tuple_name
-                The name for the created namedtuple type.
-
-            bit_fields
-                An iterable of fields describing bits.  The fields are tuples
-                of ("field name", bit start, bit stop)
+            bits
+                An iterable of bit objects.
         """
 
-        field_names = list()
         bit_masks = list()
         bit_shifts = list()
+        offset = 0
 
-        for field in bit_fields:
+        for (index, bit_field) in enumerate(bits):
             bit_mask = 0
-            name, start, stop = field
-            field_names.append(name)
+            bit_shift = 0
 
-            for index in range(start, stop):
+            for index in range(bit_field.size):
                 bit_mask |= 2**index
             # end for
+            bit_mask = bit_mask << offset
 
             bit_masks.append(bit_mask)
-            bit_shifts.append(start)
+            bit_shifts.append(offset)
+
+            offset += bit_field.size
         # end for
 
+        self.size = offset
+        self.count = len(bits)
         self.bit_shifts = bit_shifts
         self.bit_masks = bit_masks
-        self.named_tuple = namedtuple(tuple_name, field_names)
     # end def __init__
 
-    def decode(self, value, use_named_tuple=True):
+    def decode(self, value):
         """
         Decodes individual bits from a value.
 
@@ -87,23 +88,17 @@ class Decoder():
             value
                 The value to extract bits from.
 
-            use_named_tuple
-                If True, creates a named tuple from the resulting values.
-
         :rtype: tuple
         :returns: The extracted bit fields.
         """
 
         field_values = list()
+        bit_info_iter = zip(self.bit_masks, self.bit_shifts)
 
-        for index, bit_mask in enumerate(self.bit_masks):
-            field_values.append((value & bit_mask) >> self.bit_shifts[index])
+        for (bit_mask, bit_shift) in bit_info_iter:
+            field_values.append((value & bit_mask) >> bit_shift)
         # end for
 
-        if not use_named_tuple:
-            return tuple(field_values)
-        # end if
-
-        return self.named_tuple._make(field_values)
+        return tuple(field_values)
     # end def decode
 # end class Decoder

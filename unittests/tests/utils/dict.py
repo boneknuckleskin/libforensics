@@ -83,9 +83,6 @@ class BinaryTreeTestCase(TestCase):
         # end for
 
         ar(TypeError, self.tree.is_internal, "1")
-        ar(TypeError, self.tree.is_internal, -1)
-        ar(TypeError, self.tree.is_internal, 0)
-        ar(KeyError, self.tree.is_internal, 3)
     # end def test_is_internal
 
     def test_is_external(self):
@@ -117,9 +114,6 @@ class BinaryTreeTestCase(TestCase):
         # end for
 
         ar(TypeError, self.tree.is_external, "1")
-        ar(TypeError, self.tree.is_external, -1)
-        ar(TypeError, self.tree.is_external, 0)
-        ar(KeyError, self.tree.is_external, 3)
     # end def test_is_external
 
     def test_get_left_child_id(self):
@@ -131,8 +125,6 @@ class BinaryTreeTestCase(TestCase):
         # end for
 
         ar(TypeError, self.tree.get_left_child_id, "1")
-        ar(TypeError, self.tree.get_left_child_id, -1)
-        ar(TypeError, self.tree.get_left_child_id, 0)
     # end def test_get_left_child_id
 
     def test_has_left_child(self):
@@ -164,9 +156,6 @@ class BinaryTreeTestCase(TestCase):
         # end for
 
         ar(TypeError, self.tree.has_left_child, "1")
-        ar(TypeError, self.tree.has_left_child, -1)
-        ar(TypeError, self.tree.has_left_child, 0)
-        ar(KeyError, self.tree.has_left_child, 3)
     # end def test_has_left_child
 
     def test_get_right_child_id(self):
@@ -211,9 +200,6 @@ class BinaryTreeTestCase(TestCase):
         # end for
 
         ar(TypeError, self.tree.has_right_child, "1")
-        ar(TypeError, self.tree.has_right_child, -1)
-        ar(TypeError, self.tree.has_right_child, 0)
-        ar(KeyError, self.tree.has_right_child, 3)
     # end def test_has_right_child
 # end class BinaryTreeTestCase
 
@@ -224,6 +210,7 @@ class NAryTreeTestCase(TestCase):
             1459
         ]
 
+        self.node_ids = node_ids
         init = [(node_id, "{0}".format(node_id)) for node_id in node_ids]
         self.tree = NAryTree(init)
     # end def setUp
@@ -291,9 +278,6 @@ class NAryTreeTestCase(TestCase):
         # end for
 
         ar(TypeError, self.tree.get_sibling_ids, "1")
-        ar(TypeError, self.tree.get_sibling_ids, -1)
-        ar(TypeError, self.tree.get_sibling_ids, 0)
-        ar(KeyError, self.tree.get_sibling_ids, 3)
     # end def test_get_sibling_ids:
 
     def test_walk_postorder(self):
@@ -316,6 +300,17 @@ class NAryTreeTestCase(TestCase):
             ae(node_id, results[index])
         # end for
     # end def test_get_leaf_ids
+
+    def test_get_parent_id(self):
+        fue = self.failUnlessEqual
+        results = [
+            1, 1, 5, 10, 10, 5, 1, 11, 22, 22, 11, 11, 91, 182, 182, 182
+        ]
+
+        for (index, node_id) in enumerate(self.node_ids[1:]):
+            fue(self.tree.get_parent_id(node_id), results[index])
+        # end for
+    # end def test_get_parent_id
 # end class NAryTreeTestCase
 
 class CachingDictTestCase(TestCase):
