@@ -16,7 +16,7 @@
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
 """
-Unit tests for the lf.os.windows.ole.structs module
+Unit tests for the lf.windows.ole.structs module
 
 .. moduleauthor:: Michael Murr (mmurr@codeforensics.net)
 """
@@ -24,7 +24,7 @@ Unit tests for the lf.os.windows.ole.structs module
 __docformat__ = "restructuredtext en"
 
 from unittest import TestCase, main
-from lf.struct.extract import extractor_factory as factory
+from lf.datastruct import Extractor
 from lf.windows.ole.compoundfile.structs import Header, DirEntry
 
 header_str = \
@@ -74,7 +74,7 @@ dir_entry_str = \
 
 class HeaderTestCase():
     def setUp(self):
-        self.extractor = factory.make(Header())
+        self.extractor = Extractor(Header())
     # end def setUp
 
     def test_values(self):
@@ -113,7 +113,7 @@ class HeaderTestCase():
 
 class DirEntryTestCase(TestCase):
     def setUp(self):
-        self.extractor = factory.make(DirEntry())
+        self.extractor = Extractor(DirEntry())
     # end def setUp
 
     def test_values(self):
@@ -132,10 +132,8 @@ class DirEntryTestCase(TestCase):
         ae(dir_entry.clsid.data3, 0)
         ae(dir_entry.clsid.data4, (192, 0, 0, 0, 0, 0, 0, 70))
         ae(dir_entry.state, 0)
-        ae(dir_entry.btime.lo, 0x8764C6EE)
-        ae(dir_entry.btime.hi, 0x1C2CB74)
-        ae(dir_entry.mtime.lo, 0xFB9B0D10)
-        ae(dir_entry.mtime.hi, 0x01C2CB75)
+        ae(dir_entry.btime, 0x01C2CB748764C6EE)
+        ae(dir_entry.mtime, 0x01C2CB75FB9B0D10)
         ae(dir_entry.first_sect, 125)
         ae(dir_entry.size, 128)
     # end def test_values

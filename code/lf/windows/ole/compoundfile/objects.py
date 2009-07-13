@@ -26,13 +26,11 @@ __all__ = [
     "CompoundFile", "DirEntry"
 ]
 
-from datetime import datetime
-
 from lf.windows.guid import guid_to_uuid
 from lf.windows.time import filetime_to_datetime
 from lf.io import composite, byte, subset
 from lf.io.consts import SEEK_SET
-from lf.struct.extract import extractor_factory as factory
+from lf.datastruct import Extractor, ListStruct
 
 from lf.windows.ole.compoundfile.consts import (
     STREAM_ID_MAX, STREAM_ID_NONE, FAT_EOC, FAT_UNALLOC, FAT_FAT_SECT,
@@ -156,7 +154,7 @@ class CompoundFile():
         # Gather all of the double indirect FAT entries into di_fat
         di_fat.extend(header_struct.di_fat)
         if header_struct.di_fat_count != 0:
-            extractor = factory.make_list(entries_per_sect, DIFATEntry())
+            extractor = Extractor(ListStruct(DIFATEntry(), entries_per_sect))
             next_di_fat_sect = header_struct.di_fat_sect
 
             while next_di_fat_sect != FAT_EOC:
@@ -198,7 +196,7 @@ class CompoundFile():
 
         # Extract the entries of the FAT
         sect_count = fat_stream.size // sect_size
-        extractor = factory.make_list(entries_per_sect, FATEntry())
+        extractor = Extractor(ListStruct(FATEntry(), entries_per_sect))
 
         for sect_index in range(sect_count):
             fat_stream.seek(sect_index * sect_size, SEEK_SET)
@@ -243,7 +241,7 @@ class CompoundFile():
 
             # Extract the contents of the mini fat from the mini fat stream
             sect_count = mini_fat_stream.size // sect_size
-            extractor = factory.make_list(entries_per_sect, MiniFATEntry())
+            extractor = Extractor(ListStruct(MiniFATEntry(), entries_per_sect))
 
             for sect_index in range(sect_count):
                 mini_fat_stream.seek(sect_index * sect_size, SEEK_SET)
@@ -637,26 +635,20 @@ class DirEntry():
         self.first_sect = dir_entry_struct.first_sect
         self.size = dir_entry_struct.size
 
-        btime = dir_entry_struct.btime
-        btime = (btime.hi << 32) | btime.lo
         try:
-            btime = filetime_to_datetime(btime)
+            self.btime = filetime_to_datetime(dir_entry_struct.btime)
         except KeyboardInterrupt:
             raise
         except:
-            btime = None
+            self.btime = dir_entry_struct.btime
         # end try
-        self.btime = btime
 
-        mtime = dir_entry_struct.mtime
-        mtime = (mtime.hi << 32) | mtime.lo
         try:
-            mtime = filetime_to_datetime(mtime)
+            self.mtime = filetime_to_datetime(dir_entry_struct.mtime)
         except KeyboardInterrupt:
             raise
         except:
-            mtime = None
+            self.mtime = None
         # end try
-        self.mtime = mtime
     # end def __init__
 # end class DirEntry

@@ -26,13 +26,11 @@ __all__ = [
     "TIME_T", "Header", "DirEntry"
 ]
 
-from lf.struct.consts import LITTLE_ENDIAN
-from lf.struct.datastruct import Array, DataStruct
-from lf.struct.datatype import Bytes
+from lf.datastruct import raw, array, DataStruct_LE
 from lf.windows.types import (
-    ULONG, USHORT, BYTE, WORD, DWORD, ULONGLONG
+    ULONG, USHORT, BYTE, WORD, DWORD, ULONGLONG, FILETIME
 )
-from lf.windows.structs import CLSID, FILETIME, GUID
+from lf.windows.structs import CLSID, GUID
 from lf.windows.ole.compoundfile.types import (
     OFFSET, SECT, FSINDEX, FSOFFSET, DFSIGNATURE, DFPROPTYPE, SID
 )
@@ -41,17 +39,16 @@ class TIME_T(FILETIME):
     pass
 # end class TIME_T
 
-class Header(DataStruct):
-    byte_order = LITTLE_ENDIAN
+class Header(DataStruct_LE):
     fields = [
-        Bytes(8, "sig"),
+        raw("sig", 8),
         CLSID("clsid"),
         USHORT("ver_minor"),
         USHORT("ver_major"),
         USHORT("byte_order"),
         USHORT("sect_shift"),
         USHORT("mini_sect_shift"),
-        Bytes(6, "rsvd"),
+        raw("rsvd", 6),
         FSINDEX("dir_count"),
         FSINDEX("fat_count"),
         SECT("dir_sect"),
@@ -61,14 +58,13 @@ class Header(DataStruct):
         FSINDEX("mini_fat_count"),
         SECT("di_fat_sect"),
         FSINDEX("di_fat_count"),
-        Array(109, SECT(), "di_fat")
+        array("di_fat", SECT(""), 109)
     ]
 # end class Header
 
-class DirEntry(DataStruct):
-    byte_order = LITTLE_ENDIAN
+class DirEntry(DataStruct_LE):
     fields = [
-        Bytes(64, "name"),
+        raw("name", 64),
         WORD("name_size"),
         BYTE("type"),
         BYTE("color"),
@@ -84,22 +80,19 @@ class DirEntry(DataStruct):
     ]
 # end class DirEntry
 
-class FATEntry(DataStruct):
-    byte_order = LITTLE_ENDIAN
+class FATEntry(DataStruct_LE):
     fields = [
         DWORD("entry")
     ]
 # end class FATEntry
 
-class MiniFATEntry(DataStruct):
-    byte_order = LITTLE_ENDIAN
+class MiniFATEntry(DataStruct_LE):
     fields = [
         DWORD("entry")
     ]
 # end class MiniFATEntry
 
-class DIFATEntry(DataStruct):
-    byte_order = LITTLE_ENDIAN
+class DIFATEntry(DataStruct_LE):
     fields = [
         DWORD("entry")
     ]

@@ -20,7 +20,7 @@ import tests
 
 names = [
     "windows.time",
-    #"windows.ole.compoundfile.structs", #"windows.shell.recyclebin.objects",
+    "windows.ole.compoundfile.structs", #"windows.shell.recyclebin.objects",
 
     "datastruct.field", "datastruct.decode", "datastruct.structuple",
     "datastruct.extract",
