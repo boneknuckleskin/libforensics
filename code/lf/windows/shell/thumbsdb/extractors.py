@@ -27,12 +27,12 @@ __all__ = [
     "entry_header_old"
 ]
 
-from lf.struct.extract import extractor_factory as factory
+from lf.datastruct import Extractor
 from lf.windows.shell.thumbsdb.structs import (
     CatalogHeader, CatalogEntryHeader, EntryHeader, EntryHeaderOld
 )
 
-catalog_header = factory.make(CatalogHeader())
-catalog_entry_header = factory.make(CatalogEntryHeader())
-entry_header = factory.make(EntryHeader())
-entry_header_old = factory.make(EntryHeaderOld())
+catalog_header = Extractor(CatalogHeader())
+catalog_entry_header = Extractor(CatalogEntryHeader())
+entry_header = Extractor(EntryHeader())
+entry_header_old = Extractor(EntryHeaderOld())

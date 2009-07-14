@@ -125,8 +125,13 @@ class CatalogEntry():
 
         self.index = header.index
         self.name = name
-        mtime = (header.mtime.hi << 32) | header.mtime.lo
-        self.mtime = filetime_to_datetime(mtime)
+        try:
+            self.mtime = filetime_to_datetime(header.mtime)
+        except KeyboardInterrupt:
+            raise
+        except:
+            self.mtime = header.mtime
+        # end try
         self.size = header.size
     # end def __init__
 # end class CatalogEntry
