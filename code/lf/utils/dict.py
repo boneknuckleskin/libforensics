@@ -68,11 +68,13 @@ class BinaryTree(dict):
                 If key is invalid.
         """
 
-        if not isinstance(key, int):
-                raise TypeError("Invalid type of key {0}".format(key))
-        elif key < 1:
-                raise TypeError("Invalid type of key {0}".format(key))
-        # end if
+        try:
+            key = key.__index__()
+        except AttributeError:
+            raise TypeError("Invalid type of key {0}".format(key))
+        except:
+            raise
+        # end try
 
         super(BinaryTree, self).__setitem__(key, value)
     # end def __setitem__
@@ -250,7 +252,13 @@ class NAryTree(BinaryTree):
     """
 
     def has_children(self, node_id):
-        return self.has_left_child(node_id)
+        try:
+            return (node_id.__index__() * 2) in self
+        except AttributeError:
+            raise TypeError("Invalid type of key {0}".format(node_id))
+        except:
+            raise
+        # end try
     # end def has_children
 
     def get_children_ids(self, node_id):
@@ -272,21 +280,21 @@ class NAryTree(BinaryTree):
         :returns: A list of the identifiers of the children.
         """
 
-        if not isinstance(node_id, int):
+        try:
+            node_id = node_id.__index__()
+        except AttributeError:
             raise TypeError("Invalid type of key {0}".format(node_id))
-        elif node_id < 1:
-            raise TypeError("Invalid type of key {0}".format(node_id))
-        elif node_id not in self:
-            raise KeyError("Key not found {0}".format(node_id))
-        # end if
+        except:
+            raise
+        # end try
 
-        child_id = self.get_left_child_id(node_id)
-        if child_id not in self:
+        node_id *= 2
+        if node_id not in self:
             return list()
         # end if
 
-        children = [child_id]
-        children.extend(self.get_sibling_ids(child_id))
+        children = [node_id]
+        children.extend(self.get_sibling_ids(node_id))
 
         return children
     # end def get_children_ids
@@ -396,11 +404,30 @@ class NAryTree(BinaryTree):
         """
 
         leaves = list()
-        for node_id in self.walk_postorder():
-            if not self.has_children(node_id):
-                leaves.append(node_id)
-            # end if
-        # end for
+        first_nodes = self.get_children_ids(1)
+        stack = [(1, iter(first_nodes))]
+
+        while stack:
+            (parent_id, node_iter) = stack.pop()
+
+            for node_id in node_iter:
+                if (node_id * 2) not in self:
+                    leaves.append(node_id)
+                else:
+                    # Save current information to the stack
+                    stack.append((parent_id, node_iter))
+
+                    # Save new information to the stack
+                    children = self.get_children_ids(node_id)
+                    stack.append((node_id, iter(children)))
+
+                    break
+            else:
+                if (parent_id * 2) not in self:
+                    leaves.append(parent_id)
+                # end if
+            # end for
+        # end while
 
         return leaves
     # end def get_leaf_ids

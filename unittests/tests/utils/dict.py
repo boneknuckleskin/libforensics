@@ -244,9 +244,6 @@ class NAryTreeTestCase(TestCase):
         # end for
 
         ar(TypeError, self.tree.get_children_ids, "1")
-        ar(TypeError, self.tree.get_children_ids, -1)
-        ar(TypeError, self.tree.get_children_ids, 0)
-        ar(KeyError, self.tree.get_children_ids, 3)
     # end def test_get_children_ids
 
     def test_get_sibling_ids(self):
