@@ -37,14 +37,16 @@ from lf.windows.time import (
 from lf.windows.guid import guid_to_uuid
 from lf.io import subset
 from lf.io.consts import SEEK_SET
-from lf.struct.extractors import (
+from lf.datastruct import Extractor, ListStruct
+from lf.datastruct.extractors import (
     int8, uint8, int16_le, uint16_le, int32_le, uint32_le, float32_le,
     float64_le, int64_le, uint64_le
 )
 
 from lf.windows import extractors as ms_extractors
-from lf.windows.codepage import CP_UNKNOWN, CP_WINUNICODE
-from lf.struct.extract import extractor_factory as factory
+from lf.windows.consts.codepage import (
+    CP_UNKNOWN, CP_WINUNICODE, code_page_names
+)
 
 from lf.windows.ole.propertyset.extractors import (
     property_id_offset, property_set_header, property_set_stream_header,
@@ -65,8 +67,6 @@ from lf.windows.ole.varenum import (
 from lf.windows.ole.propertyset.consts import (
     PID_CODEPAGE, PID_DICTIONARY
 )
-
-from lf.windows.codepage import code_page_names
 
 # Tuple of variant types that need to create a code page string property
 _code_page_string_property_types = (
@@ -274,8 +274,7 @@ class TypedPropertyValue():
             value = value.decode("utf_16_le").rstrip("\x00")
 
         elif p_type == VT_FILETIME:
-            value = ms_extractors.filetime_le.extract(stream.read(8))[0]
-            value = (value.hi << 32) | value.lo
+            value = uint64_le.extract(stream.read(8))[0]
             value = filetime_to_datetime(value)
             bytes_read = 8
 
@@ -727,11 +726,13 @@ class PropertySet():
         header = property_set_header.extract(stream.read(8))
 
         if header.prop_count > 0:
-            extractor = factory.make_list(header.prop_count, PropertyIDOffset())
+            extractor = Extractor(
+                ListStruct(PropertyIDOffset(), header.prop_count)
+            )
 
             stream.seek(offset + 8, SEEK_SET)
             data = stream.read(header.prop_count * 8)
-            property_id_offsets = extractor.extract(data)
+            property_id_offsets = list(extractor.extract(data))
 
             code_page = CP_UNKNOWN
 

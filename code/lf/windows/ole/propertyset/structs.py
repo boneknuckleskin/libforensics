@@ -21,14 +21,12 @@ Data structures for Microsoft OLE Property Sets.
 .. moduleauthor:: Michael Murr (mmurr@codeforensics.net)
 """
 
-from lf.struct.consts import LITTLE_ENDIAN
-from lf.struct.datastruct import DataStruct_LE
-from lf.struct.datatype import Bytes
+from lf.datastruct import raw, DataStruct_LE
 
-from lf.windows.structs import FILETIME, GUID, CLSID, DECIMAL
+from lf.windows.structs import GUID, CLSID, DECIMAL
 from lf.windows.types import (
     WORD, DWORD, BYTE, INT8, INT16, REAL, DOUBLE, DATE, CURRENCY, INT32, INT64,
-    UINT32, UINT64, VARIANT_BOOL, UINT8, UINT16
+    UINT32, UINT64, VARIANT_BOOL, UINT8, UINT16, FILETIME
 )
 
 from lf.windows.ole.propertyset.types import PropertyType
@@ -92,42 +90,42 @@ class PropertyIDOffset(DataStruct_LE):
 class TypedPropertyValueHeader(DataStruct_LE):
     fields = [
         UINT16("p_type"),
-        Bytes(2, "pad")
+        raw("pad", 2)
     ]
 # end class TypedPropertyValueHeader
 
 class VT_I2(DataStruct_LE):
     fields = [
         INT16("value"),
-        Bytes(2, "pad")
+        raw("pad", 2)
     ]
 # end class VT_I2
 
 class VT_BOOL(DataStruct_LE):
     fields = [
         VARIANT_BOOL("value"),
-        Bytes(2, "pad")
+        raw("pad", 2)
     ]
 # end class VT_BOOL
 
 class VT_I1(DataStruct_LE):
     fields = [
         INT8("value"),
-        Bytes(3, "pad")
+        raw("pad", 3)
     ]
 # end class VT_I1
 
 class VT_UI1(DataStruct_LE):
     fields = [
         UINT8("value"),
-        Bytes(3, "pad")
+        raw("pad", 3)
     ]
 # end class VT_UI1
 
 class VT_UI2(DataStruct_LE):
     fields = [
         UINT16("value"),
-        Bytes(2, "pad")
+        raw("pad", 2)
     ]
 # end class VT_UI2
 
@@ -163,157 +161,138 @@ class DictionaryEntryHeader(DataStruct_LE):
 # Convenience structures
 class TypedPropertyValue_VT_I2(DataStruct_LE):
     fields = [
-        UINT16("p_type"),
-        Bytes(2, "pad1"),
+        TypedPropertyValueHeader("header"),
         INT16("value"),
-        Bytes(2, "pad2")
+        raw("pad", 2)
     ]
 # end class TypedPropertyValue_VT_I2
 
 class TypedPropertyValue_VT_I4(DataStruct_LE):
     fields = [
-        UINT16("p_type"),
-        Bytes(2, "pad"),
+        TypedPropertyValueHeader("header"),
         INT32("value")
     ]
 # end class TypedPropertyValue_VT_I4
 
 class TypedPropertyValue_VT_R4(DataStruct_LE):
     fields = [
-        UINT16("p_type"),
-        Bytes(2, "pad"),
+        TypedPropertyValueHeader("header"),
         REAL("value")
     ]
 # end class TypedPropertyValue_VT_R4
 
 class TypedPropertyValue_VT_R8(DataStruct_LE):
     fields = [
-        UINT16("p_type"),
-        Bytes(2, "pad"),
+        TypedPropertyValueHeader("header"),
         DOUBLE("value")
     ]
 # end class TypedPropertyValue_VT_R8
 
 class TypedPropertyValue_VT_CY(DataStruct_LE):
     fields = [
-        UINT16("p_type"),
-        Bytes(2, "pad"),
+        TypedPropertyValueHeader("header"),
         INT64("value")
     ]
 # end class TypedPropertyValue_VT_CY
 
 class TypedPropertyValue_VT_DATE(DataStruct_LE):
     fields = [
-        UINT16("p_type"),
-        Bytes(2, "pad"),
+        TypedPropertyValueHeader("header"),
         DATE("value")
     ]
 # end class TypedPropertyValue_VT_DATE
 
 class TypedPropertyValue_VT_ERROR(DataStruct_LE):
     fields = [
-        UINT16("p_type"),
-        Bytes(2, "pad"),
+        TypedPropertyValueHeader("header"),
         UINT32("value")
     ]
 # end class TypedPropertyValue_VT_ERROR
 
 class TypedPropertyValue_VT_BOOL(DataStruct_LE):
     fields = [
-        UINT16("p_type"),
-        Bytes(2, "pad1"),
+        TypedPropertyValueHeader("header"),
         VARIANT_BOOL("value"),
-        Bytes(2, "pad2")
+        raw("pad", 2)
     ]
 # end class TypedPropertyValue_VT_BOOL
 
 class TypedPropertyValue_VT_DECIMAL(DataStruct_LE):
     fields = [
-        UINT16("p_type"),
-        Bytes(2, "pad"),
+        TypedPropertyValueHeader("header"),
         DECIMAL("value")
     ]
 # end class TypedPropertyValue_VT_DECIMAL
 
 class TypedPropertyValue_VT_I1(DataStruct_LE):
     fields = [
-        UINT16("p_type"),
-        Bytes(2, "pad1"),
+        TypedPropertyValueHeader("header"),
         INT8("value"),
-        Bytes(3, "pad2")
+        raw("pad", 3)
     ]
 # end class TypedPropertyValue_VT_I1
 
 class TypedPropertyValue_VT_UI1(DataStruct_LE):
     fields = [
-        UINT16("p_type"),
-        Bytes(2, "pad1"),
+        TypedPropertyValueHeader("header"),
         UINT8("value"),
-        Bytes(3, "pad2")
+        raw("pad", 3)
     ]
 # end class TypedPropertyValue_VT_UI1
 
 class TypedPropertyValue_VT_UI2(DataStruct_LE):
     fields = [
-        UINT16("p_type"),
-        Bytes(2, "pad1"),
+        TypedPropertyValueHeader("header"),
         UINT16("value"),
-        Bytes(2, "pad2")
+        raw("pad", 2)
     ]
 # end class TypedPropertyValue_VT_UI2
 
 class TypedPropertyValue_VT_UI4(DataStruct_LE):
     fields = [
-        UINT16("p_type"),
-        Bytes(2, "pad"),
+        TypedPropertyValueHeader("header"),
         UINT32("value")
     ]
 # end class TypedPropertyValue_VT_UI4
 
 class TypedPropertyValue_VT_I8(DataStruct_LE):
     fields = [
-        UINT16("p_type"),
-        Bytes(2, "pad"),
+        TypedPropertyValueHeader("header"),
         INT64("value")
     ]
 # end class TypedPropertyValue_VT_I8
 
 class TypedPropertyValue_VT_UI8(DataStruct_LE):
     fields = [
-        UINT16("p_type"),
-        Bytes(2, "pad"),
+        TypedPropertyValueHeader("header"),
         UINT64("value")
     ]
 # end class TypedPropertyValue_VT_UI8
 
 class TypedPropertyValue_VT_INT(DataStruct_LE):
     fields = [
-        UINT16("p_type"),
-        Bytes(2, "pad"),
+        TypedPropertyValueHeader("header"),
         INT32("value")
     ]
 # end class TypedPropertyValue_VT_INT
 
 class TypedPropertyValue_VT_UINT(DataStruct_LE):
     fields = [
-        UINT16("p_type"),
-        Bytes(2, "pad"),
+        TypedPropertyValueHeader("header"),
         UINT32("value")
     ]
 # end class TypedPropertyValue_VT_UINT
 
 class TypedPropertyValue_VT_FILETIME(DataStruct_LE):
     fields = [
-        UINT16("p_type"),
-        Bytes(2, "pad"),
+        TypedPropertyValueHeader("header"),
         FILETIME("value")
     ]
 # end class TypedPropertyValue_VT_FILETIME
 
 class TypedPropertyValue_VT_CLSID(DataStruct_LE):
     fields = [
-        UINT16("p_type"),
-        Bytes(2, "pad"),
+        TypedPropertyValueHeader("header"),
         CLSID("value")
     ]
 # end class TypedPropertyValue_VT_CLSID
