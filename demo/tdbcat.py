@@ -64,23 +64,31 @@ if options.extract_all and options.index:
     parser.error("you can't specify both a thumbnail index (-i) and -a")
 # end if
 
+if (not args) and (options.extract_all) and (not options.name_base):
+    parser.error("if using stdin and extracting all images, you must specify a"
+                  "base name"
+    )
+# end if
+
 if not args:
     stream = byte.open(sys.stdin.buffer.read())
 else:
     stream = raw.open(args[0])
 # end if
 
-if options.name_base:
-    name_base = options.name_base
-else:
-    name_base = split(args[0])[1]
+if options.extract_all:
+    if options.name_base:
+        name_base = options.name_base
+    else:
+        name_base = split(args[0])[1]
+    # end if
 # end if
 
 thumbsdb = ThumbsDb(CompoundFile(stream))
 
 if options.extract_all:
     for index, thumbnail in thumbsdb.thumbnails.items():
-        outfile_name = ".".join([name_base, "{0}".format(index)])
+        outfile_name = ".".join([name_base, "{0}".format(index), "jpg"])
         outfile_name = join(normpath(options.output_dir), outfile_name)
         outfile = open(outfile_name, "wb")
         outfile.write(thumbnail.data)

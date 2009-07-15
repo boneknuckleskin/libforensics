@@ -2,6 +2,11 @@ These are a series of small tools I wrote to demonstrate some of the
 functionality within the framework.  The coding isn't the best, but gets the
 job done.
 
+All of the tools will read from standard in, if you don't give them a file
+name.  If you're on a Windows system, you'll have to make sure to run python
+with the -u option (to force stdin to be unbuffered.)  Each file has it's own
+readme with more information and examples.
+
 Feel free to use the tools, and report and bugs you find to the issue tracker
 at libforensics.com.
 
