@@ -24,24 +24,32 @@ Dumps information from a thumbs.db file.
 __docformat__ = "restructuredtext en"
 
 import sys
+from optparse import OptionParser
 
-from lf.io import raw
+from lf.io import raw, byte
 from lf.windows.ole.compoundfile.objects import CompoundFile
 from lf.windows.shell.thumbsdb.objects import ThumbsDb
 
-if len(sys.argv) != 2:
-    sys.stderr.write("Usage: {0} <thumbs.db file>\n".format(sys.argv[0]))
-    sys.exit(-1)
+parser = OptionParser()
+parser.set_usage("%prog [thumbs.db file]")
+(options, args) = parser.parse_args()
+
+if not args:
+    filename = "stdin"
+    stream = byte.open(sys.stdin.buffer.read())
+else:
+    filename = args[0]
+    stream = raw.open(filename)
 # end if
 
 field_names = ("Index", "Modified Time", "Original Name")
 field_lines = ("-----", "-------------", "-------------")
 format_str = "{0: <8} {1: <22} {2}"
 
-thumbsdb = ThumbsDb(CompoundFile(raw.open(sys.argv[1])))
+thumbsdb = ThumbsDb(CompoundFile(stream))
 output = list()
 
-output.append("File: {0}".format(sys.argv[1]))
+output.append("File: {0}".format(filename))
 output.append("Note: times are in UTC")
 output.append("")
 

@@ -23,22 +23,28 @@ __docformat__ = "restructuredtext en"
 
 
 import sys
-from lf.io import raw
+from optparse import OptionParser
+from lf.io import raw, byte
 from lf.windows.shell.recyclebin.objects import INFO2
 
-if len(sys.argv) != 2:
-    print("Usage: {0} <INFO2 file>".format(sys.argv[0]))
-    sys.exit(-1)
-# end if
+parser = OptionParser()
+parser.set_usage("%prog <INFO2 file>")
+(options, args) = parser.parse_args()
 
-info2 = INFO2(raw.open(sys.argv[1]))
+if not args:
+    filename = "stdin"
+    info2 = INFO2(byte.open(sys.stdin.buffer.read()))
+else:
+    filename = args[0]
+    info2 = INFO2(raw.open(filename))
+# end if
 
 fields = ("Deleted name", "Deleted time", "Size", "Original name")
 field_headers = ("------------", "------------", "----", "------------")
 format_str = "{0: <15} {1: <22} {2: <12} {3}"
 
 output = list()
-output.append("File: {0}".format(sys.argv[1]))
+output.append("File: {0}".format(filename))
 output.append("Note: times are in UTC")
 output.append("")
 

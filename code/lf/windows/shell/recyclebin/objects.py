@@ -25,8 +25,6 @@ __docformat__ = "restructuredtext en"
 __all__ = [
 ]
 
-import pdb
-
 from lf.io.consts import SEEK_SET
 from lf.windows.time import filetime_to_datetime
 from lf.windows.shell.recyclebin.extractors import header, item

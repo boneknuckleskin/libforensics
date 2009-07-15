@@ -27,7 +27,7 @@ import sys
 from optparse import OptionParser
 from os.path import split, join, normpath
 
-from lf.io import raw
+from lf.io import raw, byte
 from lf.windows.ole.compoundfile.objects import CompoundFile
 from lf.windows.shell.thumbsdb.objects import ThumbsDb
 
@@ -56,10 +56,6 @@ parser.add_option(
 
 (options, args) = parser.parse_args()
 
-if len(args) < 1:
-    parser.error("you must specify a thumbs.db file")
-# end if
-
 if (not options.extract_all) and (not options.index):
     parser.error("you must specify a thumbnail index (-i) or -a")
 # end if
@@ -68,13 +64,19 @@ if options.extract_all and options.index:
     parser.error("you can't specify both a thumbnail index (-i) and -a")
 # end if
 
+if not args:
+    stream = byte.open(sys.stdin.buffer.read())
+else:
+    stream = raw.open(args[0])
+# end if
+
 if options.name_base:
     name_base = options.name_base
 else:
     name_base = split(args[0])[1]
 # end if
 
-thumbsdb = ThumbsDb(CompoundFile(raw.open(args[0])))
+thumbsdb = ThumbsDb(CompoundFile(stream))
 
 if options.extract_all:
     for index, thumbnail in thumbsdb.thumbnails.items():

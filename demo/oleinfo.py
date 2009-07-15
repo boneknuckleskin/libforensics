@@ -18,7 +18,7 @@
 import sys
 from optparse import OptionParser
 
-from lf.io import raw
+from lf.io import raw, byte
 from lf.io.consts import SEEK_SET
 
 from lf.windows.ole.compoundfile.objects import CompoundFile
@@ -49,7 +49,7 @@ def format_fat(entry):
     # end if
 # end def format_fat
 
-def create_header(stream):
+def create_header(stream, filename):
     """Creates header information"""
 
     stream.seek(0, SEEK_SET)
@@ -59,7 +59,7 @@ def create_header(stream):
 
     output.append("Header Information")
     output.append("------------------")
-    output.append("File name: {0}".format(sys.argv[1]))
+    output.append("File name: {0}".format(filename))
     output.append("Signature: {0}".format(values.sig))
     output.append("CLSID: {0}".format(cfb.clsid))
     output.append("Version: {0}.{1}".format(values.ver_major, values.ver_minor))
@@ -273,15 +273,18 @@ parser.add_option(
 
 (options, args) = parser.parse_args()
 
-if len(args) < 1:
-    parser.error("you must specify an OLE file")
+if not args:
+    stream = byte.open(sys.stdin.buffer.read())
+    filename = "stdin"
+else:
+    filename = args[0]
+    stream = raw.open(filename)
 # end if
 
-stream = raw.open(args[0])
-cfb = CompoundFile(stream, 0)
+cfb = CompoundFile(stream)
 output = list()
 
-output.extend(create_header(stream))
+output.extend(create_header(stream, filename))
 
 if options.show_summary_info:
     output.extend(create_summary_info(cfb))

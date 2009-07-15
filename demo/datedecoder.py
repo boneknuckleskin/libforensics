@@ -24,6 +24,7 @@ __docformat__ = "restructuredtext en"
 import sys
 from datetime import datetime
 from optparse import OptionParser
+from binascii import hexlify
 from time import gmtime
 
 from lf.windows.time import (
@@ -112,6 +113,13 @@ parser.add_option(
 )
 
 parser.add_option(
+    "-m", "--input-mode", dest="mode", action="store",
+    choices=("b", "binary", "t", "text"), default="text",
+    help="Set input to (b, binary, t, text) (def: %default) "
+    "NOTE: binary only applies when reading from stdin"
+)
+
+parser.add_option(
     "-t", "--type", dest="type", action="store", type="choice",
     help="The type of timestamp (filetime, unix, dos, dosdate, dostime)",
     choices=("filetime", "unix", "dos", "dosdate", "dostime")
@@ -160,15 +168,23 @@ format_str = options.format_str
 endian = options.endian
 output = list()
 
-if not len(args):
-    for line in sys.stdin:
-        line = line.strip()
-        timestamp = "".join(line.split())
-        timestamp = int(timestamp, options.base)
+if not args:
+    if options.mode.lower() in ("t", "text"):
+        for line in sys.stdin:
+            line = line.strip()
+            timestamp = "".join(line.split())
+            timestamp = int(timestamp, options.base)
+            output.append(
+                decode_timestamp(timestamp_type, timestamp, endian, format_str)
+            )
+        # end for
+    else:
+        timestamp = sys.stdin.buffer.read()
+        timestamp = int(hexlify(timestamp), 16)
         output.append(
             decode_timestamp(timestamp_type, timestamp, endian, format_str)
         )
-    # end for
+    # end if
 else:
     timestamp = "".join(args)
     timestamp = int(timestamp, options.base)

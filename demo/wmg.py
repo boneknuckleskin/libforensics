@@ -22,8 +22,9 @@ Extracts metadata from a Microsoft Word document.
 """
 
 import sys
+from optparse import OptionParser
 
-from lf.io import raw
+from lf.io import raw, byte
 from lf.windows.ole.compoundfile.objects import CompoundFile
 from lf.windows.consts.lcid import lcid_names
 from lf.apps.msoffice.common.metadata import SummaryInfo, DocSummaryInfo
@@ -333,17 +334,22 @@ def create_word_metadata(cfb):
 # end def create_word_metadata
 
 output = list()
+parser = OptionParser()
+parser.set_usage("%prog <word file>")
+(options, args) = parser.parse_args()
 
-if len(sys.argv) < 2:
-    print("Word Metadata Grabber {0}".format(VERSION))
-    print("Usage: {0} <word file>".format(sys.argv[0]))
-    sys.exit(-1)
+if not args:
+    filename = "--stdin--"
+    stream = byte.open(sys.stdin.buffer.read())
+else:
+    filename = args[0]
+    stream = raw.open(filename)
 # end if
 
 output = list()
-cfb = CompoundFile(raw.open(sys.argv[1]))
+cfb = CompoundFile(stream)
 
-output.extend(create_header(cfb, sys.argv[1]))
+output.extend(create_header(cfb, filename))
 output.extend(create_summary_information(cfb))
 output.extend(create_doc_summary_information(cfb))
 output.extend(create_word_metadata(cfb))

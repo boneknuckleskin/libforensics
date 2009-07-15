@@ -28,7 +28,7 @@ import sys
 from os.path import join, normpath, split
 from optparse import OptionParser
 
-from lf.io import raw
+from lf.io import raw, byte
 from lf.windows.ole.compoundfile.objects import CompoundFile
 
 parser = OptionParser()
@@ -65,10 +65,6 @@ parser.add_option(
 
 (options, args) = parser.parse_args()
 
-if len(args) != 1:
-    parser.error("you must specify an ole file")
-# end if
-
 if (options.extract_all and (options.stream_id or options.stream_name)):
     parser.error("you can't specify both all and a stream id/name")
 # end if
@@ -77,7 +73,13 @@ if not (options.extract_all or options.stream_id or options.stream_name):
     parser.error("you must specify a stream id, name, or all")
 # end if
 
-cfb = CompoundFile(raw.open(args[0]))
+if not args:
+    stream = byte.open(sys.stdin.buffer.read())
+else:
+    stream = raw.open(args[0])
+# end if
+
+cfb = CompoundFile(stream)
 
 if options.name_base:
     name_base = options.name_base
