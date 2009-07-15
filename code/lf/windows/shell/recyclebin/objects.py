@@ -138,8 +138,13 @@ class Item():
 
         self.index = info2_item.index
         self.drive_num = info2_item.drive_num
-        dtime = (info2_item.dtime.hi << 32) | info2_item.dtime.lo
-        self.dtime = filetime_to_datetime(dtime)
+        try:
+            self.dtime = filetime_to_datetime(info2_item.dtime)
+        except KeyboardInterrupt:
+            raise
+        except:
+            self.dtime = info2_item.dtime
+        # end try
 
         # Sometimes the first character is not the drive letter, so swap it in
         name_asc = info2_item.name_asc

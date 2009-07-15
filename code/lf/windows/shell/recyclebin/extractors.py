@@ -26,8 +26,8 @@ __all__ = [
     "header", "item"
 ]
 
-from lf.struct.extract import extractor_factory as factory
+from lf.datastruct import Extractor
 from lf.windows.shell.recyclebin.structs import Header, Item
 
-header = factory.make(Header())
-item = factory.make(Item())
+header = Extractor(Header())
+item = Extractor(Item())

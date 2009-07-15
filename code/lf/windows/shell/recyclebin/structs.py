@@ -25,28 +25,26 @@ __docformat__ = "restructuredtext en"
 __all__ = [
 ]
 
-from lf.struct.datastruct import DataStruct_LE
-from lf.struct.datatype import Bytes
-from lf.windows.types import DWORD
-from lf.windows.structs import FILETIME
+from lf.datastruct import raw, DataStruct_LE
+from lf.windows.types import DWORD, FILETIME
 
 class Header(DataStruct_LE):
     fields = [
-        DWORD("unknown1"), # Perhaps version?
-        DWORD("unknown2"),
+        DWORD("unknown"), # Perhaps version?
+        DWORD("unknown"),
         DWORD("count"), # Number of entries in file
         DWORD("item_size"), # Size of an item
-        DWORD("unknown3") # Varies per file, a timestamp?
+        DWORD("unknown") # Varies per file, a timestamp?
     ]
 # end class Header
 
 class Item(DataStruct_LE):
     fields = [
-        Bytes(260, "name_asc"),
+        raw("name_asc", 260),
         DWORD("index"), # DcXX (this is the XX)
         DWORD("drive_num"), # 0 = A, 1 = B, 2 = C, ...
         FILETIME("dtime"),
         DWORD("phys_size"),
-        Bytes(520, "name_uni")
+        raw("name_uni", 520)
     ]
 # end class Item
