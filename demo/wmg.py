@@ -25,7 +25,7 @@ import sys
 
 from lf.io import raw
 from lf.windows.ole.compoundfile.objects import CompoundFile
-from lf.windows.lcid.consts import lcid_names
+from lf.windows.consts.lcid import lcid_names
 from lf.apps.msoffice.common.metadata import SummaryInfo, DocSummaryInfo
 from lf.apps.msoffice.word.metadata import WordMetadata
 

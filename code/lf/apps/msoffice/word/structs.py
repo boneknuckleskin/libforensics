@@ -30,12 +30,9 @@ __all__ = [
     "FNIF"
 ]
 
-from lf.struct.datastruct import DataStruct_LE
-from lf.struct.datatype import Bytes
-
-from lf.windows.structs import FILETIME
+from lf.datastruct import raw, DataStruct_LE, UBits16, UBits8, bit
 from lf.windows.types import (
-    LONG, ULONG, USHORT, UINT8, UINT16, UINT32, UINT64, INT32
+    LONG, ULONG, USHORT, UINT8, UINT16, UINT32, UINT64, INT32, FILETIME
 )
 
 class FcLcb(DataStruct_LE):
@@ -60,6 +57,36 @@ class FcPgd(DataStruct_LE):
     ]
 # end class FcPgd
 
+class FibFlags1(UBits16):
+    bits = [
+        bit("dot", 1),
+        bit("glsy", 1),
+        bit("complex", 1),
+        bit("hasPic", 1),
+        bit("quickSaves", 4),
+
+        bit("encrypted", 1),
+        bit("whichTblStm", 1),
+        bit("readOnlyRecommended", 1),
+        bit("writeReservation", 1),
+        bit("extChar", 1),
+        bit("loadOverride", 1),
+        bit("farEast", 1),
+        bit("crypto", 1),
+    ]
+# end class FibFlags1
+
+class FibFlags2(UBits8):
+    bits = [
+        bit("mac", 1),
+        bit("emptySpecial", 1),
+        bit("loadOverridePage", 1),
+        bit("futureSavedUndo", 1),
+        bit("word97Saved", 1),
+        bit("spare0", 3)
+    ]
+# end class FibFlags2
+
 class FibHeader(DataStruct_LE):
     fields = [
         UINT16("wIdent"),
@@ -67,12 +94,11 @@ class FibHeader(DataStruct_LE):
         UINT16("nProduct"),
         UINT16("lid"),
         UINT16("pnNext"),
-        UINT8("flags1"),
-        UINT8("flags2"),
+        FibFlags1(),
         UINT16("nFibBack"),
         UINT32("lKey"),
         UINT8("envr"),
-        UINT8("flags3"),
+        FibFlags2(),
         UINT16("chs"),
         UINT16("chsTables"),
         ULONG("fcMin"),
@@ -818,11 +844,42 @@ class FibCswNewData2007(DataStruct_LE):
     ]
 # end class FibCswNewData2007
 
+class FNPIBits(UBits16):
+    bits = [
+        bit("fnpt", 4),
+        bit("fnpd", 12)
+    ]
+# end class FNPIBits
+
+class FNPI(DataStruct_LE):
+    fields = [
+        FNPIBits()
+    ]
+# end class FNPI
+
+class FNFBBits(UBits16):
+    bits = [
+        bit("fat", 1),
+        bit("unused1", 1),
+        bit("unused2", 1),
+        bit("ntfs", 1),
+        bit("nonFileSys", 1),
+        bit("unused3", 2),
+        bit("unused4", 1)
+    ]
+# end class FNFBBits
+
+class FNFB(DataStruct_LE):
+    fields = [
+        FNFBBits()
+    ]
+# end class FNFB
+
 class FNIF(DataStruct_LE):
     fields = [
-        UINT16("fnpi"),
+        FNPI("fnpi"),
         UINT8("ichRelative"),
-        UINT8("fnfb"),
-        Bytes(4, "unused")
+        FNFB("fnfb"),
+        raw("unused", 4)
     ]
 # end class FNIF

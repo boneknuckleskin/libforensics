@@ -25,10 +25,7 @@ __docformat__ = "restructuredtext en"
 __all__ = [
 ]
 
-from lf.struct.datastruct import DataStruct_LE
-from lf.struct.datatype import Bytes
-
-from lf.windows.structs import FILETIME
+from lf.struct.datastruct import raw, DataStruct_LE
 from lf.windows.types import (
     WORD, DWORD, BYTE, INT8, INT16, REAL, DOUBLE, DATE, CURRENCY, INT32, INT64,
     UINT32, UINT64, VARIANT_BOOL, UINT8, UINT16
@@ -45,7 +42,7 @@ class DigSigInfoSerializedHeader(DataStruct_LE):
         UINT32("sign_offset"),
         UINT32("proj_size"),
         UINT32("proj_offset"),
-        Bytes(4, "rsvd"),
+        raw("rsvd", 4),
         UINT32("timestamp_size"),
         UINT32("timestamp_offset")
     ]
@@ -88,7 +85,7 @@ class VtThumbnailValueHeader(DataStruct_LE):
 class VtThumbnailHeader(DataStruct_LE):
     fields = [
         UINT16("thumb_type"),
-        Bytes(2, "pad"),
+        raw("pad", 2),
         VtThumbnailValueHeader("thumbnail_header")
     ]
 # end class VtThumbnailHeader

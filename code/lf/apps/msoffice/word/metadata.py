@@ -131,7 +131,7 @@ class WordMetadata():
             # end if
         # end for
 
-        fib = Fib(cfb.get_stream(stream_id, ignore_size=True))
+        fib = Fib(cfb.get_stream(stream_id))
 
         if fib.header.whichTblStm:
             table_name = "1Table"

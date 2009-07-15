@@ -29,24 +29,24 @@ __all__ = [
     "fib_csw_new_data_2007"
 ]
 
-from lf.struct.extract import extractor_factory as factory
+from lf.datastruct import Extractor
 from lf.apps.msoffice.word.structs import (
     FcLcb, FcPgdOld, FcPgd, FibHeader, FibShorts, FibLongs, Fib, FibFcLcb97,
     FibFcLcb2000, FibFcLcb2002, FibFcLcb2003, FibFcLcb2007, FibCswNewData2000,
     FibCswNewData2007
 )
 
-fc_lcb = factory.make(FcLcb())
-fc_pgd_old = factory.make(FcPgdOld())
-fc_pgd = factory.make(FcPgd())
-fib_header = factory.make(FibHeader())
-fib_shorts = factory.make(FibShorts())
-fib_longs = factory.make(FibLongs())
-fib = factory.make(Fib())
-fib_fc_lcb_97 = factory.make(FibFcLcb97())
-fib_fc_lcb_2000 = factory.make(FibFcLcb2000())
-fib_fc_lcb_2002 = factory.make(FibFcLcb2002())
-fib_fc_lcb_2003 = factory.make(FibFcLcb2003())
-fib_fc_lcb_2007 = factory.make(FibFcLcb2007())
-fib_csw_new_data_2000 = factory.make(FibCswNewData2000())
-fib_csw_new_data_2007 = factory.make(FibCswNewData2007())
+fc_lcb = Extractor(FcLcb())
+fc_pgd_old = Extractor(FcPgdOld())
+fc_pgd = Extractor(FcPgd())
+fib_header = Extractor(FibHeader())
+fib_shorts = Extractor(FibShorts())
+fib_longs = Extractor(FibLongs())
+fib = Extractor(Fib())
+fib_fc_lcb_97 = Extractor(FibFcLcb97())
+fib_fc_lcb_2000 = Extractor(FibFcLcb2000())
+fib_fc_lcb_2002 = Extractor(FibFcLcb2002())
+fib_fc_lcb_2003 = Extractor(FibFcLcb2003())
+fib_fc_lcb_2007 = Extractor(FibFcLcb2007())
+fib_csw_new_data_2000 = Extractor(FibCswNewData2000())
+fib_csw_new_data_2007 = Extractor(FibCswNewData2007())

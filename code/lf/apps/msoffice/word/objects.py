@@ -27,20 +27,18 @@ __all__ = [
 ]
 
 from copy import copy
-from collections import namedtuple
 
 from lf.io.consts import SEEK_SET
-from lf.struct.extract import extractor_factory as factory
-from lf.struct.extractors import uint8, uint16_le, uint32_le
+from lf.datastruct import Extractor, structuple
+from lf.datastruct.extractors import uint8, uint16_le, uint32_le
 
-from lf.apps.msoffice.word.decoders import fib_flags1, fib_flags2, fib_flags3
 from lf.apps.msoffice.word import structs
 from lf.apps.msoffice.word.consts import (
     NFIB_WORD_97, NFIB_WORD_2000, NFIB_WORD_2002, NFIB_WORD_2003,
     NFIB_WORD_2007
 )
 
-def extract_fib_array(data_struct, size, stream, offset=0):
+def extract_fib_array(data_struct, size, stream, offset=None):
     """
     Extracts an array from the FIB.
 
@@ -57,20 +55,24 @@ def extract_fib_array(data_struct, size, stream, offset=0):
         offset
             The start of the array.
 
-    :rtype: namedtuple
+    :rtype: structuple
     :returns: The extracted values
     """
 
     if size < data_struct.size:
         padding = b"\x00" * (data_struct.size - size)
-        stream.seek(offset, SEEK_SET)
+        if offset is not None:
+            stream.seek(offset, SEEK_SET)
+        # end if
         data = b"".join([stream.read(size), padding])
     else:
-        stream.seek(offset, SEEK_SET)
+        if offset is not None:
+            stream.seek(offset, SEEK_SET)
+        # end if
         data = stream.read(data_struct.size)
     # end if
 
-    return factory.make(data_struct).extract(data)
+    return Extractor(data_struct).extract(data)
 # end def extract_fib_array
 
 class Fib():
@@ -94,7 +96,7 @@ class Fib():
         The array of FcLcb values.
     """
 
-    def __init__(self, stream, offset=0):
+    def __init__(self, stream, offset=None):
         """
         Initializes a Fib object.
 
@@ -106,33 +108,18 @@ class Fib():
                 The byte offset in the stream of the start of the FIB.
         """
 
-        extractor = factory.make(structs.FibHeader())
-        stream.seek(offset)
-        fib_header = extractor.extract(stream.read(154))
+        extractor = Extractor(structs.FibHeader())
 
-        # Set up the header stuff...
-        header_dict = fib_header._asdict()
+        if offset is not None:
+            stream.seek(offset, SEEK_SET)
+        else:
+            offset = stream.tell()
+        # end if
 
-        decoded_flags1 = fib_flags1.decode(fib_header.flags1)
-        decoded_flags2 = fib_flags2.decode(fib_header.flags2)
-        decoded_flags3 = fib_flags3.decode(fib_header.flags3)
-
-        del header_dict["flags1"]
-        del header_dict["flags2"]
-        del header_dict["flags3"]
-
-        for decoded in (decoded_flags1, decoded_flags2, decoded_flags3):
-            for (key, value) in decoded._asdict().items():
-                header_dict[key] = value
-            # end for
-        # end for
-
-        header_named_tuple = namedtuple("fib_header", header_dict.keys())
-        self.header = header_named_tuple(**header_dict)
+        self.header = extractor.extract(stream.read(32))
+        offset += 32
 
         # Get the size of the shorts array
-        offset += 32
-        stream.seek(offset, SEEK_SET)
         size = uint16_le.extract(stream.read(2))[0] * 2
         offset += 2
 
@@ -143,7 +130,6 @@ class Fib():
         offset += size
 
         # Get the size of the longs array
-        stream.seek(offset, SEEK_SET)
         size = uint16_le.extract(stream.read(2))[0] * 4
         offset += 2
 
@@ -154,7 +140,6 @@ class Fib():
         offset += size
 
         # Get the size of the fc_lcb array
-        stream.seek(offset, SEEK_SET)
         size = uint16_le.extract(stream.read(2))[0] * 8
         offset += 2
 
@@ -286,7 +271,7 @@ class SttbLong(SttbBase):
         A list of the extra data elements.
     """
 
-    def __init__(self, stream, offset=0):
+    def __init__(self, stream, offset=None):
         """
         Initializes an SttbLong object.
 
@@ -297,6 +282,10 @@ class SttbLong(SttbBase):
             offset
                 The byte offset of the start of the Sttb.
         """
+
+        if offset is None:
+            offset = stream.tell()
+        # end if
 
         super(SttbLong, self).__init__(stream, offset)
         extended = self.extended
@@ -335,7 +324,7 @@ class SttbLong(SttbBase):
 class SttbShortUnicode(SttbShort):
     """An SttbShort with data elements that are unicode"""
 
-    def __init__(self, stream, offset=0):
+    def __init__(self, stream, offset=None):
         """
         Initializes an SttbShortUnicode object.
 
@@ -355,7 +344,7 @@ class SttbShortUnicode(SttbShort):
 class SttbLongUnicode(SttbLong):
     """An SttbLong with data elements that are unicode"""
 
-    def __init__(self, stream, offset=0):
+    def __init__(self, stream, offset=None):
         """
         Initializes an SttbLongUnicode object.
 
