@@ -374,8 +374,20 @@ class ExtractorTestCase(TestCase):
         ae(values, results[:3])
 
         values = extractor.extract_partial(data[:32])
-        ae(len(values), 13)
-        ae(values, results[:13])
+        ae(len(values), 15)
+        ae(values, results[:15])
+
+        values = extractor.extract_partial(data[:45])
+        ae(len(values), 18)
+        ae(values, results[:18])
+
+        values = extractor.extract_partial(data[:46])
+        ae(len(values), 18)
+        ae(values, results[:18])
+
+        values = extractor.extract_partial(data[:47])
+        ae(len(values), 21)
+        ae(values, results[:21])
     # end def test_extract_partial
 
     def test_get_grouping_info(self):
@@ -688,7 +700,18 @@ class ListStructTestCase(ExtractorTestCase):
         ae(values, results[:3])
 
         values = extractor.extract_partial(data[:32])
-        ae(len(values), 13)
-        ae(values, results[:13])
+        ae(len(values), 15)
+        ae(values, results[:15])
+        values = extractor.extract_partial(data[:45])
+        ae(len(values), 18)
+        ae(values, results[:18])
+
+        values = extractor.extract_partial(data[:46])
+        ae(len(values), 18)
+        ae(values, results[:18])
+
+        values = extractor.extract_partial(data[:47])
+        ae(len(values), 21)
+        ae(values, results[:21])
     # end def test_extract_partial
 # end class ListStructTestCase

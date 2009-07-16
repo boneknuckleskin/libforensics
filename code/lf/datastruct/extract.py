@@ -185,6 +185,8 @@ class Extractor():
         """
 
         bytes_obj_len = len(bytes_obj)
+        decoders_at = self.decoders_at
+        decoders = self.decoders
 
         if bytes_obj_len >= self.size:
             return self.extract(bytes_obj, flatten=True)
@@ -196,14 +198,33 @@ class Extractor():
         padded_bytes_obj = b"".join([bytes_obj, padding])
         values = self.extract(padded_bytes_obj, flatten=True)
 
+        bit_count = 0
         for (index, size_at) in enumerate(self.size_at[1:], 1):
             if bytes_obj_len < size_at:
-                values = values[:index]
+                values = values[:bit_count + index]
                 break
             elif bytes_obj_len == size_at:
-                values = values[:index+1]
+                try:
+                    bit_count += \
+                        decoders[decoders_at.index(bit_count+index)].count - 1
+                except ValueError:
+                    pass
+                except:
+                    raise
+                # end try
+
+                values = values[:bit_count + index + 1]
                 break
             # end if
+
+            try:
+                bit_count += \
+                    decoders[decoders_at.index(bit_count + index)].count - 1
+            except ValueError:
+                pass
+            except:
+                raise
+            # end try
         # end for
 
         return values

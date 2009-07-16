@@ -26,8 +26,6 @@ __all__ = [
     "SummaryInfo", "DocSummaryInfo"
 ]
 
-import pdb
-
 from datetime import datetime
 
 from lf.windows.ole.propertyset.objects import PropertySetStream
