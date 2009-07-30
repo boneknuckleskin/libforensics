@@ -212,7 +212,7 @@ class BOOLEAN(BYTE):
     pass
 # end class BOOLEAN
 
-class COLORRREF(DWORD):
+class COLORREF(DWORD):
     pass
 # end class COLORREF
 
@@ -231,10 +231,6 @@ class HRESULT(LONG):
 class LANGID(WORD):
     pass
 # end class LANGID
-
-class LCID(DWORD):
-    pass
-# end class LCID
 
 class LCN(LONGLONG):
     pass

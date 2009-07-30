@@ -23,36 +23,41 @@ Convenience class that contains extractors for the windows.structs module.
 """
 
 from lf.datastruct import DataStruct_LE, DataStruct_BE, Extractor
-from lf.windows.structs import GUID, CLSID, DECIMAL
+from lf.windows.structs import GUID, CLSID, DECIMAL, LCID
 
 __docformat__ = "restructuredtext en"
 __all__ = [
-    "guid_le", "clsid_le", "decimal_le", "guid_be", "clsid_be", "decimal_be"
+    "guid_le", "clsid_le", "decimal_le", "guid_be", "clsid_be", "decimal_be",
+    "lcid_le", "lcid_be"
 ]
 
 class _GUID_LE(DataStruct_LE):
-    fields = [ GUID("value") ]
+    fields = GUID.fields
 # end class _GUID_LE
 
 class _GUID_BE(DataStruct_BE):
-    fields = [ GUID("value") ]
+    fields = GUID.fields
 # end class _GUID_BE
 
 class _CLSID_LE(DataStruct_LE):
-    fields = [ CLSID("value") ]
+    fields = CLSID.fields
 # end class _CLSID_LE
 
 class _CLSID_BE(DataStruct_BE):
-    fields = [ CLSID("value") ]
+    fields = CLSID.fields
 # end class _CLSID_BE
 
 class _DECIMAL_LE(DataStruct_LE):
-    fields = [ DECIMAL("value") ]
+    fields = DECIMAL.fields
 # end class _DECIMAL_LE
 
 class _DECIMAL_BE(DataStruct_BE):
-    fields = [ DECIMAL("value") ]
+    fields = DECIMAL.fields
 # end class _DECIMAL_BE
+
+class _LCID_BE(DataStruct_BE):
+    fields = LCID.fields
+# end class _LCID_BE
 
 guid_le = Extractor(_GUID_LE())
 guid_be = Extractor(_GUID_BE())
@@ -60,3 +65,5 @@ clsid_le = Extractor(_CLSID_LE())
 clsid_be = Extractor(_CLSID_BE())
 decimal_le = Extractor(_DECIMAL_LE())
 decimal_be = Extractor(_DECIMAL_BE())
+lcid_le = Extractor(LCID())
+lcid_be = Extractor(_LCID_BE())

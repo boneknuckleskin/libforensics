@@ -21,6 +21,7 @@ import tests
 names = [
     "windows.time",
     "windows.ole.compoundfile.structs", "windows.shell.recyclebin.objects",
+    "windows.shell.link.objects",
 
     "datastruct.field", "datastruct.decode", "datastruct.structuple",
     "datastruct.extract",

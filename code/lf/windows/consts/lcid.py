@@ -230,7 +230,7 @@ LANGID_YIDDISH = 1085
 LANGID_YORUBA = 1130
 LANGID_ZULU = 1077
 
-lcid_names = {
+lang_id_names = {
     LANGID_AFRIKAANS: "African",
     LANGID_ALBANIAN: "Albanian",
     LANGID_AMHARIC: "Amharic",

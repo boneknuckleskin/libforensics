@@ -23,6 +23,6 @@ Various windows constants.
 
 __docformat__ = "restructuredtext en"
 __all__ = [
-    "lcid", "codepage", "vkcode"
+    "lcid", "codepage", "vkcode", "hotkey"
 ]
 

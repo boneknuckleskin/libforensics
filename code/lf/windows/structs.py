@@ -21,12 +21,14 @@ Common data structures for Microsoft Windows.
 .. moduleauthor:: Michael Murr (mmurr@codeforensics.net)
 """
 
-from lf.datastruct import DataStruct_LE, array, BIG_ENDIAN
-from lf.windows.types import WORD, DWORD, BYTE, ULONG, ULONGLONG
+from lf.datastruct import DataStruct_LE, array, BIG_ENDIAN, UBits16, bit
+from lf.windows.types import (
+    WORD, DWORD, BYTE, ULONG, ULONGLONG, SHORT, LANGID
+)
 
 __docformat__ = "restructuredtext en"
 __all__ = [
-    "GUID", "CLSID", "DECIMAL"
+    "GUID", "CLSID", "DECIMAL", "COORD", "LCID"
 ]
 
 class GUID(DataStruct_LE):
@@ -51,3 +53,24 @@ class DECIMAL(DataStruct_LE):
         ULONGLONG("lo64")
     ]
 # end class DECIMAL
+
+class COORD(DataStruct_LE):
+    fields = [
+        SHORT("x"),
+        SHORT("y")
+    ]
+# end class COORD
+
+class LCIDBits(UBits16):
+    bits = [
+        bit("reserved", 12),
+        bit("sort_order", 4)
+    ]
+# end class LCIDBits
+
+class LCID(DataStruct_LE):
+    fields = [
+        LCIDBits(),
+        LANGID("lang_id")
+    ]
+# end class LCID

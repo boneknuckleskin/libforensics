@@ -15,6 +15,38 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
+"""
+Constants for working with the Shell
+
+.. moduleauthor:: Michael Murr (mmurr@codeforensics.net)
+"""
+
+__docformat__ = "restructuredtext en"
 __all__ = [
-    "io", "windows", "datastruct", "utils"
 ]
+
+SW_HIDE = 0
+SW_SHOWNORMAL = 1
+SW_SHOWMINIMIZED = 2
+SW_SHOWMAXIMIZED = 3
+SW_SHOWNOACTIVATE = 4
+SW_SHOW = 5
+SW_MINIMIZE = 6
+SW_SHOWMINNOACTIVE = 7
+SW_SHOWNA = 8
+SW_RESTORE = 9
+SW_SHOWDEFAULT = 10
+
+sw_names = {
+    SW_HIDE: "SW_HIDE",
+    SW_SHOWNORMAL: "SW_SHOWNORMAL",
+    SW_SHOWMINIMIZED: "SW_SHOWMINIMIZED",
+    SW_SHOWMAXIMIZED: "SW_SHOWMAXIMIZED",
+    SW_SHOWNOACTIVATE: "SW_SHOWNOACTIVATE",
+    SW_SHOW: "SW_SHOW",
+    SW_MINIMIZE: "SW_MINIMIZE",
+    SW_SHOWMINNOACTIVE: "SW_SHOWMINNOACTIVE",
+    SW_SHOWNA: "SW_SHOWNA",
+    SW_RESTORE: "SW_RESTORE",
+    SW_SHOWDEFAULT: "SW_SHOWDEFAULT"
+}

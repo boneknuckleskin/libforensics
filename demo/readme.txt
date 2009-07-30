@@ -18,3 +18,5 @@ at libforensics.com.
 - tdbcat.py: extracts thumbnail images from thumbs.db files
 - tdbinfo.py: dumps information from thumbs.db files
 - wmg.py: extracts metadata from Microsoft Word documents
+- dspe.py: prints and extracts data structures
+- lnkinfo.py: dumps information from shell link (.lnk, shortcut) files

@@ -15,6 +15,15 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
-__all__ = [
-    "io", "windows", "datastruct", "utils"
-]
+"""
+Hotkey mappings
+
+.. moduleauthor:: Michael Murr (mmurr@codeforensics.net)
+"""
+
+__docformat__ = "restructuredtext en"
+
+HOTKEYF_SHIFT = 1
+HOTKEYF_CONTROL = 2
+HOTKEYF_ALT = 4
+HOTKEYF_EXT = 8

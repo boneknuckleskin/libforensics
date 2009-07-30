@@ -15,6 +15,13 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
+"""
+Constants for the Shell namespace
+
+.. moduleauthor:: Michael Murr (mmurr@codeforensics.net)
+"""
+
+__docformat__ = "restructuredtext en"
 __all__ = [
-    "io", "windows", "datastruct", "utils"
+    "showwin", "csidl", "knownfolders"
 ]
