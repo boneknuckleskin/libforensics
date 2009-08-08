@@ -26,7 +26,7 @@ from optparse import OptionParser
 
 from lf.io import raw, byte
 from lf.windows.ole.compoundfile.objects import CompoundFile
-from lf.windows.consts.lcid import lcid_names
+from lf.windows.consts.lcid import lang_id_names
 from lf.apps.msoffice.common.metadata import SummaryInfo, DocSummaryInfo
 from lf.apps.msoffice.word.metadata import WordMetadata
 
@@ -231,8 +231,8 @@ def create_word_metadata(cfb):
     output.append("Magic: {0} (0x{1:X})".format(str, wmd.magic))
     output.append("Version: 0x{0:X}".format(wmd.version))
 
-    if wmd.lang_id in lcid_names:
-        str = lcid_names[wmd.lang_id]
+    if wmd.lang_id in lang_id_names:
+        str = lang_id_names[wmd.lang_id]
     else:
         str = "Unknown (0x{0:X})".format(wmd.lang_id)
     # end if
