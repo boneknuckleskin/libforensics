@@ -27,7 +27,7 @@ __all__ = [
 ]
 
 from lf.io.consts import SEEK_SET
-from lf.windows.time import filetime_to_datetime
+from lf.utils.time import filetime_to_datetime
 
 from lf.windows.shell.thumbsdb.extractors import (
     catalog_header, catalog_entry_header, entry_header, entry_header_old

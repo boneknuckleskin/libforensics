@@ -16,7 +16,7 @@
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
 """
-Unit tests for the lf.windows.time module
+Unit tests for the lf.utils.time module
 
 .. moduleauthor:: Michael Murr (mmurr@codeforensics.net)
 """
@@ -24,9 +24,9 @@ Unit tests for the lf.windows.time module
 from unittest import TestCase, main
 from datetime import datetime, timedelta
 
-from lf.windows.time import (
+from lf.utils.time import (
     filetime_to_unix_time, unix_time_to_filetime, variant_time_to_datetime,
-    filetime_to_datetime, dos_datetime_to_datetime
+    filetime_to_datetime, dos_date_time_to_datetime
 )
 
 __docformat__ = "restructuredtext en"
@@ -39,9 +39,13 @@ class TimeTestCase(TestCase):
         self.control = datetime(2002, 11, 26, 19, 25, 0)
     # end def setUp
 
-    def test_dos_datetime_to_datetime(self):
-        self.assertEqual(dos_datetime_to_datetime(0x2D7A9B20), self.control)
-    # end def test_dos_datetime_to_datetime
+    def test_dos_date_time_to_datetime(self):
+        dos_date = 0x2D7A
+        dos_time = 0x9B20
+        self.assertEqual(
+            dos_date_time_to_datetime(dos_date, dos_time), self.control
+        )
+    # end def test_dos_date_time_to_datetime
 
     def test_variant_time_to_datetime(self):
         datetime_3_25 = datetime(1900, 1, 2, 6, 0, 0)

@@ -27,8 +27,8 @@ from optparse import OptionParser
 from binascii import hexlify
 from time import gmtime
 
-from lf.windows.time import (
-    filetime_to_datetime, variant_time_to_datetime, dos_datetime_to_datetime,
+from lf.utils.time import (
+    filetime_to_datetime, variant_time_to_datetime, dos_date_time_to_datetime,
     dos_date_to_date, dos_time_to_time
 )
 
@@ -85,7 +85,9 @@ def decode_timestamp(timestamp_type, timestamp, endian, format_str):
     elif timestamp_type == "filetime":
         timestamp = filetime_to_datetime(timestamp)
     elif timestamp_type == "dos":
-        timestamp = dos_datetime_to_datetime(timestamp)
+        dos_date = (timestamp & 0xFFFF0000) >> 16
+        dos_time = timestamp & 0x0000FFFF
+        timestamp = dos_date_time_to_datetime(dos_date, dos_time)
     elif timestamp_type == "dosdate":
         timestamp = dos_date_to_date(timestamp)
 

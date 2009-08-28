@@ -26,7 +26,7 @@ __all__ = [
 ]
 
 from lf.io.consts import SEEK_SET
-from lf.windows.time import filetime_to_datetime
+from lf.utils.time import filetime_to_datetime
 from lf.windows.shell.recyclebin.extractors import header, item
 
 class INFO2():

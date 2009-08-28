@@ -30,7 +30,7 @@ from datetime import datetime
 from os.path import join
 
 from lf.io import raw, byte
-from lf.windows.time import filetime_to_datetime
+from lf.utils.time import filetime_to_datetime
 
 from lf.windows.ole.compoundfile.objects import CompoundFile, DirEntry
 from lf.windows.ole.compoundfile.consts import STREAM_ID_NONE

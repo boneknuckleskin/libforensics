@@ -30,7 +30,7 @@ from functools import reduce
 
 from lf.io import byte
 
-from lf.windows.time import (
+from lf.utils.time import (
     filetime_to_datetime, variant_time_to_datetime
 )
 

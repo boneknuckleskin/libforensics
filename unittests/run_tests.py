@@ -19,14 +19,13 @@ import unittest
 import tests
 
 names = [
-    "windows.time",
     "windows.ole.compoundfile.datatypes", "windows.shell.recyclebin.objects",
     "windows.shell.link.objects",
 
     "datatype.decode", "datatype.bits", "datatype.structuple",
     "datatype.builtin", "datatype.composite", "datatype.extract",
 
-    "utils.dict",
+    "utils.dict", "utils.time",
 
     "io.interfaces",
 

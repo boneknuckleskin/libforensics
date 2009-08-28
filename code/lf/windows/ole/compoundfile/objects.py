@@ -27,7 +27,7 @@ __all__ = [
 ]
 
 from lf.windows.guid import guid_to_uuid
-from lf.windows.time import filetime_to_datetime
+from lf.utils.time import filetime_to_datetime
 from lf.io import composite, byte, subset
 from lf.io.consts import SEEK_SET
 from lf.datatype import Extractor, LEExtractableArray

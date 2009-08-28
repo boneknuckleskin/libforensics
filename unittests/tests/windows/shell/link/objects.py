@@ -30,7 +30,7 @@ from unittest import TestCase
 from os.path import join
 
 from lf.io import raw
-from lf.windows.time import filetime_to_datetime
+from lf.utils.time import filetime_to_datetime
 from lf.windows.shell.link.objects import (
     ShellLink, EnvironmentProps, IconEnvironmentProps, SpecialFolderProps,
     SpecialFolderProps, TrackerProps, VistaAndAboveIDListProps,

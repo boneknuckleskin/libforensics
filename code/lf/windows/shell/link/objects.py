@@ -33,7 +33,7 @@ __all__ = [
 
 from lf.io.consts import SEEK_SET
 from lf.datatype.extractors import uint16_le, uint32_le
-from lf.windows.time import filetime_to_datetime
+from lf.utils.time import filetime_to_datetime
 from lf.windows.guid import guid_to_uuid
 
 from lf.windows.shell.link import extractors
