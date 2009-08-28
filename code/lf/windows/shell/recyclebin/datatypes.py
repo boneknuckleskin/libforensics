@@ -16,42 +16,32 @@
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
 """
-Data types for OLE structured storage files.
+Data structures to read recycle bin files (INFO2).
 
 .. moduleauthor:: Michael Murr (mmurr@codeforensics.net)
 """
 
+from lf.datatype import raw, LERecord
+from lf.windows.datatypes import DWORD, FILETIME
+
 __docformat__ = "restructuredtext en"
 __all__ = [
-    "OFFSET", "SECT", "FSINDEX", "FSOFFSET", "DFSIGNATURE", "DFPROPTYPE", "SID"
+    "Header", "Item"
 ]
 
-from lf.windows.types import ULONG, USHORT, WORD, SHORT
+class Header(LERecord):
+    unknown1 = DWORD  # Perhaps version?
+    unknown2 = DWORD
+    count = DWORD  # Number of entries in file
+    item_size = DWORD
+    unknown3 = DWORD  # Varies per file, a timestamp?
+# end class Header
 
-class OFFSET(SHORT):
-    pass
-# end class OFFSET
-
-class SECT(ULONG):
-    pass
-# end class SECT
-
-class FSINDEX(ULONG):
-    pass
-# end class FSINDEX
-
-class FSOFFSET(USHORT):
-    pass
-# end class FSOFFSET
-
-class DFSIGNATURE(ULONG):
-    pass
-# end class DFSIGNATURE
-
-class DFPROPTYPE(WORD):
-    pass
-# end class DFPROPTYPE
-
-class SID(ULONG):
-    pass
-# end class SID
+class Item(LERecord):
+    name_asc = raw(260)
+    index = DWORD  # DcXX (this is the XX)
+    drive_num = DWORD  # 0 = A, 1 = B, 2 = C, ...
+    dtime = FILETIME
+    phys_size = DWORD
+    name_uni = raw(520)
+# end class Item

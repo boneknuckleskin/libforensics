@@ -24,31 +24,31 @@ Extractors for shell link (.lnk) files
 __docformat__ = "restructuredtext en"
 __all__ = [
     "header", "link_info_header", "volume_id_header", "cnrl_header",
-    "data_block_header", "console_data_block", "darwin_data_block",
+    "data_block", "console_data_block", "darwin_data_block",
     "environment_variable_data_block", "icon_environment_data_block",
     "known_folder_data_block", "special_folder_data_block",
-    "tracker_data_block_header", "tracker_data_block_footer"
+    "tracker_data_block", "tracker_data_block_footer"
 ]
 
-from lf.datastruct import Extractor
+from lf.datatype import Extractor
 
-from lf.windows.shell.link.structs import (
-    Header, LinkInfoHeader, VolumeIDHeader, CNRLHeader, DataBlockHeader,
+from lf.windows.shell.link.datatypes import (
+    Header, LinkInfoHeader, VolumeIDHeader, CNRLHeader, DataBlock,
     ConsoleDataBlock, DarwinDataBlock, EnvironmentVariableDataBlock,
     IconEnvironmentDataBlock, KnownFolderDataBlock, SpecialFolderDataBlock,
-    TrackerDataBlockHeader, TrackerDataBlockFooter
+    TrackerDataBlock, TrackerDataBlockFooter
 )
 
 header = Extractor(Header())
 link_info_header = Extractor(LinkInfoHeader())
 volume_id_header = Extractor(VolumeIDHeader())
 cnrl_header = Extractor(CNRLHeader())
-data_block_header = Extractor(DataBlockHeader())
+data_block = Extractor(DataBlock())
 console_data_block = Extractor(ConsoleDataBlock())
 darwin_data_block = Extractor(DarwinDataBlock())
 environment_variable_data_block = Extractor(EnvironmentVariableDataBlock())
 icon_environment_data_block = Extractor(IconEnvironmentDataBlock())
 known_folder_data_block = Extractor(KnownFolderDataBlock())
 special_folder_data_block = Extractor(SpecialFolderDataBlock())
-tracker_data_block_header = Extractor(TrackerDataBlockHeader())
+tracker_data_block = Extractor(TrackerDataBlock())
 tracker_data_block_footer = Extractor(TrackerDataBlockFooter())

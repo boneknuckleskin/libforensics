@@ -26,41 +26,33 @@ __all__ = [
     "CatalogHeader", "CatalogEntryHeader", "EntryHeader", "EntryHeaderOld"
 ]
 
-from lf.datastruct import raw, DataStruct_LE
-from lf.windows.types import UINT32, FILETIME
+from lf.datatype import raw, LERecord
+from lf.windows.datatypes import UINT32, FILETIME
 
-class CatalogHeader(DataStruct_LE):
-    fields = [
-        raw("unknown", 2),  # Header size?  Identifier?
-        raw("unknown", 2),  # Appears to be a version number?
-        UINT32("count"),
-        UINT32("width"),
-        UINT32("height")
-    ]
+class CatalogHeader(LERecord):
+    unknown1 = raw(2)  # Header Size?  Identifier?
+    unknown2 = raw(2)  # Appears to be a version number?
+    count = UINT32
+    width = UINT32
+    height = UINT32
 # end class CatalogHeader
 
-class CatalogEntryHeader(DataStruct_LE):
-    fields = [
-        UINT32("size"), # Size of the entry
-        UINT32("index"),
-        FILETIME("mtime")
-    ]
+class CatalogEntryHeader(LERecord):
+    size = UINT32  # Size of the entry
+    index = UINT32
+    mtime = FILETIME
 # end class CatalogEntryHeader
 
-class EntryHeader(DataStruct_LE):
-    fields = [
-        raw("unknown", 4),  # Perhaps header length?
-        raw("unknown", 4),  # Perhaps an identifier?
-        UINT32("size") # Size of the data
-    ]
+class EntryHeader(LERecord):
+    unknown1 = raw(4)  # header length?
+    unknown2 = raw(4)  # identifier?
+    size = UINT32  # Size of the data
 # end class EntryHeader
 
 # For older style thumbs.db files
-class EntryHeaderOld(DataStruct_LE):
-    fields = [
-        raw("unknown", 4),  # Identifier?
-        UINT32("size"),
-        raw("unknown", 4),  # width?
-        raw("unknown", 4),  # height?
-    ]
+class EntryHeaderOld(LERecord):
+    unknown1 = raw(4)  # identifier?
+    size = UINT32
+    unknown2 = raw(4)  # width?
+    unknown3 = raw(4)  # height?
 # end class EntryHeaderOld

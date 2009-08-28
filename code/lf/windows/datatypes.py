@@ -26,9 +26,9 @@ http://spreadsheets.google.com/ccc?key=pK5CEcdG9GYGeO7K2dmEcBg
 
 __docformat__ = "restructuredtext en"
 
-from lf.datastruct import (
+from lf.datatype import (
     int8, uint8, int16, uint16, int32, uint32, int64, uint64, float32,
-    float64
+    float64, LERecord, array, BitTypeU16, bits
 )
 
 class BYTE(uint8):
@@ -251,3 +251,37 @@ class VARIANT_BOOL(SHORT):
 class VCN(LONGLONG):
     pass
 # end class VCN
+
+class GUID(LERecord):
+    data1 = DWORD
+    data2 = WORD
+    data3 = WORD
+    data4 = array(BYTE, 8)
+# end class GUID
+
+class CLSID(GUID):
+    pass
+# end class CLSID
+
+class DECIMAL(LERecord):
+    rsvd = WORD
+    scale = BYTE
+    sign = BYTE
+    hi32 = ULONG
+    lo64 = ULONGLONG
+# end class DECIMAL
+
+class COORD(LERecord):
+    x = SHORT
+    y = SHORT
+# end class COORD
+
+class LCIDBits(BitTypeU16):
+    reserved = bits(12)
+    sort_order = bits(4)
+# end class LCIDBits
+
+class LCID(LERecord):
+    bit_field = LCIDBits
+    lang_id = LANGID
+# end class LCID

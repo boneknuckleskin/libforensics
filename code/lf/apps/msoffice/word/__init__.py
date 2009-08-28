@@ -16,5 +16,5 @@
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
 __all__ = [
-    "consts", "decoders", "extractors", "metadata", "objects", "structs"
+    "consts", "extractors", "metadata", "objects", "datatypes"
 ]

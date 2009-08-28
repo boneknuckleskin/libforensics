@@ -16,26 +16,55 @@
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
 """
-Exceptions that can occur when working with data structures.
+Base classes for data types.
 
 .. moduleauthor:: Michael Murr (mmurr@codeforensics.net)
 """
 
 __docformat__ = "restructuredtext en"
 __all__ = [
-    "StructError", "ExtractionError"
+    "Type", "Primitive", "Basic"
 ]
 
-from lf.excepts import LFException
+class DataType():
+    """
+    Base class for data types supported by the framework.
 
-class StructError(LFException):
-    """When an error occurs when working with data structures"""
+    .. attribute:: _size_
+
+        The size of the data type.  The units associated are dependent on the
+        subclass.
+    """
+
+    _size_ = 0
+
+    def __init__(self):
+        """Initializes a Type object."""
+
+        pass
+    # end def __init__
+# end class DataType
+
+class Primitive(DataType):
+    """
+    Base class for data types that can be used for composition.
+
+    .. attribute:: _size_
+
+        The number of bytes required to represent the data type.
+    """
 
     pass
-# end class StructError
+# end class Primitive
 
-class ExtractionError(StructError):
-    """When an error occurs during a call to extract()"""
+class Basic(Primitive):
+    """
+    Data types that are "basic building blocks".
+
+    .. attribute:: _format_
+
+        A format string for the standard library's struct module.
+    """
 
     pass
-# end class ExtractionError
+# end class Basic

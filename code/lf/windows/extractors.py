@@ -16,14 +16,14 @@
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
 """
-Convenience class that contains extractors for the windows.structs module.
+Convenience class that contains extractors for the windows.datatypes module
 
 .. moduleauthor:: Michael Murr (mmurr@codeforensics.net)
 
 """
 
-from lf.datastruct import DataStruct_LE, DataStruct_BE, Extractor
-from lf.windows.structs import GUID, CLSID, DECIMAL, LCID
+from lf.datatype import LERecord, BERecord, Extractor, BIG_ENDIAN
+from lf.windows.datatypes import GUID, CLSID, DECIMAL, LCID
 
 __docformat__ = "restructuredtext en"
 __all__ = [
@@ -31,39 +31,39 @@ __all__ = [
     "lcid_le", "lcid_be"
 ]
 
-class _GUID_LE(DataStruct_LE):
-    fields = GUID.fields
+class _GUID_LE(GUID):
+    pass
 # end class _GUID_LE
 
-class _GUID_BE(DataStruct_BE):
-    fields = GUID.fields
+class _GUID_BE(GUID):
+    _byte_order_ = BIG_ENDIAN
 # end class _GUID_BE
 
-class _CLSID_LE(DataStruct_LE):
-    fields = CLSID.fields
+class _CLSID_LE(CLSID):
+    pass
 # end class _CLSID_LE
 
-class _CLSID_BE(DataStruct_BE):
-    fields = CLSID.fields
+class _CLSID_BE(CLSID):
+    _byte_order_ = BIG_ENDIAN
 # end class _CLSID_BE
 
-class _DECIMAL_LE(DataStruct_LE):
-    fields = DECIMAL.fields
+class _DECIMAL_LE(DECIMAL):
+    pass
 # end class _DECIMAL_LE
 
-class _DECIMAL_BE(DataStruct_BE):
-    fields = DECIMAL.fields
+class _DECIMAL_BE(DECIMAL):
+    _byte_order_ = BIG_ENDIAN
 # end class _DECIMAL_BE
 
-class _LCID_BE(DataStruct_BE):
-    fields = LCID.fields
+class _LCID_BE(LCID):
+    _byte_order_ = BIG_ENDIAN
 # end class _LCID_BE
 
-guid_le = Extractor(_GUID_LE())
-guid_be = Extractor(_GUID_BE())
-clsid_le = Extractor(_CLSID_LE())
-clsid_be = Extractor(_CLSID_BE())
-decimal_le = Extractor(_DECIMAL_LE())
-decimal_be = Extractor(_DECIMAL_BE())
-lcid_le = Extractor(LCID())
-lcid_be = Extractor(_LCID_BE())
+guid_le = Extractor(_GUID_LE)
+guid_be = Extractor(_GUID_BE)
+clsid_le = Extractor(_CLSID_LE)
+clsid_be = Extractor(_CLSID_BE)
+decimal_le = Extractor(_DECIMAL_LE)
+decimal_be = Extractor(_DECIMAL_BE)
+lcid_le = Extractor(LCID)
+lcid_be = Extractor(_LCID_BE)

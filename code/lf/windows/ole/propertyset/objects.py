@@ -37,8 +37,8 @@ from lf.windows.time import (
 from lf.windows.guid import guid_to_uuid
 from lf.io import subset
 from lf.io.consts import SEEK_SET
-from lf.datastruct import Extractor, ListStruct
-from lf.datastruct.extractors import (
+from lf.datatype import Extractor, LEExtractableArray
+from lf.datatype.extractors import (
     int8, uint8, int16_le, uint16_le, int32_le, uint32_le, float32_le,
     float64_le, int64_le, uint64_le
 )
@@ -55,7 +55,7 @@ from lf.windows.ole.propertyset.extractors import (
     dictionary_entry_header, hyperlink_header
 )
 
-from lf.windows.ole.propertyset.structs import PropertyIDOffset
+from lf.windows.ole.propertyset.datatypes import PropertyIDOffset
 from lf.windows.ole.varenum import (
     VT_EMPTY, VT_NULL, VT_I2, VT_I4, VT_R4, VT_R8, VT_CY, VT_DATE, VT_BSTR,
     VT_ERROR, VT_DECIMAL, VT_I1, VT_UI1, VT_UI2, VT_UI4, VT_I8, VT_UI8, VT_INT,
@@ -727,7 +727,7 @@ class PropertySet():
 
         if header.prop_count > 0:
             extractor = Extractor(
-                ListStruct(PropertyIDOffset(), header.prop_count)
+                LEExtractableArray(PropertyIDOffset, header.prop_count)
             )
 
             stream.seek(offset + 8, SEEK_SET)

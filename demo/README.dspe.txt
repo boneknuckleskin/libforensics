@@ -1,7 +1,7 @@
 Prints data structures to the screen, and extracts values
 
 $ python3.1 dspe.py -h
-Usage: dspe.py [options] MODULE STRUCT [file]
+Usage: dspe.py [options] MODULE RECORD [file]
 
 Options:
   -h, --help            show this help message and exit

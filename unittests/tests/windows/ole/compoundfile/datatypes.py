@@ -24,8 +24,8 @@ Unit tests for the lf.windows.ole.structs module
 __docformat__ = "restructuredtext en"
 
 from unittest import TestCase, main
-from lf.datastruct import Extractor
-from lf.windows.ole.compoundfile.structs import Header, DirEntry
+from lf.datatype import Extractor
+from lf.windows.ole.compoundfile.datatypes import Header, DirEntry
 
 header_str = \
     b"\xD0\xCF\x11\xE0\xA1\xB1\x1A\xE1\x00\x00\x00\x00\x00\x00\x00\x00"\
@@ -86,7 +86,7 @@ class HeaderTestCase():
         ae(header.clsid.data1, 0)
         ae(header.clsid.data2, 0)
         ae(header.clsid.data3, 0)
-        ae(header.clsid.data4, (0, 0, 0, 0, 0, 0, 0, 0))
+        ae(header.clsid.data4, [0, 0, 0, 0, 0, 0, 0, 0])
         ae(header.ver_minor, 0x3E)
         ae(header.ver_major, 3)
         ae(header.byte_order, 0xFFFE)
@@ -130,7 +130,7 @@ class DirEntryTestCase(TestCase):
         ae(dir_entry.clsid.data1, 0x20906)
         ae(dir_entry.clsid.data2, 0)
         ae(dir_entry.clsid.data3, 0)
-        ae(dir_entry.clsid.data4, (192, 0, 0, 0, 0, 0, 0, 70))
+        ae(dir_entry.clsid.data4, [192, 0, 0, 0, 0, 0, 0, 70])
         ae(dir_entry.state, 0)
         ae(dir_entry.btime, 0x01C2CB748764C6EE)
         ae(dir_entry.mtime, 0x01C2CB75FB9B0D10)

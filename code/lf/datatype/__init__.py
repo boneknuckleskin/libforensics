@@ -16,35 +16,35 @@
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
 """
-Data structures to read recycle bin files (INFO2).
+Describe and read data types.
 
 .. moduleauthor:: Michael Murr (mmurr@codeforensics.net)
 """
 
+from lf.datatype.builtin import (
+    int8, uint8, int16, uint16, int32, uint32, int64, uint64, float32, float64,
+    raw, char
+)
+
+from lf.datatype.bits import (
+    bit, bits, BitType, BitType8, BitTypeU8, BitType16, BitTypeU16, BitType32,
+    BitTypeU32, BitType64, BitTypeU64
+)
+
+from lf.datatype.composite import (
+    Record, LERecord, BERecord, ExtractableArray, LEExtractableArray,
+    BEExtractableArray, array
+)
+
+from lf.datatype.consts import (
+    BIG_ENDIAN, LITTLE_ENDIAN, NETWORK_ENDIAN, DEFAULT_ENDIAN
+)
+
+from lf.datatype.decode import Decoder
+from lf.datatype.extract import Extractor
+
 __docformat__ = "restructuredtext en"
 __all__ = [
+    "base", "bits", "builtin", "composite", "consts", "decode", "excepts",
+    "extract", "structuple"
 ]
-
-from lf.datastruct import raw, DataStruct_LE
-from lf.windows.types import DWORD, FILETIME
-
-class Header(DataStruct_LE):
-    fields = [
-        DWORD("unknown"), # Perhaps version?
-        DWORD("unknown"),
-        DWORD("count"), # Number of entries in file
-        DWORD("item_size"), # Size of an item
-        DWORD("unknown") # Varies per file, a timestamp?
-    ]
-# end class Header
-
-class Item(DataStruct_LE):
-    fields = [
-        raw("name_asc", 260),
-        DWORD("index"), # DcXX (this is the XX)
-        DWORD("drive_num"), # 0 = A, 1 = B, 2 = C, ...
-        FILETIME("dtime"),
-        DWORD("phys_size"),
-        raw("name_uni", 520)
-    ]
-# end class Item

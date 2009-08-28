@@ -29,21 +29,21 @@ __all__ = [
 from copy import copy
 
 from lf.io.consts import SEEK_SET
-from lf.datastruct import Extractor, structuple
-from lf.datastruct.extractors import uint8, uint16_le, uint32_le
+from lf.datatype import Extractor, structuple
+from lf.datatype.extractors import uint8, uint16_le, uint32_le
 
-from lf.apps.msoffice.word import structs
+from lf.apps.msoffice.word import datatypes
 from lf.apps.msoffice.word.consts import (
     NFIB_WORD_97, NFIB_WORD_2000, NFIB_WORD_2002, NFIB_WORD_2003,
     NFIB_WORD_2007
 )
 
-def extract_fib_array(data_struct, size, stream, offset=None):
+def extract_fib_array(record, size, stream, offset=None):
     """
     Extracts an array from the FIB.
 
     :parameters:
-        data_struct
+        record
             The data structure for the array.
 
         size
@@ -59,8 +59,8 @@ def extract_fib_array(data_struct, size, stream, offset=None):
     :returns: The extracted values
     """
 
-    if size < data_struct.size:
-        padding = b"\x00" * (data_struct.size - size)
+    if size < record._size_:
+        padding = b"\x00" * (record._size_ - size)
         if offset is not None:
             stream.seek(offset, SEEK_SET)
         # end if
@@ -69,10 +69,10 @@ def extract_fib_array(data_struct, size, stream, offset=None):
         if offset is not None:
             stream.seek(offset, SEEK_SET)
         # end if
-        data = stream.read(data_struct.size)
+        data = stream.read(record._size_)
     # end if
 
-    return Extractor(data_struct).extract(data)
+    return Extractor(record).extract(data)
 # end def extract_fib_array
 
 class Fib():
@@ -108,7 +108,7 @@ class Fib():
                 The byte offset in the stream of the start of the FIB.
         """
 
-        extractor = Extractor(structs.FibHeader())
+        extractor = Extractor(datatypes.FibHeader)
 
         if offset is not None:
             stream.seek(offset, SEEK_SET)
@@ -125,7 +125,7 @@ class Fib():
 
         # Get the shorts array
         self.shorts = extract_fib_array(
-            structs.FibShorts(), size, stream, offset
+            datatypes.FibShorts, size, stream, offset
         )
         offset += size
 
@@ -135,7 +135,7 @@ class Fib():
 
         # Get the longs array
         self.longs = extract_fib_array(
-            structs.FibLongs(), size, stream, offset
+            datatypes.FibLongs, size, stream, offset
         )
         offset += size
 
@@ -145,19 +145,19 @@ class Fib():
 
         # Figure out which data structure we need...
         if size <= 744: # Size of FibFcLcb97
-            data_struct = structs.FibFcLcb97()
+            record = datatypes.FibFcLcb97
         elif size <= 864: # Size of FibFcLcb2000
-            data_struct = structs.FibFcLcb2000()
+            record = datatypes.FibFcLcb2000
         elif size <= 1088: # Size of FibFcLcb2002
-            data_struct = structs.FibFcLcb2002()
+            record = datatypes.FibFcLcb2002
         elif size <= 1312: # Size of FibFcLcb2003
-            data_struct = structs.FibFcLcb2003()
+            record = datatypes.FibFcLcb2003
         else:
-            data_struct = structs.FibFcLcb2007()
+            record = datatypes.FibFcLcb2007
         # end if
 
         # Get the fc_lcb array
-        self.fc_lcb = extract_fib_array(data_struct, size, stream, offset)
+        self.fc_lcb = extract_fib_array(record, size, stream, offset)
     # end def __init__
 # end class Fib
 

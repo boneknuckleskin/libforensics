@@ -32,7 +32,7 @@ __all__ = [
 ]
 
 from lf.io.consts import SEEK_SET
-from lf.datastruct.extractors import uint16_le, uint32_le
+from lf.datatype.extractors import uint16_le, uint32_le
 from lf.windows.time import filetime_to_datetime
 from lf.windows.guid import guid_to_uuid
 
@@ -1327,7 +1327,7 @@ class TrackerProps(ExtraDataBlock):
         # end if
 
         (length, version) = \
-            extractors.tracker_data_block_header.extract(stream.read(8))
+            extractors.tracker_data_block.extract(stream.read(8))
 
         self.version = version
 
@@ -1489,7 +1489,7 @@ class ExtraDataBlockFactory():
 
         while max_bytes_left >= 0x8:
             stream.seek(offset, SEEK_SET)
-            header = extractors.data_block_header.extract(stream.read(8))
+            header = extractors.data_block.extract(stream.read(8))
 
             size = header.size
             sig = header.sig

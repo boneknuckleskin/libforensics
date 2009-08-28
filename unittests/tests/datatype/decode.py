@@ -16,24 +16,23 @@
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
 """
-Unit tests for the lf.struct.decode module.
+Unit tests for the lf.datatype.decode module.
 
 .. moduleauthor:: Michael Murr (mmurr@codeforensics.net)
 """
 
-__docformat__ = "restructuredtext en"
-
 from unittest import TestCase
+from lf.datatype.bits import bit, bits
+from lf.datatype.decode import Decoder
 
-from lf.datastruct.field import bit
-from lf.datastruct.decode import Decoder
+__docformat__ = "restructuredtext en"
 
 class DecoderTestCase(TestCase):
     def setUp(self):
-        fields0 = [bit("bit0", 1)]
-        fields1 = [bit("bit0", 1), bit("bit1", 1)]
-        fields2 = [bit("bit0", 1), bit("bit1", 2)]
-        fields3 = [bit("bit0", 3), bit("bit1", 2), bit("bit2", 2)]
+        fields0 = [bit]
+        fields1 = [bit, bit]
+        fields2 = [bit, bits(2)]
+        fields3 = [bits(3), bits(2), bits(2)]
 
         self.decoders = [
             Decoder(fields0), Decoder(fields1), Decoder(fields2),

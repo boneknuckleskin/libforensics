@@ -33,8 +33,9 @@ from itertools import groupby
 
 from lf.utils.dict import NAryTree
 
-from lf.datastruct.field import bit, Bits, Primitive, DataStruct
-from lf.datastruct.excepts import ExtractionError, StructError
+from lf.datatype.bits import BitType
+from lf.datatype.composite import Extractable
+from lf.datatype.excepts import ExtractionError
 
 PASS_THRU = 0
 
@@ -51,7 +52,7 @@ class Extractor():
         A list of lists, used to iteratively rebuild the hierarchical
         structure.
 
-    .. attribute:: tuple_factories
+    .. attribute:: factories
 
         A list of lists, used to iteratively rebuild the hierarchical
         structure.
@@ -74,36 +75,36 @@ class Extractor():
         A list of the cumulative size at each field position.
     """
 
-    def __init__(self, data_struct):
+    def __init__(self, record):
         """
         Initializes an Extractor object.
 
         :parameters:
-            data_struct
-                A DataStruct object to extract.
+            record
+                A Extractable object/class to extract.
         """
 
-        struct_tree = NAryTree(data_struct.flatten(expand_bits=False))
-        leaf_ids = struct_tree.get_leaf_ids()
+        record_tree = NAryTree(record._flatten(expand_bits=False))
+        leaf_ids = record_tree.get_leaf_ids()
 
-        struct_strings = self.get_struct_strings(struct_tree, leaf_ids)
-        size_at = self.get_size_at(struct_tree, leaf_ids)
-        decoding_info = self.get_decoding_info(struct_tree, leaf_ids)
+        record_strings = self.get_record_strings(record_tree, leaf_ids)
+        size_at = self.get_size_at(record_tree, leaf_ids)
+        decoding_info = self.get_decoding_info(record_tree, leaf_ids)
 
-        struct_tree = NAryTree(data_struct.flatten(expand_bits=True))
-        grouping_info = self.get_grouping_info(struct_tree)
+        record_tree = NAryTree(record._flatten(expand_bits=True))
+        grouping_info = self.get_grouping_info(record_tree)
 
         struct_objs = list()
         size = 0
-        for struct_string in struct_strings:
-            struct_obj = Struct(struct_string)
+        for record_string in record_strings:
+            struct_obj = Struct(record_string)
             struct_objs.append(struct_obj)
             size += struct_obj.size
         # end for
 
         self.struct_objs = struct_objs
         self.groupbys = grouping_info[0]
-        self.tuple_factories = grouping_info[1]
+        self.factories = grouping_info[1]
         self.decoders_at = decoding_info[0]
         self.decoders = decoding_info[1]
         self.size_at = size_at
@@ -149,19 +150,19 @@ class Extractor():
         # end if
 
 
-        group_info_iter = zip(self.groupbys, self.tuple_factories)
-        for (groupbys, tuple_factories) in group_info_iter:
+        group_info_iter = zip(self.groupbys, self.factories)
+        for (groupbys, factories) in group_info_iter:
             groupby_iter = groupby(zip(groupbys, values), itemgetter(0))
 
             new_values = list()
             for (index, (marker, group)) in enumerate(groupby_iter):
-                tuple_factory = tuple_factories[index]
+                factory = factories[index]
                 just_values = list(map(itemgetter(1), group))
 
-                if tuple_factory == PASS_THRU:
+                if factory == PASS_THRU:
                     new_values.extend(just_values)
                 else:
-                    new_values.append(tuple_factory(just_values))
+                    new_values.append(factory(just_values))
                     # end if
                 # end if
             # end for
@@ -231,20 +232,20 @@ class Extractor():
     # end def extract_partial
 
     @staticmethod
-    def get_decoding_info(struct_tree, leaf_ids=None):
+    def get_decoding_info(record_tree, leaf_ids=None):
         """
         Gets information necessary to decode the fields after they've been
         extracted.
 
         :parameters:
-            struct_tree
+            record_tree
                 An NAryTree built with a flattened version of the data
                 structure.  The call to flatten() should have expand_bits set
                 to False.
 
             leaf_ids
                 An optional list of the identifiers of the leaves of
-                struct_tree.
+                record_tree.
 
         :rtype: tuple
         :returns: A tuple of (decoders_at, decoders) that can be iterated over
@@ -252,18 +253,19 @@ class Extractor():
         """
 
         if leaf_ids is None:
-            leaf_ids = struct_tree.get_leaf_ids()
+            leaf_ids = record_tree.get_leaf_ids()
         # end if
 
         decoders = list()
         decoders_at = list()
         counter = 0
         added_field_count = 0
-        for leaf_id in leaf_ids:
-            field = struct_tree[leaf_id]
 
-            if isinstance(field, Bits):
-                decoder = field.decoder
+        for leaf_id in leaf_ids:
+            field = record_tree[leaf_id]
+
+            if hasattr(field, "_decoder_"):
+                decoder = field._decoder_
                 decoders.append(decoder)
                 decoders_at.append(counter + added_field_count)
                 added_field_count += (decoder.count - 1)
@@ -276,41 +278,41 @@ class Extractor():
     # end def get_decoding_info
 
     @staticmethod
-    def get_grouping_info(struct_tree, leaf_ids=None):
+    def get_grouping_info(record_tree, leaf_ids=None):
         """
         Gets information necessary to group the fields after they've been
         extracted.
 
         :parameters:
-            struct_tree
+            record_tree
                 An NAryTree built with a flattened version of the data
                 structure.  The call to flatten() should have expand_bits set
                 to false.  NOTE: This function will modify the values of
-                struct_tree.
+                record_tree.
 
             leaf_ids
                 An optional list of the identifiers of the leaves of
-                struct_tree.  This list of leaf_ids should have been retrieved
-                from a struct_tree which had the expand_bits set to true, when
+                record_tree.  This list of leaf_ids should have been retrieved
+                from a record_tree which had the expand_bits set to true, when
                 it was built.
 
         :rtype: tuple
-        :returns: A tuple of (groupbys, tuple_factories) that can be iterated
+        :returns: A tuple of (groupbys, factories) that can be iterated
                   over to rebuild the hierarchical structure.
         """
 
 
         if leaf_ids is None:
-            leaf_ids = struct_tree.get_leaf_ids()
+            leaf_ids = record_tree.get_leaf_ids()
         # end if
 
         groupbys = list()
-        tuple_factories = list()
+        factories = list()
 
         while leaf_ids[0] != 1:
             already_seen = list()
             current_groupby = list()
-            current_tuple_factories = list()
+            current_factories = list()
             leaf_ids_to_delete = list()
             marker = 1
 
@@ -326,17 +328,17 @@ class Extractor():
                     # So this field will be a standalone.
 
                     current_groupby.append(marker)
-                    current_tuple_factories.append(PASS_THRU)
+                    current_factories.append(PASS_THRU)
                     already_seen.append(leaf_id)
                     marker *= -1
                 else:
                     # Otherwise figure out if we have a subtree of just
                     # primitives (terminals)
                     is_terminal_subtree = False
-                    sibling_ids = struct_tree.get_sibling_ids(leaf_id)
+                    sibling_ids = record_tree.get_sibling_ids(leaf_id)
 
                     for sibling_id in sibling_ids:
-                        if (sibling_id * 2) in struct_tree:
+                        if (sibling_id * 2) in record_tree:
                             break
                         # end if
                     else:
@@ -360,21 +362,21 @@ class Extractor():
 
                         # Create the tuple factory (if necessary)
                         parent_id = leaf_id // 2
-                        parent_field = struct_tree[parent_id]
-                        if not isinstance(parent_field, Bits):
-                            current_tuple_factories.append(
-                                parent_field.tuple_factory
+                        parent_field = record_tree[parent_id]
+                        if not isinstance(parent_field, BitType):
+                            current_factories.append(
+                                parent_field._factory_
                             )
                         # end if
                     else:
                         # Make an alternating pattern
                         for sibling_id in sibling_ids:
-                            if (sibling_id * 2) in struct_tree:
+                            if (sibling_id * 2) in record_tree:
                                 break
                             # end if
 
                             current_groupby.append(marker)
-                            current_tuple_factories.append(PASS_THRU)
+                            current_factories.append(PASS_THRU)
                             already_seen.append(sibling_id)
                             marker *= -1
                         # end for
@@ -384,34 +386,34 @@ class Extractor():
 
             # Save current grouping information
             groupbys.append(current_groupby)
-            tuple_factories.append(current_tuple_factories)
+            factories.append(current_factories)
 
             # Get rid of the leaves we can delete (leaves which make up a
             # terminal subtree)
             for leaf_id in leaf_ids_to_delete:
-                del struct_tree[leaf_id]
+                del record_tree[leaf_id]
             # end for
 
             # Build up a new list of leaves
-            leaf_ids = struct_tree.get_leaf_ids()
+            leaf_ids = record_tree.get_leaf_ids()
         # end while
 
-        return (groupbys, tuple_factories)
+        return (groupbys, factories)
     # end def get_grouping_info
 
     @staticmethod
-    def get_struct_strings(struct_tree, leaf_ids=None):
+    def get_record_strings(record_tree, leaf_ids=None):
         """
         Creates strings for the standard library struct module.
 
         :parameters:
-            struct_tree
+            record_tree
                 An NAryTree built from a flattened version of the data
                 structure.
 
             leaf_ids
                 An optional list of the identifiers of the leaves of
-                struct_tree.
+                record_tree.
 
         :rtype: list
         :returns: A list of strings suitable for the standard library struct
@@ -419,7 +421,7 @@ class Extractor():
         """
 
         if leaf_ids is None:
-            leaf_ids = struct_tree.get_leaf_ids()
+            leaf_ids = record_tree.get_leaf_ids()
         # end if
 
         byte_orders = dict()
@@ -429,26 +431,26 @@ class Extractor():
                 if left_sib in byte_orders:
                     byte_orders[leaf_id] = byte_orders[left_sib]
                 else:
-                    parent_id = struct_tree.get_parent_id(leaf_id)
-                    parent_field = struct_tree[parent_id]
+                    parent_id = record_tree.get_parent_id(leaf_id)
+                    parent_field = record_tree[parent_id]
 
-                    while not isinstance(parent_field, DataStruct):
-                        parent_id = struct_tree.get_parent_id(parent_id)
-                        parent_field = struct_tree[parent_id]
+                    while not hasattr(parent_field, "_byte_order_"):
+                        parent_id = record_tree.get_parent_id(parent_id)
+                        parent_field = record_tree[parent_id]
                     # end while
 
-                    byte_orders[leaf_id] = parent_field.byte_order
+                    byte_orders[leaf_id] = parent_field._byte_order_
                 # end if
             else:
                 parent_id = leaf_id // 2
-                parent_field = struct_tree[parent_id]
+                parent_field = record_tree[parent_id]
 
-                while not isinstance(parent_field, DataStruct):
-                    parent_id = struct_tree.get_parent_id(parent_id)
-                    parent_field = struct_tree[parent_id]
+                while not hasattr(parent_field, "_byte_order_"):
+                    parent_id = record_tree.get_parent_id(parent_id)
+                    parent_field = record_tree[parent_id]
                 # end while
 
-                byte_orders[leaf_id] = parent_field.byte_order
+                byte_orders[leaf_id] = parent_field._byte_order_
             # end if
         # end for
 
@@ -460,28 +462,28 @@ class Extractor():
         for (byte_order, group_iter) in groupby_iter:
             format_str = [byte_order]
             format_str.extend(
-                struct_tree[node_id].format_str for node_id in group_iter
+                [record_tree[node_id]._format_ for node_id in group_iter]
             )
             format_strs.append("".join(format_str))
         # end for
 
         return format_strs
-    # end def get_struct_strings
+    # end def get_record_strings
 
     @staticmethod
-    def get_size_at(struct_tree, leaf_ids=None):
+    def get_size_at(record_tree, leaf_ids=None):
         """
         Calculates the cumulative number of bytes needed, at each field
         position.
 
         :parameters:
-            struct_tree
+            record_tree
                 An NAryTree built from a flattened version of the data
                 structure.
 
             leaf_ids
                 An optional list of the identifiers of the leaves of
-                struct_tree.
+                record_tree.
 
         :rtype: list
         :returns: A list of the cumulative number of bytes needed at each field
@@ -489,13 +491,13 @@ class Extractor():
         """
 
         if leaf_ids is None:
-            leaf_ids = struct_tree.get_leaf_ids()
+            leaf_ids = record_tree.get_leaf_ids()
         # end if
 
         size_at = [0]
         for leaf_id in leaf_ids:
-            field = struct_tree[leaf_id]
-            size_at.append(field.size + size_at[-1])
+            field = record_tree[leaf_id]
+            size_at.append(field._size_ + size_at[-1])
         # end for
         del size_at[0]
 

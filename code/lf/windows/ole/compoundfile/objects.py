@@ -30,14 +30,14 @@ from lf.windows.guid import guid_to_uuid
 from lf.windows.time import filetime_to_datetime
 from lf.io import composite, byte, subset
 from lf.io.consts import SEEK_SET
-from lf.datastruct import Extractor, ListStruct
+from lf.datatype import Extractor, LEExtractableArray
 
 from lf.windows.ole.compoundfile.consts import (
     STREAM_ID_MAX, STREAM_ID_NONE, FAT_EOC, FAT_UNALLOC, FAT_FAT_SECT,
     FAT_DIF_SECT
 )
 
-from lf.windows.ole.compoundfile.structs import (
+from lf.windows.ole.compoundfile.datatypes import (
     FATEntry, MiniFATEntry, DIFATEntry
 )
 
@@ -154,7 +154,8 @@ class CompoundFile():
         # Gather all of the double indirect FAT entries into di_fat
         di_fat.extend(header_struct.di_fat)
         if header_struct.di_fat_count != 0:
-            extractor = Extractor(ListStruct(DIFATEntry(), entries_per_sect))
+            array_of_records = LEExtractableArray(DIFATEntry, entries_per_sect)
+            extractor = Extractor(array_of_records)
             next_di_fat_sect = header_struct.di_fat_sect
 
             while next_di_fat_sect != FAT_EOC:
@@ -196,7 +197,8 @@ class CompoundFile():
 
         # Extract the entries of the FAT
         sect_count = fat_stream.size // sect_size
-        extractor = Extractor(ListStruct(FATEntry(), entries_per_sect))
+        array_of_records = LEExtractableArray(FATEntry, entries_per_sect)
+        extractor = Extractor(array_of_records)
 
         for sect_index in range(sect_count):
             fat_stream.seek(sect_index * sect_size, SEEK_SET)
@@ -241,7 +243,9 @@ class CompoundFile():
 
             # Extract the contents of the mini fat from the mini fat stream
             sect_count = mini_fat_stream.size // sect_size
-            extractor = Extractor(ListStruct(MiniFATEntry(), entries_per_sect))
+            array_of_records = \
+                LEExtractableArray(MiniFATEntry, entries_per_sect)
+            extractor = Extractor(array_of_records)
 
             for sect_index in range(sect_count):
                 mini_fat_stream.seek(sect_index * sect_size, SEEK_SET)

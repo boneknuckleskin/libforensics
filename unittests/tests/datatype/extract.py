@@ -16,7 +16,7 @@
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
 """
-Unit tests for the lf.struct.extract module.
+Unit tests for the lf.datatype.extract module.
 
 .. moduleauthor:: Michael Murr (mmurr@codeforensics.net)
 """
@@ -29,100 +29,79 @@ from struct import pack
 from itertools import chain
 
 from lf.utils.dict import NAryTree
-from lf.datastruct.field import (
-    bit, char, int8, uint8, int16, uint16, int32, uint32, int64, uint64,
-    float32, float64, raw, array, UBits8, UBits16, DataStruct_BE,
-    DataStruct_LE, ListStruct
+from lf.datatype.builtin import (
+    char, int8, uint8, int16, uint16, int32, uint32, int64, uint64, float32,
+    float64, raw
 )
-from lf.datastruct.extract import  PASS_THRU, Extractor
-from lf.datastruct.excepts import ExtractionError
+from lf.datatype.bits import bits, BitTypeU8, BitTypeU16
+from lf.datatype.composite import LERecord, BERecord, ExtractableArray, array
+from lf.datatype.extract import Extractor, PASS_THRU
+from lf.datatype.excepts import ExtractionError
 
-class BS_S(UBits8):
-    bits = [
-        bit("X", 2),
-    ]
-# end class BS_S
+class BT_S(BitTypeU8):
+    X = bits(2)
+# end class BT_S
 
-class BS_BB(UBits16):
-    bits = [
-        bit("DD", 3),
-        bit("EE", 2),
-    ]
-# end class BS_BB
+class BT_BB(BitTypeU16):
+    DD = bits(3)
+    EE = bits(2)
+# end class BT_BB
 
-class DS_F(DataStruct_LE):
-    fields = [
-        int8("K"),
-        raw("L", 3),
-        float64("M")
-    ]
+class DS_F(LERecord):
+    K = int8
+    L = raw(3)
+    M = float64
 # end class DS_F
 
-class DS_T(DataStruct_BE):
-    fields = [
-        int16("Z"),
-        uint16("AA")
-    ]
+class DS_T(BERecord):
+    Z = int16
+    AA = uint16
 # end class DS_T
 
-class DS_C(DataStruct_BE):
-    fields = [
-        DS_F("F"),
-        uint32("G")
-    ]
+class DS_C(BERecord):
+    F = DS_F
+    G = uint32
 # end class DS_C
 
-class DS_H(DataStruct_BE):
-    fields = [
-        uint8("N"),
-        array("O", BS_S(), 2),
-        int32("P"),
-        array("Q", DS_T(), 2)
-    ]
+class DS_H(BERecord):
+    N = uint8
+    O = array(BT_S, 2)
+    P = int32
+    Q = array(DS_T, 2)
 # end class DS_H
 
-class DS_W(DataStruct_LE):
-    fields = [
-        BS_BB(),
-        int64("CC"),
-        BS_BB()
-    ]
+class DS_W(LERecord):
+    bit_field1 = BT_BB
+    CC = int64
+    bit_field2 = BT_BB
 # end class DS_W
 
-class DS_R(DataStruct_BE):
-    fields = [
-        uint64("U"),
-        float32("V"),
-        DS_W("W")
-    ]
+class DS_R(BERecord):
+    U = uint64
+    V = float32
+    W = DS_W
 # end class DS_R
 
-class DS_J(DataStruct_LE):
-    fields = [
-        DS_R("R")
-    ]
+class DS_J(LERecord):
+    R = DS_R
 # end class DS_J
 
-class DS_D(DataStruct_BE):
-    fields = [
-        DS_H("H"),
-        uint8("I"),
-        DS_J("J")
-    ]
+class DS_D(BERecord):
+    H = DS_H
+    I = uint8
+    J = DS_J
 # end class DS_D
 
-class DS_A(DataStruct_BE):
-    fields = [
-        char("B"),
-        DS_C("C"),
-        DS_D("D"),
-        int8("E")
-    ]
+class DS_A(BERecord):
+    B = char
+    C = DS_C
+    D = DS_D
+    E = int8
 # end class DS_A
 
 class ExtractorTestCase(TestCase):
     def setUp(self):
-        self.extractor = Extractor(DS_A())
+        self.extractor = Extractor(DS_A)
         self.results = (
             b"\x00", 1, b"\x02\x03\x04", 1.1801778615788355e-250, 0x0D0E0F10,
             17, 2, 4, 3, 4, 0x14151617, 0x1819, 0x1A1B, 0x1C1D, 0x1E1F, 32,
@@ -130,7 +109,7 @@ class ExtractorTestCase(TestCase):
             0x363534333231302F, 7, 2, 449, 57
         )
         self.data = b"".join([pack("B", x) for x in range(58)])
-        self.struct_strings = [ ">c", "<b3sd", ">IBBBihHhHBQf", "<HqH", ">b"]
+        self.record_strings = [ ">c", "<b3sd", ">IBBBihHhHBQf", "<HqH", ">b"]
         self.size_at = [
             1, 2, 5, 13, 17, 18, 19, 20, 24, 26, 28, 30, 32, 33, 41, 45, 47,
             55, 57, 58
@@ -186,60 +165,60 @@ class ExtractorTestCase(TestCase):
             ],
         ]
 
-        self.tuple_factories = [
+        self.factories = [
             [
                 PASS_THRU,
-                DS_F.tuple_factory,
+                DS_F._factory_,
                 PASS_THRU,
                 PASS_THRU,
-                tuple,
+                list,
                 PASS_THRU,
-                DS_T.tuple_factory,
-                DS_T.tuple_factory,
+                DS_T._factory_,
+                DS_T._factory_,
                 PASS_THRU,
                 PASS_THRU,
                 PASS_THRU,
-                DS_W.tuple_factory,
+                DS_W._factory_,
                 PASS_THRU
             ],
 
             [
                 PASS_THRU,
-                DS_C.tuple_factory,
+                DS_C._factory_,
                 PASS_THRU,
                 PASS_THRU,
                 PASS_THRU,
-                tuple,
+                list,
                 PASS_THRU,
-                DS_R.tuple_factory,
-                PASS_THRU
-            ],
-
-            [
-                PASS_THRU,
-                PASS_THRU,
-                DS_H.tuple_factory,
-                PASS_THRU,
-                DS_J.tuple_factory,
+                DS_R._factory_,
                 PASS_THRU
             ],
 
             [
                 PASS_THRU,
                 PASS_THRU,
-                DS_D.tuple_factory,
+                DS_H._factory_,
+                PASS_THRU,
+                DS_J._factory_,
                 PASS_THRU
             ],
 
             [
-                DS_A.tuple_factory
+                PASS_THRU,
+                PASS_THRU,
+                DS_D._factory_,
+                PASS_THRU
+            ],
+
+            [
+                DS_A._factory_
             ],
         ]
 
         self.decoders_at = [6, 8, 18, 22]
         self.decoders = [
-            BS_S.decoder, BS_S.decoder, BS_BB.decoder,
-            BS_BB.decoder
+            BT_S._decoder_, BT_S._decoder_, BT_BB._decoder_,
+            BT_BB._decoder_
         ]
     # end def setUp
 
@@ -251,13 +230,13 @@ class ExtractorTestCase(TestCase):
 
         at(hasattr(extractor, "struct_objs"))
         at(hasattr(extractor, "groupbys"))
-        at(hasattr(extractor, "tuple_factories"))
+        at(hasattr(extractor, "factories"))
         at(hasattr(extractor, "size"))
         at(hasattr(extractor, "size_at"))
 
         ae(len(extractor.struct_objs), 5)
         for index, struct_obj in enumerate(extractor.struct_objs):
-            ae(struct_obj.format.decode("ascii"), self.struct_strings[index])
+            ae(struct_obj.format.decode("ascii"), self.record_strings[index])
         # end for
 
         ae(extractor.size, 58)
@@ -310,7 +289,7 @@ class ExtractorTestCase(TestCase):
             ae(values.D.J._fields, ("R",))
             ae(values.D.J._indices, (0,))
 
-            at(isinstance(values.D.H.O, tuple))
+            at(isinstance(values.D.H.O, list))
             af(hasattr(values.D.H.O, "_fields"))
             ae(len(values.D.H.O), 4)
             ae(values.D.H.O[0], results[6])
@@ -318,7 +297,7 @@ class ExtractorTestCase(TestCase):
             ae(values.D.H.O[2], results[8])
             ae(values.D.H.O[3], results[9])
 
-            at(isinstance(values.D.H.Q, tuple))
+            at(isinstance(values.D.H.Q, list))
             af(hasattr(values.D.H.Q, "_fields"))
             ae(len(values.D.H.Q), 2)
             ae(values.D.H.Q[0], (results[11], results[12]))
@@ -393,13 +372,13 @@ class ExtractorTestCase(TestCase):
     def test_get_grouping_info(self):
         ae = self.assertEqual
         groupbys = self.groupbys
-        tuple_factories = self.tuple_factories
+        factories = self.factories
         decoders_at = self.decoders_at
         decoders = self.decoders
 
 
-        struct_tree = NAryTree(DS_A().flatten())
-        (test_groupbys, test_tuple_factories) = \
+        struct_tree = NAryTree(DS_A._flatten())
+        (test_groupbys, test_factories) = \
             self.extractor.get_grouping_info(struct_tree)
 
         ae(len(test_groupbys), len(groupbys))
@@ -409,10 +388,10 @@ class ExtractorTestCase(TestCase):
             # end for
         # end for
 
-        ae(len(test_tuple_factories), len(tuple_factories))
-        factories_iter = zip(test_tuple_factories, tuple_factories)
-        for (test_tuple_factory, tuple_factory) in factories_iter:
-            factory_func_iter = zip(test_tuple_factory, tuple_factory)
+        ae(len(test_factories), len(factories))
+        factories_iter = zip(test_factories, factories)
+        for (test_factory, factory) in factories_iter:
+            factory_func_iter = zip(test_factory, factory)
             for (test_func, func) in factory_func_iter:
                 ae(test_func, func)
             # end for
@@ -424,7 +403,7 @@ class ExtractorTestCase(TestCase):
         decoders_at = self.decoders_at
         decoders = self.decoders
 
-        struct_tree = NAryTree(DS_A().flatten(expand_bits=False))
+        struct_tree = NAryTree(DS_A._flatten(expand_bits=False))
         (test_decoders_at, test_decoders) = \
             self.extractor.get_decoding_info(struct_tree)
 
@@ -436,28 +415,28 @@ class ExtractorTestCase(TestCase):
         # end for
     # end def test_get_decoding_info
 
-    def test_get_struct_strings(self):
-        struct_tree = NAryTree(DS_A().flatten(expand_bits=False))
-        test_struct_strings = self.extractor.get_struct_strings(struct_tree)
-        self.assertEqual(test_struct_strings, self.struct_strings)
-    # end def test_get_struct_strings
+    def test_get_record_strings(self):
+        struct_tree = NAryTree(DS_A._flatten(expand_bits=False))
+        test_record_strings = self.extractor.get_record_strings(struct_tree)
+        self.assertEqual(test_record_strings, self.record_strings)
+    # end def test_get_record_strings
 
     def test_get_size_at(self):
 
-        struct_tree = NAryTree(DS_A().flatten(expand_bits=False))
+        struct_tree = NAryTree(DS_A._flatten(expand_bits=False))
         test_size_at = self.extractor.get_size_at(struct_tree)
         self.assertEqual(test_size_at, self.size_at)
     # end def test_get_size_at
 # end class ExtractorTestCase
 
-class ListStructTestCase(ExtractorTestCase):
+class ExtractableArrayTestCase(ExtractorTestCase):
     def setUp(self):
-        super(ListStructTestCase, self).setUp()
-        self.extractor = Extractor(ListStruct(DS_A(), 4))
+        super(ExtractableArrayTestCase, self).setUp()
+        self.extractor = Extractor(ExtractableArray(DS_A, 4))
         self.decoders = self.decoders * 4
         self.results = self.results * 4
         self.data = b"".join([self.data] * 4)
-        self.struct_strings = [
+        self.record_strings = [
             ">c", "<b3sd", ">IBBBihHhHBQf", "<HqH", ">bc", "<b3sd",
             ">IBBBihHhHBQf", "<HqH", ">bc", "<b3sd", ">IBBBihHhHBQf", "<HqH",
             ">bc", "<b3sd", ">IBBBihHhHBQf", "<HqH", ">b"
@@ -477,12 +456,12 @@ class ListStructTestCase(ExtractorTestCase):
         # end for
         self.size_at = size_at
 
-        new_tuple_factories = list()
-        for tuple_factories in self.tuple_factories:
-            new_tuple_factories.append(tuple_factories * 4)
+        new_factories = list()
+        for factories in self.factories:
+            new_factories.append(factories * 4)
         # end for
-        new_tuple_factories.append([tuple])
-        self.tuple_factories = new_tuple_factories
+        new_factories.append([list])
+        self.factories = new_factories
 
         new_groupbys = list()
         for groupby in self.groupbys:
@@ -505,11 +484,13 @@ class ListStructTestCase(ExtractorTestCase):
     def test_get_grouping_info(self):
         ae = self.assertEqual
         groupbys = self.groupbys
-        tuple_factories = self.tuple_factories
+        factories = self.factories
 
 
-        struct_tree = NAryTree(ListStruct(DS_A(), 4).flatten(expand_bits=True))
-        (test_groupbys, test_tuple_factories) = \
+        struct_tree = \
+            NAryTree(ExtractableArray(DS_A, 4)._flatten(expand_bits=True))
+
+        (test_groupbys, test_factories) = \
             self.extractor.get_grouping_info(struct_tree)
 
         ae(len(test_groupbys), len(groupbys))
@@ -519,10 +500,10 @@ class ListStructTestCase(ExtractorTestCase):
             # end for
         # end for
 
-        ae(len(test_tuple_factories), len(tuple_factories))
-        factories_iter = zip(test_tuple_factories, tuple_factories)
-        for (test_tuple_factory, tuple_factory) in factories_iter:
-            for (test_func, func) in zip(test_tuple_factory, tuple_factory):
+        ae(len(test_factories), len(factories))
+        factories_iter = zip(test_factories, factories)
+        for (test_factory, factory) in factories_iter:
+            for (test_func, func) in zip(test_factory, factory):
                 ae(test_func, func)
             # end for
         # end for
@@ -533,7 +514,7 @@ class ListStructTestCase(ExtractorTestCase):
         decoders_at = self.decoders_at
         decoders = self.decoders
         struct_tree = NAryTree(
-            ListStruct(DS_A(), 4).flatten(expand_bits=False)
+            ExtractableArray(DS_A, 4)._flatten(expand_bits=False)
         )
         (test_decoders_at, test_decoders) = \
             self.extractor.get_decoding_info(struct_tree)
@@ -546,14 +527,16 @@ class ListStructTestCase(ExtractorTestCase):
         # end for
     # end def test_get_grouping_info
 
-    def test_get_struct_strings(self):
-        struct_tree = NAryTree(ListStruct(DS_A(), 4).flatten(expand_bits=False))
-        test_struct_strings = self.extractor.get_struct_strings(struct_tree)
-        self.assertEqual(test_struct_strings, self.struct_strings)
-    # end def test_get_struct_strings
+    def test_get_record_strings(self):
+        struct_tree = \
+            NAryTree(ExtractableArray(DS_A, 4)._flatten(expand_bits=False))
+        test_record_strings = self.extractor.get_record_strings(struct_tree)
+        self.assertEqual(test_record_strings, self.record_strings)
+    # end def test_get_record_strings
 
     def test_get_size_at(self):
-        struct_tree = NAryTree(ListStruct(DS_A(), 4).flatten(expand_bits=False))
+        struct_tree = \
+            NAryTree(ExtractableArray(DS_A, 4)._flatten(expand_bits=False))
         test_size_at = self.extractor.get_size_at(struct_tree)
         self.assertEqual(test_size_at, self.size_at)
     # end def test_get_size_at
@@ -566,13 +549,13 @@ class ListStructTestCase(ExtractorTestCase):
 
         at(hasattr(extractor, "struct_objs"))
         at(hasattr(extractor, "groupbys"))
-        at(hasattr(extractor, "tuple_factories"))
+        at(hasattr(extractor, "factories"))
         at(hasattr(extractor, "size"))
         at(hasattr(extractor, "size_at"))
 
         ae(len(extractor.struct_objs), 17)
         for index, struct_obj in enumerate(extractor.struct_objs):
-            ae(struct_obj.format.decode("ascii"), self.struct_strings[index])
+            ae(struct_obj.format.decode("ascii"), self.record_strings[index])
         # end for
 
         ae(extractor.size, 232)
@@ -629,7 +612,7 @@ class ListStructTestCase(ExtractorTestCase):
                 ae(values[counter].D.J._indices, (0,))
 
 
-                at(isinstance(values[counter].D.H.O, tuple))
+                at(isinstance(values[counter].D.H.O, list))
                 af(hasattr(values[counter].D.H.O, "_fields"))
                 ae(len(values[counter].D.H.O), 4)
                 ae(values[counter].D.H.O[0], results[offset+6])
@@ -637,7 +620,7 @@ class ListStructTestCase(ExtractorTestCase):
                 ae(values[counter].D.H.O[2], results[offset+8])
                 ae(values[counter].D.H.O[3], results[offset+9])
 
-                at(isinstance(values[counter].D.H.Q, tuple))
+                at(isinstance(values[counter].D.H.Q, list))
                 af(hasattr(values[counter].D.H.Q, "_fields"))
                 ae(len(values[counter].D.H.Q), 2)
                 ae(
@@ -714,4 +697,4 @@ class ListStructTestCase(ExtractorTestCase):
         ae(len(values), 21)
         ae(values, results[:21])
     # end def test_extract_partial
-# end class ListStructTestCase
+# end class ExtractableArrayTestCase

@@ -26,13 +26,13 @@ __all__ = [
     "header", "dir_entry", "fat_entry", "mini_fat_entry", "di_fat_entry"
 ]
 
-from lf.datastruct import Extractor
-from lf.windows.ole.compoundfile.structs import (
+from lf.datatype import Extractor
+from lf.windows.ole.compoundfile.datatypes import (
     Header, DirEntry, FATEntry, MiniFATEntry, DIFATEntry
 )
 
-header = Extractor(Header())
-dir_entry = Extractor(DirEntry())
-fat_entry = Extractor(FATEntry())
-mini_fat_entry = Extractor(MiniFATEntry())
-di_fat_entry = Extractor(DIFATEntry())
+header = Extractor(Header)
+dir_entry = Extractor(DirEntry)
+fat_entry = Extractor(FATEntry)
+mini_fat_entry = Extractor(MiniFATEntry)
+di_fat_entry = Extractor(DIFATEntry)

@@ -24,7 +24,7 @@ Unit tests for the lf.datastruct.structuple module.
 __docformat__ = "restructuredtext en"
 
 from unittest import TestCase
-from lf.datastruct.structuple import make
+from lf.datatype.structuple import make
 
 class makeTestCase(TestCase):
     def test_make(self):

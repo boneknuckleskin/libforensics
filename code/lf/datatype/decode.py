@@ -46,24 +46,25 @@ class Decoder():
         The number of individual fields that get decoded.
     """
 
-    def __init__(self, bits):
+    def __init__(self, bits_objs):
         """
         Initializes a Decoder object.
 
         :parameters:
-            bits
-                An iterable of bit objects.
+            bits_objs
+                An iterable of bits objects.
         """
 
         bit_masks = list()
         bit_shifts = list()
         offset = 0
 
-        for (index, bit_field) in enumerate(bits):
+        for (index, bit_field) in enumerate(bits_objs):
             bit_mask = 0
             bit_shift = 0
+            size = bit_field._size_
 
-            for index in range(bit_field.size):
+            for index in range(size):
                 bit_mask |= 2**index
             # end for
             bit_mask = bit_mask << offset
@@ -71,11 +72,11 @@ class Decoder():
             bit_masks.append(bit_mask)
             bit_shifts.append(offset)
 
-            offset += bit_field.size
+            offset += size
         # end for
 
         self.size = offset
-        self.count = len(bits)
+        self.count = len(bits_objs)
         self.bit_shifts = bit_shifts
         self.bit_masks = bit_masks
     # end def __init__

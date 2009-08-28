@@ -23,6 +23,6 @@ Shell Link files
 
 __docformat__ = "restructuredtext en"
 __all__ = [
-    "consts", "structs", "extractors", "objects"
+    "consts", "datatypes", "extractors", "objects"
 ]
 

@@ -16,21 +16,26 @@
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
 """
-Describe and read data structures.
+Exceptions that can occur when working with data structures.
 
 .. moduleauthor:: Michael Murr (mmurr@codeforensics.net)
 """
 
-from lf.datastruct.consts import BIG_ENDIAN, LITTLE_ENDIAN, NETWORK_ENDIAN
-from lf.datastruct.field import (
-    int8, uint8, int16, uint16, int32, uint32, int64, uint64, float32, float64,
-    raw, array, char, DataStruct_LE, DataStruct_BE, bit, Bits8, UBits8, Bits16,
-    UBits16, Bits32, UBits32, Bits64, UBits64, ListStruct
-)
-from lf.datastruct.extract import Extractor
-
 __docformat__ = "restructuredtext en"
 __all__ = [
-    "consts", "field", "decode", "extract", "extractors", "excepts",
-    "structuple"
+    "CompositeError", "ExtractionError"
 ]
+
+from lf.excepts import LFException
+
+class CompositeError(LFException):
+    """When an error occurs with composite data types"""
+
+    pass
+# end class CompositeError
+
+class ExtractionError(CompositeError):
+    """When an error occurs during a call to extract()"""
+
+    pass
+# end class ExtractionError

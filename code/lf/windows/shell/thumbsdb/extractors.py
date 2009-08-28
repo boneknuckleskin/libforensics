@@ -27,8 +27,8 @@ __all__ = [
     "entry_header_old"
 ]
 
-from lf.datastruct import Extractor
-from lf.windows.shell.thumbsdb.structs import (
+from lf.datatype import Extractor
+from lf.windows.shell.thumbsdb.datatypes import (
     CatalogHeader, CatalogEntryHeader, EntryHeader, EntryHeaderOld
 )
 
