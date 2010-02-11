@@ -10,6 +10,7 @@ Contents:
    :numbered:
 
    common
+   win-common
 
 Indices and tables
 ==================

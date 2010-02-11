@@ -1,4 +1,4 @@
-# Copyright 2009 Michael Murr
+# Copyright 2010 Michael Murr
 #
 # This file is part of LibForensics.
 #
@@ -15,21 +15,19 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
-"""
-Common data types for Microsoft data structures.
+"""Common data types for Microsoft Windows artifacts.
 
 A lot of this information can be found at:
 http://spreadsheets.google.com/ccc?key=pK5CEcdG9GYGeO7K2dmEcBg
-
-.. moduleauthor:: Michael Murr (mmurr@codeforensics.net)
 """
 
-__docformat__ = "restructuredtext en"
-
-from lf.datatype import (
-    int8, uint8, int16, uint16, int32, uint32, int64, uint64, float32,
-    float64, LERecord, array, BitTypeU16, bits
+# local imports
+from lf.dtypes import (
+    int8, uint8, int16, uint16, int32, uint32, int64, uint64, float32, float64,
+    LERecord, BitTypeU16, BitTypeU32, bit, bits, BERecord
 )
+
+__docformat__ = "restructuredtext en"
 
 class BYTE(uint8):
     pass
@@ -252,36 +250,108 @@ class VCN(LONGLONG):
     pass
 # end class VCN
 
-class GUID(LERecord):
+class GUID_LE(LERecord):
     data1 = DWORD
     data2 = WORD
     data3 = WORD
-    data4 = array(BYTE, 8)
-# end class GUID
+    data4 = [BYTE] * 8
+# end class GUID_LE
 
-class CLSID(GUID):
+class GUID_BE(BERecord):
+    data1 = DWORD
+    data2 = WORD
+    data3 = WORD
+    data4 = [BYTE] * 8
+# end class GUID_BE
+
+class CLSID_LE(GUID_LE):
     pass
-# end class CLSID
+# end class CLSID_LE
 
-class DECIMAL(LERecord):
+class CLSID_BE(GUID_BE):
+    pass
+# end class CLSID_BE
+
+class COORD_LE(LERecord):
+    x = SHORT
+    y = SHORT
+# end class COORD_LE
+
+class COORD_BE(BERecord):
+    x = SHORT
+    y = SHORT
+# end class COORD_BE
+
+class _LCIDBits_LE(BitTypeU32):
+    lang_id = bits(16)
+    sort_id = bits(4)
+    rsvd = bits(12)
+# end class _LCIDBits_LE
+
+class _LCIDBits_BE(BitTypeU32):
+    rsvd = bits(12)
+    sort_id = bits(4)
+    lang_id = bits(16)
+# end class _LCIDBits_BE
+
+class LCID_LE(LERecord):
+    bit_field = _LCIDBits_LE
+# end class LCID_LE
+
+class LCID_BE(BERecord):
+    bit_field = _LCIDBits_BE
+# end class LCID_BE
+
+class FILETIME_LE(LERecord):
+    lo = DWORD
+    hi = DWORD
+# end class FILETIME_LE
+
+class FILETIME_BE(BERecord):
+    hi = DWORD
+    lo = DWORD
+# end class FILETIME_BE
+
+class _HRESULTBits_LE(BitTypeU32):
+    code = bits(16)
+    facility = bits(11)
+    x = bit
+    n = bit
+    c = bit
+    r = bit
+    s = bit
+# end class _HRESULTBits_LE
+
+class _HRESULTBits_BE(BitTypeU32):
+    s = bit
+    r = bit
+    c = bit
+    n = bit
+    x = bit
+    facility = bits(11)
+    code = bits(16)
+# end class _HRESULTBits_BE
+
+class HRESULT_LE(LERecord):
+    bit_field = _HRESULTBits_LE
+# end class HRESULT_LE
+
+class HRESULT_BE(BERecord):
+    bit_field = _HRESULTBits_BE
+# end class HRESULT_BE
+
+class DECIMAL_LE(LERecord):
     rsvd = WORD
     scale = BYTE
     sign = BYTE
     hi32 = ULONG
     lo64 = ULONGLONG
-# end class DECIMAL
+# end class DECIMAL_LE
 
-class COORD(LERecord):
-    x = SHORT
-    y = SHORT
-# end class COORD
-
-class LCIDBits(BitTypeU16):
-    reserved = bits(12)
-    sort_order = bits(4)
-# end class LCIDBits
-
-class LCID(LERecord):
-    bit_field = LCIDBits
-    lang_id = LANGID
-# end class LCID
+class DECIMAL_BE(BERecord):
+    rsvd = WORD
+    scale = BYTE
+    sign = BYTE
+    hi32 = ULONG
+    lo64 = ULONGLONG
+# end class DECIMAL_BE

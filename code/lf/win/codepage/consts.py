@@ -1,4 +1,4 @@
-# Copyright 2009 Michael Murr
+# Copyright 2010 Michael Murr
 #
 # This file is part of LibForensics.
 #
@@ -15,14 +15,24 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
-"""
-Code page constants for Microsoft Windows.
-
-.. moduleauthor:: Michael Murr (mmurr@codeforensics.net)
-"""
+"""Code page constants for Microsoft Windows."""
 
 __docformat__ = "restructuredtext en"
 __all__ = [
+    "CP_UNKNOWN", "CP_WINUNICODE", "CP_OEM_437", "CP_OEM_720", "CP_OEM_737",
+    "CP_OEM_775", "CP_OEM_850", "CP_OEM_852", "CP_OEM_855", "CP_OEM_857",
+    "CP_OEM_858", "CP_OEM_862", "CP_OEM_866",
+
+    "CP_WINDOWS_874", "CP_WINDOWS_932", "CP_WINDOWS_936", "CP_WINDOWS_949",
+    "CP_WINDOWS_950", "CP_WINDOWS_1250", "CP_WINDOWS_1251", "CP_WINDOWS_1252",
+    "CP_WINDOWS_1253", "CP_WINDOWS_1254", "CP_WINDOWS_1255", "CP_WINDOWS_1256",
+    "CP_WINDOWS_1257", "CP_WINDOWS_1258", "CP_WINDOWS_UTF8",
+
+    "CP_ISO_8859_1", "CP_ISO_8859_2", "CP_ISO_8859_3", "CP_ISO_8859_4",
+    "CP_ISO_8859_5", "CP_ISO_8859_6", "CP_ISO_8859_8", "CP_ISO_8859_9",
+    "CP_ISO_8859_15",
+
+    "code_page_names"
 ]
 
 CP_UNKNOWN = 0
@@ -71,16 +81,14 @@ code_page_names = {
     CP_WINUNICODE: "utf_16_le",
 
     CP_OEM_437: "cp437",
-    # Not yet supported by Python
-    # CP_OEM_720: "cp720",
+    CP_OEM_720: "cp720",
     CP_OEM_737: "cp737",
     CP_OEM_775: "cp775",
     CP_OEM_850: "cp850",
     CP_OEM_852: "cp852",
     CP_OEM_855: "cp855",
     CP_OEM_857: "cp857",
-    # Not yet supported by Python
-    # CP_OEM_858: "cp858",
+    CP_OEM_858: "cp858",
     CP_OEM_862: "cp862",
     CP_OEM_866: "cp866",
 

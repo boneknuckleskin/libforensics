@@ -1,4 +1,4 @@
-# Copyright 2009 Michael Murr
+# Copyright 2010 Michael Murr
 #
 # This file is part of LibForensics.
 #
@@ -15,15 +15,6 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
-"""
-Hotkey mappings
-
-.. moduleauthor:: Michael Murr (mmurr@codeforensics.net)
-"""
-
-__docformat__ = "restructuredtext en"
-
-HOTKEYF_SHIFT = 1
-HOTKEYF_CONTROL = 2
-HOTKEYF_ALT = 4
-HOTKEYF_EXT = 8
+__all__ = [
+    "consts", "ctypes", "guid", "ole", "shell", "dtypes", "objects", "codepage"
+]

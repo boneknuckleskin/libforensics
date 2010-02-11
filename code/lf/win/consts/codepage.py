@@ -1,4 +1,4 @@
-# Copyright 2009 Michael Murr
+# Copyright 2010 Michael Murr
 #
 # This file is part of LibForensics.
 #
@@ -15,14 +15,10 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
-"""
-Various windows constants.
-
-.. moduleauthor:: Michael Murr (mmurr@codeforensics.net)
-"""
+"""Code page constants for Microsoft Windows. (deprecated)"""
 
 __docformat__ = "restructuredtext en"
 __all__ = [
-    "lcid", "codepage", "vkcode", "hotkey"
 ]
 
+from lf.win.codepage.consts import *

@@ -15,6 +15,10 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
+"""Various Microsoft Windows constants."""
+
+__docformat__ = "restructuredtext en"
 __all__ = [
-    "apps", "excepts", "fs", "dec", "dtypes", "utils", "win"
+    "lcid", "vkcode", "hotkey"
 ]
+

@@ -1,4 +1,4 @@
-# Copyright 2009 Michael Murr
+# Copyright 2010 Michael Murr
 #
 # This file is part of LibForensics.
 #
@@ -15,12 +15,9 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
-"""
-Utilities for working with UUIDs.
+"""Utilities for working with UUIDs (Deprecated)."""
 
-.. moduleauthor:: Michael Murr (mmurr@codeforensics.net)
-"""
-
+# stdlib imports
 from uuid import UUID
 
 __docformat__ = "restructuredtext en"
@@ -30,7 +27,7 @@ __all__ = [
 
 def guid_to_uuid(data1, data2, data3, data4):
     """
-    Converts a Microsoft GUID to Python UUID object.
+    Converts a Microsoft GUID to Python UUID object (Deprecated).
 
     :parameters:
         data1

@@ -1,4 +1,4 @@
-# Copyright 2009 Michael Murr
+# Copyright 2010 Michael Murr
 #
 # This file is part of LibForensics.
 #
@@ -15,11 +15,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
-"""
-Virtual key codes
-
-.. moduleauthor:: Michael Murr (mmurr@codeforensics.net)
-"""
+"""Constants for virtual key codes."""
 
 __docformat__ = "restructuredtext en"
 

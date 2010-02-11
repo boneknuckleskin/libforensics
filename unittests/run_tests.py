@@ -24,6 +24,8 @@ names = [
 
     "dtypes.basic", "dtypes.native", "dtypes.bits", "dtypes.composite",
     "dtypes.dal", "dtypes.reader",
+
+    "win.objects",
 ]
 
 for index in range(len(names)):

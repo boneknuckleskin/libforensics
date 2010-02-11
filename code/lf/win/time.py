@@ -1,4 +1,4 @@
-# Copyright 2009 Michael Murr
+# Copyright 2010 Michael Murr
 #
 # This file is part of LibForensics.
 #
@@ -18,18 +18,16 @@
 # The algorithms for variant_time_to_datetime and filetime_to_datetime are
 # based on the algorithms in the Wine project.
 
-"""
-Time related utilities for Microsoft Windows.  (DEPRECATED)
+"""Time related utilities for Microsoft Windows. (Deprecated)"""
 
-.. moduleauthor:: Michael Murr (mmurr@codeforensics.net)
-"""
-
+# stdlib imports
 import warnings
 warnings.warn(
-    "the lf.windows.time module is deprecated; use lf.utils.time instead",
+    "the lf.win.time module is deprecated; use lf.utils.time instead",
     DeprecationWarning
 )
 
+# local imports
 from lf.utils.time import (
     filetime_to_unix_time, unix_time_to_filetime, filetime_to_datetime,
     variant_time_to_datetime, dos_datetime_to_datetime, dos_date_to_date,

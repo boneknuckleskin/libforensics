@@ -1,4 +1,4 @@
-# Copyright 2009 Michael Murr
+# Copyright 2010 Michael Murr
 #
 # This file is part of LibForensics.
 #
@@ -15,7 +15,14 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
+"""Constants for Hotkey mappings."""
+
+__docformat__ = "restructuredtext en"
 __all__ = [
-    "codepage", "extractors", "guid", "lcid", "ole", "shell", "datatypes",
-    "time"
+    "HOTKEYF_SHIFT", "HOTKEYF_CONTROL", "HOTKEYF_ALT", "HOTKEYF_EXT"
 ]
+
+HOTKEYF_SHIFT = 1
+HOTKEYF_CONTROL = 2
+HOTKEYF_ALT = 4
+HOTKEYF_EXT = 8
