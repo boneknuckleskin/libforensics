@@ -1,8 +1,8 @@
 .. _ole:
 
-*************************
-Support for OLE Artifacts
-*************************
+*************
+OLE Artifacts
+*************
 
 The modules described in this chapter provide functionality to work with OLE
 artifacts, specifically OLE structured storage (compound files) and property
@@ -17,3 +17,7 @@ The following modules are documented in this chapter:
 	win/ole/cfb/consts
 	win/ole/cfb/dtypes
 	win/ole/cfb/ctypes
+	win/ole/ps/ps
+	win/ole/ps/consts
+	win/ole/ps/dtypes
+	win/ole/ps/ctypes

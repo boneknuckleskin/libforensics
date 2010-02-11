@@ -27,7 +27,7 @@ names = [
 
     "win.objects", "time", "utils.time",
 
-    "win.ole.cfb.objects",
+    "win.ole.cfb.objects", "win.ole.ps.objects", "win.ole.ps.metadata",
 ]
 
 for index in range(len(names)):

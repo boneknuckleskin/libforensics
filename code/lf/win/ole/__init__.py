@@ -16,5 +16,5 @@
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
 __all__ = [
-    "cfb", "propertyset", "varenum"
+    "cfb", "ps", "varenum"
 ]
