@@ -12,3 +12,4 @@ The following modules are documented in this chapter:
 	dec
 	dtypes/dtypes
 	dtypes/ctypes
+	time

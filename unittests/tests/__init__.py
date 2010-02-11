@@ -16,5 +16,5 @@
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
 __all__ = [
-    "dec", "win", "dtypes", "utils"
+    "dec", "win", "dtypes", "utils", "time"
 ]

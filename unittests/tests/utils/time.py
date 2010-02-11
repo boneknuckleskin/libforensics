@@ -1,4 +1,4 @@
-# Copyright 2009 Michael Murr
+# Copyright 2010 Michael Murr
 #
 # This file is part of LibForensics.
 #
@@ -15,15 +15,13 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
-"""
-Unit tests for the lf.utils.time module
+"""Unit tests for the lf.utils.time module (Deprecated)."""
 
-.. moduleauthor:: Michael Murr (mmurr@codeforensics.net)
-"""
-
+# stdlib imports
 from unittest import TestCase, main
 from datetime import datetime, timedelta
 
+# local imports
 from lf.utils.time import (
     filetime_to_unix_time, unix_time_to_filetime, variant_time_to_datetime,
     filetime_to_datetime, dos_date_time_to_datetime
