@@ -11,6 +11,7 @@ Contents:
 
    common
    win-common
+   ole-index
 
 Indices and tables
 ==================

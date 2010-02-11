@@ -1,4 +1,4 @@
-# Copyright 2009 Michael Murr
+# Copyright 2010 Michael Murr
 #
 # This file is part of LibForensics.
 #
@@ -16,5 +16,5 @@
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
 __all__ = [
-    "compoundfile"
+    "cfb"
 ]

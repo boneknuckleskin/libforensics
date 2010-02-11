@@ -26,6 +26,8 @@ names = [
     "dtypes.dal", "dtypes.reader",
 
     "win.objects", "time", "utils.time",
+
+    "win.ole.cfb.objects",
 ]
 
 for index in range(len(names)):
