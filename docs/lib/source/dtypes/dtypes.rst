@@ -585,13 +585,13 @@ The DAL provides three types of functionality, :class:`Structuple`,
 
 	.. classmethod:: from_stream(stream, offset=None)
 
-		Creates an ActiveStructuple from an :class:`lf.dec.IStream` object.
+		Creates an ActiveStructuple from an :class:`~lf.dec.IStream` object.
 
 		.. note::
 
 			This method is available if :attr:`_takes_stream` is ``True``.
 
-		:type stream: :class:`lf.dec.IStream`
+		:type stream: :class:`~lf.dec.IStream`
 		:param stream: A stream that contains the :class:`ActiveStructuple`
 
 		:type offset: :class:`int` or :keyword:`None`
@@ -656,13 +656,13 @@ The DAL provides three types of functionality, :class:`Structuple`,
 
 	.. classmethod:: from_stream(stream, offset=None):
 
-        Creates a Python object from an :class:`lf.dec.IStream` object.
+        Creates a Python object from an :class:`~lf.dec.IStream` object.
 
         .. note::
 
             This method is available if :attr:`_takes_stream` is ``True``.
 
-        :type stream: :class:`lf.dec.IStream`
+        :type stream: :class:`~lf.dec.IStream`
         :param stream: A stream that contains the Python object.
 
         :type offset: :class:`int` or :keyword:`None`
@@ -703,7 +703,7 @@ streams.  This type of operation is occurs fairly often.
 
 		Reads a signed 8-bit integer from a stream.
 
-		:type stream: :class:`lf.dec.IStream`
+		:type stream: :class:`~lf.dec.IStream`
 		:param stream: The stream to read data from.
 
 		:type offset: :class:`int` or :keyword:`None`
@@ -719,7 +719,7 @@ streams.  This type of operation is occurs fairly often.
 
 		Reads an unsigned 8-bit integer from a stream.
 
-		:type stream: :class:`lf.dec.IStream`
+		:type stream: :class:`~lf.dec.IStream`
 		:param stream: The stream to read data from.
 
 		:type offset: :class:`int` or :keyword:`None`
@@ -735,7 +735,7 @@ streams.  This type of operation is occurs fairly often.
 
 		Reads a signed 16-bit integer (little endian) from a stream.
 
-		:type stream: :class:`lf.dec.IStream`
+		:type stream: :class:`~lf.dec.IStream`
 		:param stream: The stream to read data from.
 
 		:type offset: :class:`int` or :keyword:`None`
@@ -751,7 +751,7 @@ streams.  This type of operation is occurs fairly often.
 
 		Reads an unsigned 16-bit integer (little endian) from a stream.
 
-		:type stream: :class:`lf.dec.IStream`
+		:type stream: :class:`~lf.dec.IStream`
 		:param stream: The stream to read data from.
 
 		:type offset: :class:`int` or :keyword:`None`
@@ -767,7 +767,7 @@ streams.  This type of operation is occurs fairly often.
 
 		Reads a signed 16-bit integer (big endian) from a stream.
 
-		:type stream: :class:`lf.dec.IStream`
+		:type stream: :class:`~lf.dec.IStream`
 		:param stream: The stream to read data from.
 
 		:type offset: :class:`int` or :keyword:`None`
@@ -783,7 +783,7 @@ streams.  This type of operation is occurs fairly often.
 
 		Reads an unsigned 16-bit integer (big endian) from a stream.
 
-		:type stream: :class:`lf.dec.IStream`
+		:type stream: :class:`~lf.dec.IStream`
 		:param stream: The stream to read data from.
 
 		:type offset: :class:`int` or :keyword:`None`
@@ -799,7 +799,7 @@ streams.  This type of operation is occurs fairly often.
 
 		Reads a signed 32-bit integer (little endian) from a stream.
 
-		:type stream: :class:`lf.dec.IStream`
+		:type stream: :class:`~lf.dec.IStream`
 		:param stream: The stream to read data from.
 
 		:type offset: :class:`int` or :keyword:`None`
@@ -815,7 +815,7 @@ streams.  This type of operation is occurs fairly often.
 
 		Reads an unsigned 32-bit integer (little endian) from a stream.
 
-		:type stream: :class:`lf.dec.IStream`
+		:type stream: :class:`~lf.dec.IStream`
 		:param stream: The stream to read data from.
 
 		:type offset: :class:`int` or :keyword:`None`
@@ -831,7 +831,7 @@ streams.  This type of operation is occurs fairly often.
 
 		Reads a signed 32-bit integer (big endian) from a stream.
 
-		:type stream: :class:`lf.dec.IStream`
+		:type stream: :class:`~lf.dec.IStream`
 		:param stream: The stream to read data from.
 
 		:type offset: :class:`int` or :keyword:`None`
@@ -847,7 +847,7 @@ streams.  This type of operation is occurs fairly often.
 
 		Reads an unsigned 32-bit integer (big endian) from a stream.
 
-		:type stream: :class:`lf.dec.IStream`
+		:type stream: :class:`~lf.dec.IStream`
 		:param stream: The stream to read data from.
 
 		:type offset: :class:`int` or :keyword:`None`
@@ -863,7 +863,7 @@ streams.  This type of operation is occurs fairly often.
 
 		Reads a signed 64-bit integer (little endian) from a stream.
 
-		:type stream: :class:`lf.dec.IStream`
+		:type stream: :class:`~lf.dec.IStream`
 		:param stream: The stream to read data from.
 
 		:type offset: :class:`int` or :keyword:`None`
@@ -879,7 +879,7 @@ streams.  This type of operation is occurs fairly often.
 
 		Reads an unsigned 64-bit integer (little endian) from a stream.
 
-		:type stream: :class:`lf.dec.IStream`
+		:type stream: :class:`~lf.dec.IStream`
 		:param stream: The stream to read data from.
 
 		:type offset: :class:`int` or :keyword:`None`
@@ -895,7 +895,7 @@ streams.  This type of operation is occurs fairly often.
 
 		Reads a signed 64-bit integer (big endian) from a stream.
 
-		:type stream: :class:`lf.dec.IStream`
+		:type stream: :class:`~lf.dec.IStream`
 		:param stream: The stream to read data from.
 
 		:type offset: :class:`int` or :keyword:`None`
@@ -911,7 +911,7 @@ streams.  This type of operation is occurs fairly often.
 
 		Reads an unsigned 64-bit integer (big endian) from a stream.
 
-		:type stream: :class:`lf.dec.IStream`
+		:type stream: :class:`~lf.dec.IStream`
 		:param stream: The stream to read data from.
 
 		:type offset: :class:`int` or :keyword:`None`
@@ -928,7 +928,7 @@ streams.  This type of operation is occurs fairly often.
 
 		Reads a 32-bit floating point number (little endian) from a stream.
 
-		:type stream: :class:`lf.dec.IStream`
+		:type stream: :class:`~lf.dec.IStream`
 		:param stream: The stream to read data from.
 
 		:type offset: :class:`int` or :keyword:`None`
@@ -944,7 +944,7 @@ streams.  This type of operation is occurs fairly often.
 
 		Reads a 32-bit floating point number (big endian) from a stream.
 
-		:type stream: :class:`lf.dec.IStream`
+		:type stream: :class:`~lf.dec.IStream`
 		:param stream: The stream to read data from.
 
 		:type offset: :class:`int` or :keyword:`None`
@@ -960,7 +960,7 @@ streams.  This type of operation is occurs fairly often.
 
 		Reads a 64-bit floating point number (little endian) from a stream.
 
-		:type stream: :class:`lf.dec.IStream`
+		:type stream: :class:`~lf.dec.IStream`
 		:param stream: The stream to read data from.
 
 		:type offset: :class:`int` or :keyword:`None`
@@ -976,7 +976,7 @@ streams.  This type of operation is occurs fairly often.
 
 		Reads a 64-bit floating point number (big endian) from a stream.
 
-		:type stream: :class:`lf.dec.IStream`
+		:type stream: :class:`~lf.dec.IStream`
 		:param stream: The stream to read data from.
 
 		:type offset: :class:`int` or :keyword:`None`
@@ -990,9 +990,9 @@ streams.  This type of operation is occurs fairly often.
 
 .. class:: BoundReader(stream)
 
-	A :class:`Reader` that is bound to a :class:`lf.dec.IStream`.
+	A :class:`Reader` that is bound to a :class:`~lf.dec.IStream`.
 
-	:type stream: :class:`lf.dec.IStream`
+	:type stream: :class:`~lf.dec.IStream`
 	:param stream: A stream that contains the values to read.
 
 	.. classmethod:: int8(offset=None):

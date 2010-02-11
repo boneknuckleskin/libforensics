@@ -20,7 +20,7 @@ Python standard library.
 
 		Creates a ``UUID`` object from a stream.
 
-		:type stream: :class:`lf.dec.IStream`
+		:type stream: :class:`~lf.dec.IStream`
 		:param stream: A stream that contains the GUID structure.
 
 		:type offset: ``int`` or ``None``
@@ -36,8 +36,8 @@ Python standard library.
 
 		Creates a ``UUID`` object from a ctype.
 
-		:type ctype: :class:`lf.win.ctypes.guid_le` or
-					 :class:`lf.win.ctypes.guid_be`
+		:type ctype: :class:`~lf.win.ctypes.guid_le` or
+					 :class:`~lf.win.ctypes.guid_be`
 		:param ctype: A GUID object.
 
 		:rtype: ``UUID``
@@ -70,7 +70,7 @@ Python standard library.
 
 		Creates a ``UUID`` object from a stream.
 		
-		:type stream: :class:`lf.dec.IStream`
+		:type stream: :class:`~lf.dec.IStream`
 		:param stream: A stream that contains the CLSID structure.
 		
 		:type offset: ``int`` or ``None``
@@ -86,8 +86,8 @@ Python standard library.
 
 		Creates a ``UUID`` object from a ctype.
 
-		:type ctype: :class:`lf.win.ctypes.clsid_le` or
-					 :class:`lf.win.ctypes.clsid_be`
+		:type ctype: :class:`~lf.win.ctypes.clsid_le` or
+					 :class:`~lf.win.ctypes.clsid_be`
 		:param ctype: A CLSID object.
 
 		:rtype: ``UUID``
@@ -101,7 +101,7 @@ Python standard library.
 
 		Creates a ``Decimal`` object from a stream.
 
-		:type stream: :class:`lf.dec.IStream`
+		:type stream: :class:`~lf.dec.IStream`
 		:param stream: A stream that contains the DECIMAL structure.
 
 		:type offset: ``int`` or ``None``
@@ -117,8 +117,8 @@ Python standard library.
 
 		Creates a ``Decimal`` object from a ctype.
 
-		:type ctype: :class:`lf.win.ctypes.decimal_le` or
-					 :class:`lf.win.ctypes.decimal_be`
+		:type ctype: :class:`~lf.win.ctypes.decimal_le` or
+					 :class:`~lf.win.ctypes.decimal_be`
 		:param ctype: A DECIMAL object.
 
 		:raises ValueError: If the DECIMAL object is invalid.
@@ -134,7 +134,7 @@ Python standard library.
 
 		Creates a ``Decimal`` object from a stream.
 
-		:type stream: :class:`lf.dec.IStream`
+		:type stream: :class:`~lf.dec.IStream`
 		:param stream: A stream that contains the CURRENCY structure.
 
 		:type offset: ``int`` or ``None``
@@ -178,7 +178,7 @@ Python data type not found in the standard library.
 
 		Creates a :class:`COORD` object from a stream.
 
-		:type stream: :class:`lf.dec.IStream`
+		:type stream: :class:`~lf.dec.IStream`
 		:param stream: A stream that contains the COORD structure.
 
 		:type offset: ``int`` or ``None``
@@ -194,8 +194,8 @@ Python data type not found in the standard library.
 
 		Creates a :class:`COORD` object from a ctype.
 
-		:type ctype: :class:`lf.win.ctypes.coord_le` or
-					 :class:`lf.win.ctypes.coord_be`
+		:type ctype: :class:`~lf.win.ctypes.coord_le` or
+					 :class:`~lf.win.ctypes.coord_be`
 		:param ctype: An instance of a coord ctype.
 
 		:rtype: :class:`COORD`
@@ -221,7 +221,7 @@ Python data type not found in the standard library.
 
 		Creates a :class:`LCID` object from a stream.
 
-		:type stream: :class:`lf.dec.IStream`
+		:type stream: :class:`~lf.dec.IStream`
 		:param stream: A stream that contains the LCID structure.
 
 		:type offset: ``int`` or ``None``
@@ -237,8 +237,8 @@ Python data type not found in the standard library.
 
 		Creates a :class:`LCID` object from a ctype.
 
-		:type ctype: :class:`lf.win.ctypes.lcid_le` or
-					 :class:`lf.win.ctypes.lcid_be`
+		:type ctype: :class:`~lf.win.ctypes.lcid_le` or
+					 :class:`~lf.win.ctypes.lcid_be`
 		:param ctype: An instance of an lcid ctype.
 
 		:rtype: :class:`LCID`
@@ -280,7 +280,7 @@ Python data type not found in the standard library.
 
 		Creates a ``HRESULT`` object from a stream.
 
-		:type stream: :class:`lf.dec.IStream`
+		:type stream: :class:`~lf.dec.IStream`
 		:param stream: A stream that contains the HRESULT structure.
 
 		:type offset: ``int`` or ``None``
@@ -296,8 +296,8 @@ Python data type not found in the standard library.
 
 		Creates a ``HRESULT`` object from a ctype.
 
-		:type ctype: :class:`lf.win.ctypes.hresult_le` or
-					 :class:`lf.win.ctypes.hresult_be`
+		:type ctype: :class:`~lf.win.ctypes.hresult_le` or
+					 :class:`~lf.win.ctypes.hresult_be`
 		:param ctype: A hresult object.
 
 		:rtype: :class:`HRESULT`

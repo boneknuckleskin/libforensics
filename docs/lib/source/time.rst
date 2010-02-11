@@ -42,7 +42,7 @@
 
 		Creates a ``datetime`` object from a stream.
 
-		:type stream: :class:`lf.dec.IStream`
+		:type stream: :class:`~lf.dec.IStream`
 		:param stream: A stream that contains the FILETIME structure.
 
 		:type offset: ``int`` or ``None``
@@ -60,8 +60,8 @@
 
 		Creates a ``datetime`` object from a ctype.
 
-		:type ctype: :class:`lf.win.ctypes.filetime_le` or
-					 :class:`lf.win.ctypes.filetime_be`
+		:type ctype: :class:`~lf.win.ctypes.filetime_le` or
+					 :class:`~lf.win.ctypes.filetime_be`
 		:param ctype: A FILETIME object.
 
 		:raises ValueError: If the FILETIME object is invalid.
@@ -109,7 +109,7 @@
 
 		Creates a ``datetime`` object from a stream.
 
-		:type stream: :class:`lf.dec.IStream`
+		:type stream: :class:`~lf.dec.IStream`
 		:param stream: A stream that contains the Variant timestamp.
 
 		:type offset: ``int`` or ``None``
