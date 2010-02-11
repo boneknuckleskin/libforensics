@@ -1,4 +1,4 @@
-# Copyright 2009 Michael Murr
+# Copyright 2010 Michael Murr
 #
 # This file is part of LibForensics.
 #
@@ -15,14 +15,22 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
-"""
-Creates I/O streams from evidence containers.
+"""Digital Evidence Containers"""
 
-.. moduleauthor:: Michael Murr (mmurr@codeforensics.net)
-
-"""
+# local imports
+from lf.dec.consts import SEEK_SET, SEEK_CUR, SEEK_END
+from lf.dec.base import Container, SingleStreamContainer, StreamInfo
+from lf.dec.subset import Subset, SubsetIStream
+from lf.dec.composite import Composite, CompositeIStream
+from lf.dec.raw import Raw, RawIStream
+from lf.dec.splitraw import SplitRaw, SplitRawIStream
+from lf.dec.byte import Byte, ByteIStream
 
 __docformat__ = "restructuredtext en"
 __all__ = [
-    "byte", "composite", "consts", "raw", "splitraw", "subset"
+    "Container", "SingleStreamContainer", "StreamInfo",
+    "Subset", "Composite", "Raw", "SplitRaw", "Byte",
+    "SubsetIStream", "CompositeIStream", "RawIStream", "SplitRawIStream",
+    "ByteIStream",
+    "SEEK_SET", "SEEK_CUR", "SEEK_END"
 ]

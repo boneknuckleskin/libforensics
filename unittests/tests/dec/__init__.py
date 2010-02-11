@@ -1,4 +1,4 @@
-# Copyright 2009 Michael Murr
+# Copyright 2010 Michael Murr
 #
 # This file is part of LibForensics.
 #
@@ -15,17 +15,6 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
-"""
-Constants used with I/O streams.
-
-.. moduleauthor:: Michael Murr (mmurr@codeforensics.net)
-"""
-
-__docformat__ = "restructuredtext en"
 __all__ = [
-    "SEEK_SET", "SEEK_CUR", "SEEK_END"
+    "base", "byte", "raw", "subset", "composite", "splitraw"
 ]
-
-SEEK_SET = 0
-SEEK_CUR = 1
-SEEK_END = 2

@@ -6,6 +6,9 @@ syntax: glob
 ._*
 .DS_Store
 .hgrc
+doctrees
+.buildinfo
+docs/lib/build
 
 refs
 scrap

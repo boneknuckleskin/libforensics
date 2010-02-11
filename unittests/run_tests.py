@@ -1,4 +1,4 @@
-# Copyright 2009 Michael Murr
+# Copyright 2010 Michael Murr
 #
 # This file is part of LibForensics.
 #
@@ -19,19 +19,8 @@ import unittest
 import tests
 
 names = [
-    "windows.ole.compoundfile.datatypes", "windows.shell.recyclebin.objects",
-    "windows.shell.link.objects",
-
-    "datatype.decode", "datatype.bits", "datatype.structuple",
-    "datatype.builtin", "datatype.composite", "datatype.extract",
-
-    "utils.dict", "utils.time",
-
-    "io.interfaces",
-
-    # Uncomment the line below once you've download Word2007RTFSpec9.doc
-    #"windows.ole.compoundfile.objects",
-
+    "dec.base", "dec.byte", "dec.raw", "dec.subset", "dec.composite",
+    "dec.splitraw",
 ]
 
 for index in range(len(names)):
