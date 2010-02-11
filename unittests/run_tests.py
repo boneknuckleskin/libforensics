@@ -21,6 +21,9 @@ import tests
 names = [
     "dec.base", "dec.byte", "dec.raw", "dec.subset", "dec.composite",
     "dec.splitraw",
+
+    "dtypes.basic", "dtypes.native", "dtypes.bits", "dtypes.composite",
+    "dtypes.dal", "dtypes.reader",
 ]
 
 for index in range(len(names)):

@@ -1,4 +1,4 @@
-# Copyright 2009 Michael Murr
+# Copyright 2010 Michael Murr
 #
 # This file is part of LibForensics.
 #
@@ -15,56 +15,37 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
-"""
-Base classes for data types.
-
-.. moduleauthor:: Michael Murr (mmurr@codeforensics.net)
-"""
+"""Base classes for data types."""
 
 __docformat__ = "restructuredtext en"
 __all__ = [
-    "Type", "Primitive", "Basic"
+    "DataType", "Primitive"
 ]
 
 class DataType():
-    """
-    Base class for data types supported by the framework.
+    """Base class for data types supported by the framework.
 
     .. attribute:: _size_
 
-        The size of the data type.  The units associated are dependent on the
-        subclass.
+        The size of the data type.  The units (e.g. bits or bytes) are
+        dependent on the subclass.
     """
 
     _size_ = 0
 
     def __init__(self):
-        """Initializes a Type object."""
-
+        """Initializes a DataType object."""
         pass
     # end def __init__
 # end class DataType
 
 class Primitive(DataType):
+    """Base class for data types that can be used to create data types.
+
+    .. attribute:: _ctype_
+
+        A :mod:`ctypes` object that reflects the data type.
+
     """
-    Base class for data types that can be used for composition.
-
-    .. attribute:: _size_
-
-        The number of bytes required to represent the data type.
-    """
-
-    pass
+    _ctype_ = None
 # end class Primitive
-
-class Basic(Primitive):
-    """
-    Data types that are "basic building blocks".
-
-    .. attribute:: _format_
-
-        A format string for the standard library's struct module.
-    """
-
-    pass
-# end class Basic

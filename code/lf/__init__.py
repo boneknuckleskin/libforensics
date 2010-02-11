@@ -16,5 +16,5 @@
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
 __all__ = [
-    "apps", "excepts", "fs", "dec", "datatype", "utils", "windows"
+    "apps", "excepts", "fs", "dec", "dtypes", "utils", "windows"
 ]

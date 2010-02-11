@@ -15,6 +15,29 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
+"""Unit tests for the lf.dtypes.basic module."""
+
+# stdlib imports
+from unittest import TestCase
+from ctypes import c_ubyte
+
+# local imports
+from lf.dtypes.basic import raw
+
+__docformat__ = "restructuredtext en"
 __all__ = [
-    "dec", "windows", "dtypes", "utils"
+    "rawTestCase"
 ]
+
+class rawTestCase(TestCase):
+    def setUp(self):
+        self.raw = raw(5)
+    # end def setUp
+
+    def test__init__(self):
+        ae = self.assertEqual
+
+        ae(self.raw._size_, 5)
+        ae(self.raw._ctype_, (c_ubyte * 5))
+    # end def test__init__
+# end class rawTestCase

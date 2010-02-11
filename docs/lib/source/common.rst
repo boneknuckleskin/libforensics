@@ -10,3 +10,5 @@ The following modules are documented in this chapter:
 .. toctree::
 
 	dec
+	dtypes/dtypes
+	dtypes/ctypes

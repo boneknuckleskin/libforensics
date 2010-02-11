@@ -1,4 +1,4 @@
-# Copyright 2009 Michael Murr
+# Copyright 2010 Michael Murr
 #
 # This file is part of LibForensics.
 #
@@ -15,27 +15,6 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
-"""
-Exceptions that can occur when working with data structures.
-
-.. moduleauthor:: Michael Murr (mmurr@codeforensics.net)
-"""
-
-__docformat__ = "restructuredtext en"
 __all__ = [
-    "CompositeError", "ExtractionError"
+    "basic", "native", "bits", "composite", "dal", "reader"
 ]
-
-from lf.excepts import LFException
-
-class CompositeError(LFException):
-    """When an error occurs with composite data types"""
-
-    pass
-# end class CompositeError
-
-class ExtractionError(CompositeError):
-    """When an error occurs during a call to extract()"""
-
-    pass
-# end class ExtractionError
