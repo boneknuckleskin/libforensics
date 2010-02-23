@@ -1,4 +1,4 @@
-# Copyright 2009 Michael Murr
+# Copyright 2010 Michael Murr
 #
 # This file is part of LibForensics.
 #
@@ -15,109 +15,73 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
-"""
-Extracts the contents of a stream from an OLE file.
+"""Tool to demonstrate some of the capabilities in LibForensics"""
 
-.. moduleauthor:: Michael Murr (mmurr@codeforensics.net)
-"""
-
-__docformat__ = "restructuredtext en"
-
-import io
+# stdlib imports
 import sys
-from os.path import join, normpath, split
 from optparse import OptionParser
 
-from lf.io import raw, byte
-from lf.windows.ole.compoundfile.objects import CompoundFile
+# local imports
+from lf.dec import RawIStream, ByteIStream, SEEK_SET
+from lf.win.ole.cfb import CompoundFile
 
-parser = OptionParser()
-parser.set_usage("Usage: %prog [options] <ole file>")
-parser.add_option(
-    "-i", "--id", dest="stream_id", action="store", metavar="ID",
-    help="Find stream at location ID"
+# module constants
+VER_MAJOR = 1
+VER_MINOR = 0
+VERSION_STR = "%prog {ver_major}.{ver_minor} (c) 2010 Code Forensics".format(
+    ver_major=VER_MAJOR, ver_minor=VER_MINOR
 )
 
-parser.add_option(
-    "-n", "--name", dest="stream_name", action="store", metavar="NAME",
-    help="Find stream called NAME"
-)
 
-parser.add_option(
-    "-a", "--all", dest="extract_all", action="store_true", default=False,
-    help="Extract all streams (to files named BASE.#)"
-)
+__docformat__ = "restructuredtext en"
+__all__ = [
+    "main", "VER_MAJOR", "VER_MINOR"
+]
 
-parser.add_option(
-    "-r", "--root", dest="include_root", action="store_true", default=False,
-    help="Extract root stream (when extracting all streams)"
-)
+def main():
+    usage = "%prog [options] olefile sid"
+    description = "\n".join([
+        "Displays the contents of an OLE stream to standard out."
+        "",
+        "If file is '-', then stdin is read.",
+    ])
 
-parser.add_option(
-    "-b", "--base", dest="name_base", action="store", metavar="BASE",
-    help="Create files BASE.1, BASE.2, ... (def: <ole file>)", default=""
-)
+    parser = OptionParser(
+        usage=usage, description=description, version=VERSION_STR
+    )
 
-parser.add_option(
-    "-o", "--output-dir", dest="output_dir", action="store", metavar="DIR",
-    help="Save files to DIR", default="."
-)
+    parser.add_option(
+        "-s",
+        dest="include_slack",
+        action="store_true",
+        help="Include slack space",
+        default=False
+    )
 
-(options, args) = parser.parse_args()
+    (options, args) = parser.parse_args()
 
-if (options.extract_all and (options.stream_id or options.stream_name)):
-    parser.error("you can't specify both all and a stream id/name")
-# end if
-
-if not (options.extract_all or options.stream_id or options.stream_name):
-    parser.error("you must specify a stream id, name, or all")
-# end if
-
-if not args:
-    stream = byte.open(sys.stdin.buffer.read())
-else:
-    stream = raw.open(args[0])
-# end if
-
-cfb = CompoundFile(stream)
-
-if options.name_base:
-    name_base = options.name_base
-else:
-    name_base = split(args[0])[1]
-# end if
-
-if options.extract_all:
-    for entry in cfb.dir_entries.values():
-        if (entry.sid == 0) and (not options.include_root):
-            continue
-        # end if
-
-        outfile_name = ".".join([name_base, "{0}".format(entry.sid)])
-        outfile_name = normpath(join(options.output_dir, outfile_name))
-
-        outfile = io.open(outfile_name, "wb", buffering=0)
-        stream = cfb.get_stream(entry.sid)
-        outfile.write(stream.read(stream.size))
-        outfile.close()
-    # end for
-else:
-    if options.stream_id is not None:
-        identifier = int(options.stream_id)
-        attr = "sid"
-    else:
-        identifier = options.stream_name
-        attr = "name"
+    if len(args) < 2:
+        parser.error("Must specify both olefile and sid")
     # end if
 
-    for entry in cfb.dir_entries.values():
-        if identifier == getattr(entry, attr):
-            stream = cfb.get_stream(entry.sid)
-            sys.stdout.buffer.write(stream.read(stream.size))
-            break
-        # end if
+    if args[0] == "-":
+        cfb = CompoundFile(ByteIStream(sys.stdin.buffer.read()))
     else:
-        sys.stderr.write("error: stream {0} not found".format(identifier))
+        cfb = CompoundFile(RawIStream(args[0]))
+    # end if
+
+    sid = int(args[1])
+
+    if sid not in cfb.dir_entries:
+        print("Can't find sid {0}".format(sid), file=sys.stderr)
         sys.exit(-2)
-    # end for
+    # end if
+
+    stream = cfb.get_stream(sid, options.include_slack)
+    stream.seek(0, SEEK_SET)
+    sys.stdout.buffer.write(stream.read())
+# end def main
+
+if __name__ == "__main__":
+    main()
 # end if
