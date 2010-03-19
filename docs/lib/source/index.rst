@@ -11,6 +11,7 @@ Contents:
 
    common
    win-common
+   shell-index
    ole-index
 
 Indices and tables

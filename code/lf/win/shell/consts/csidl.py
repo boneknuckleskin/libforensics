@@ -1,4 +1,4 @@
-# Copyright 2009 Michael Murr
+# Copyright 2010 Michael Murr
 #
 # This file is part of LibForensics.
 #
@@ -15,14 +15,29 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
-"""
-Constants for CSIDLs
-
-.. moduleauthor:: Michael Murr (mmurr@codeforensics.net)
-"""
+"""Various constants for Constant Special Item ID list (CSIDLs)"""
 
 __docformat__ = "restructuredtext en"
 __all__ = [
+    "CSIDL_DESKTOP", "CSIDL_INTERNET", "CSIDL_PROGRAMS", "CSIDL_CONTROLS",
+    "CSIDL_PRINTERS", "CSIDL_MY_DOCUMENTS", "CSIDL_FAVORITES", "CSIDL_STARTUP",
+    "CSIDL_RECENT", "CSIDL_SENDTO", "CSIDL_BITBUCKET", "CSIDL_STARTMENU",
+    "CSIDL_MYMUSIC", "CSIDL_MYVIDEO", "CSIDL_DESKTOPDIRECTORY", "CSIDL_DRIVES",
+    "CSIDL_NETWORK", "CSIDL_NETHOOD", "CSIDL_FONTS", "CSIDL_TEMPLATES",
+    "CSIDL_COMMON_STARTMENU", "CSIDL_COMMON_PROGRAMS", "CSIDL_COMMON_STARTUP",
+    "CSIDL_COMMON_DESKTOPDIRECTORY", "CSIDL_APPDATA", "CSIDL_PRINTHOOD",
+    "CSIDL_LOCAL_APPDATA", "CSIDL_ALTSTARTUP", "CSIDL_COMMON_ALTSTARTUP",
+    "CSIDL_COMMON_FAVORITES", "CSIDL_INTERNET_CACHE", "CSIDL_COOKIES",
+    "CSIDL_HISTORY", "CSIDL_COMMON_APPDATA", "CSIDL_WINDOWS", "CSIDL_SYSTEM",
+    "CSIDL_PROGRAM_FILES", "CSIDL_MYPICTURES", "CSIDL_PROFILE",
+    "CSIDL_SYSTEMX86", "CSIDL_PROGRAM_FILESX86", "CSIDL_PROGRAM_FILES_COMMON",
+    "CSIDL_PROGRAM_FILES_COMMONX86", "CSIDL_COMMON_TEMPLATES",
+    "CSIDL_COMMON_DOCUMENTS", "CSIDL_COMMON_ADMINTOOLS", "CSIDL_ADMINTOOLS",
+    "CSIDL_CONNECTIONS", "CSIDL_COMMON_MUSIC", "CSIDL_COMMON_PICTURES",
+    "CSIDL_COMMON_VIDEO", "CSIDL_RESOURCES", "CSIDL_RESOURCES_LOCALIZED",
+    "CSIDL_COMMON_OEM_LINKS", "CSIDL_CDBURN_AREA", "CSIDL_COMPUTERSNEARME",
+
+    "csidl_names", "csidl_display_names"
 ]
 
 CSIDL_DESKTOP = 0
@@ -171,7 +186,7 @@ csidl_display_names = {
     CSIDL_MYPICTURES: "My Pictures",
     CSIDL_PRINTHOOD: "PrintHood",
     CSIDL_PRINTERS: "Printers and Faxes",
-    CSIDL_PROFILE: "The user's username (%USERNAME%)",
+    CSIDL_PROFILE: "(%USERNAME%)",
     CSIDL_COMMON_APPDATA: "Application Data",
     CSIDL_PROGRAM_FILES: "Program Files",
     CSIDL_PROGRAM_FILES_COMMON: "Common Files",

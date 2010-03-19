@@ -1,4 +1,4 @@
-# Copyright 2009 Michael Murr
+# Copyright 2010 Michael Murr
 #
 # This file is part of LibForensics.
 #
@@ -15,14 +15,27 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
-"""
-Shell Link files
+"""Windows shell link files"""
 
-.. moduleauthor:: Michael Murr (mmurr@codeforensics.net)
-"""
+from lf.win.shell.link.objects import (
+    ShellLink, FileAttributes, LinkFlags, ShellLinkHeader, StringData,
+    LinkInfo, VolumeID, CNRL, ExtraDataBlock, ConsoleProps, ConsoleFEProps,
+    DarwinProps, ExpandableStringsDataBlock, EnvironmentProps,
+    IconEnvironmentProps, KnownFolderProps, PropertyStoreProps, ShimProps,
+    SpecialFolderProps, DomainRelativeObjId, TrackerProps,
+    VistaAndAboveIDListProps, TerminalBlock, ExtraDataBlockFactory,
+    StringDataSet
+)
 
 __docformat__ = "restructuredtext en"
 __all__ = [
-    "consts", "datatypes", "extractors", "objects"
+    "ShellLink", "FileAttributes", "LinkFlags", "ShellLinkHeader",
+    "StringData", "LinkInfo", "VolumeID", "CNRL", "ExtraDataBlock",
+    "ConsoleProps", "ConsoleFEProps", "DarwinProps",
+    "ExpandableStringsDataBlock", "EnvironmentProps", "IconEnvironmentProps",
+    "KnownFolderProps", "PropertyStoreProps", "ShimProps",
+    "SpecialFolderProps", "DomainRelativeObjId", "TrackerProps",
+    "VistaAndAboveIDListProps", "TerminalBlock", "ExtraDataBlockFactory",
+    "StringDataSet"
 ]
 

@@ -1,6 +1,74 @@
+# Copyright 2010 Michael Murr
+#
+# This file is part of LibForensics.
+#
+# LibForensics is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# LibForensics is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
+"""Constants for working with known folders"""
+
+# stdlib imports
 from uuid import UUID
 
+# local imports
 from lf.windows.shell.consts import csidl
+
+__docformat__ = "restructuredtext en"
+__all__ = [
+    "FOLDERID_AddNewPrograms", "FOLDERID_AdminTools", "FOLDERID_AppUpdates",
+    "FOLDERID_CDBurning", "FOLDERID_ChangeRemovePrograms",
+    "FOLDERID_CommonAdminTools", "FOLDERID_CommonOEMLinks",
+    "FOLDERID_CommonPrograms", "FOLDERID_CommonStartMenu",
+    "FOLDERID_CommonStartup", "FOLDERID_CommonTemplates",
+    "FOLDERID_ComputerFolder", "FOLDERID_ConflictFolder",
+    "FOLDERID_ConnectionsFolder", "FOLDERID_Contacts",
+    "FOLDERID_ControlPanelFolder", "FOLDERID_Cookies", "FOLDERID_Desktop",
+    "FOLDERID_DeviceMetadataStore", "FOLDERID_DocumentsLibrary",
+    "FOLDERID_Downloads", "FOLDERID_Favorites", "FOLDERID_Fonts",
+    "FOLDERID_GameTasks", "FOLDERID_Games", "FOLDERID_History",
+    "FOLDERID_HomeGroup", "FOLDERID_ImplicitAppShortcuts",
+    "FOLDERID_InternetCache", "FOLDERID_InternetFolder", "FOLDERID_Libraries",
+    "FOLDERID_Links", "FOLDERID_LocalAppData", "FOLDERID_LocalAppDataLow",
+    "FOLDERID_LocalizedResourcesDir", "FOLDERID_Music",
+    "FOLDERID_MusicLibrary", "FOLDERID_NetHood", "FOLDERID_NetworkFolder",
+    "FOLDERID_OriginalImages", "FOLDERID_PhotoAlbums", "FOLDERID_Pictures",
+    "FOLDERID_PicturesLibrary", "FOLDERID_Playlists", "FOLDERID_PrintHood",
+    "FOLDERID_PrintersFolder", "FOLDERID_Profile", "FOLDERID_ProgramData",
+    "FOLDERID_ProgramFiles", "FOLDERID_ProgramFilesCommon",
+    "FOLDERID_ProgramFilesCommonX64", "FOLDERID_ProgramFilesCommonX86",
+    "FOLDERID_ProgramFilesX64", "FOLDERID_ProgramFilesX86",
+    "FOLDERID_Programs",  "FOLDERID_Public", "FOLDERID_PublicDesktop",
+    "FOLDERID_PublicDocuments", "FOLDERID_PublicDownloads",
+    "FOLDERID_PublicGameTasks", "FOLDERID_PublicLibraries",
+    "FOLDERID_PublicMusic", "FOLDERID_PublicPictures",
+    "FOLDERID_PublicRingtones", "FOLDERID_PublicVideos",
+    "FOLDERID_QuickLaunch", "FOLDERID_Recent", "FOLDERID_RecordedTV",
+    "FOLDERID_RecordedTVLibrary", "FOLDERID_RecycleBinFolder",
+    "FOLDERID_ResourceDir", "FOLDERID_Ringtones", "FOLDERID_RoamingAppData",
+    "FOLDERID_SEARCH_CSC", "FOLDERID_SEARCH_MAPI", "FOLDERID_SampleMusic",
+    "FOLDERID_SamplePictures", "FOLDERID_SamplePlaylists",
+    "FOLDERID_SampleVideos", "FOLDERID_SavedGames", "FOLDERID_SavedSearches",
+    "FOLDERID_SearchHome", "FOLDERID_SendTo", "FOLDERID_SidebarDefaultParts",
+    "FOLDERID_SidebarParts", "FOLDERID_StartMenu", "FOLDERID_Startup",
+    "FOLDERID_SyncManagerFolder", "FOLDERID_SyncResultsFolder",
+    "FOLDERID_SyncSetupFolder", "FOLDERID_System", "FOLDERID_SystemX86",
+    "FOLDERID_Templates", "FOLDERID_TreeProperties", "FOLDERID_UserPinned",
+    "FOLDERID_UserProfiles", "FOLDERID_UserProgramFiles",
+    "FOLDERID_UserProgramFilesCommon", "FOLDERID_UsersFiles",
+    "FOLDERID_UsersLibraries", "FOLDERID_Videos", "FOLDERID_VideosLibrary",
+    "FOLDERID_Windows",
+
+    "kfid_names", "kfid_csidl", "kfid_display_names"
+]
 
 FOLDERID_AddNewPrograms = UUID("{de61d971-5ebc-4f02-a3a9-6c82895e5c04}")
 FOLDERID_AdminTools = UUID("{724EF170-A42D-4FEF-9F26-B60E846FBA4F}")

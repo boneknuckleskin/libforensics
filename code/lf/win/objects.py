@@ -26,14 +26,14 @@ from lf.dec import SEEK_SET
 from lf.dtypes import LITTLE_ENDIAN, ActiveStructuple, StdLibConverter
 from lf.dtypes.ctypes import uint64_le, uint64_be, int64_le, int64_be
 from lf.win.ctypes import (
-    guid_le, lcid_le, hresult_le, coord_le, decimal_le,
-    guid_be, lcid_be, hresult_be, coord_be, decimal_be,
+    guid_le, lcid_le, hresult_le, decimal_le,
+    guid_be, lcid_be, hresult_be, decimal_be,
 )
 
 __docformat__ = "restructuredtext en"
 __all__ = [
-    "GUIDToUUID", "CLSIDToUUID", "COORD", "LCID", "HRESULT",
-    "DECIMALToDecimal", "CURRENCYToDecimal"
+    "GUIDToUUID", "CLSIDToUUID", "LCID", "HRESULT", "DECIMALToDecimal",
+    "CURRENCYToDecimal"
 ]
 
 
@@ -241,71 +241,6 @@ class CURRENCYToDecimal(StdLibConverter):
         return Decimal(integer) / Decimal(10000)
     # end def from_ctype
 # end class CURRENCYToDecimal
-
-class COORD(ActiveStructuple):
-    """Represents coordinates.
-
-    .. attribute:: x
-
-        The x coordinate.
-
-    .. attribute:: y
-
-        The y coordinate.
-
-    """
-
-    _fields_ = ("x", "y")
-    _takes_stream = True
-    _takes_ctype = True
-
-    @classmethod
-    def from_stream(cls, stream, offset=None, byte_order=LITTLE_ENDIAN):
-        """Creates a :class:`COORD` object from a stream.
-
-        :type stream: :class:`lf.dec.IStream`
-        :param stream: A stream that contains the COORD structure.
-
-        :type offset: ``int`` or ``None``
-        :param offset: The start of the COORD structure in the stream.
-
-        :type byte_order: constant
-        :param byte_order: The byte order to use (from :mod:`lf.dtypes`)
-
-        :rtype: :class:`COORD`
-        :returns: The extracted :class:`COORD` object.
-
-        """
-        if offset is not None:
-            stream.seek(offset, SEEK_SET)
-        # end if
-
-        data = stream.read(4)
-
-        if byte_order == LITTLE_ENDIAN:
-            coord = coord_le.from_buffer_copy(data)
-        else:
-            coord = coord_be.from_buffer_copy(data)
-        # end if
-
-        return COORD((coord.x, coord.y))
-    # end def from_stream
-
-    @classmethod
-    def from_ctype(cls, ctype):
-        """Creates a :class:`COORD` object from a ctype.
-
-        :type ctype: :class:`lf.win.ctypes.coord_le` or
-                     :class:`lf.win.ctypes.coord_be`
-        :param ctype: An instance of a coord ctype.
-
-        :rtype: :class:`COORD`
-        :returns: The corresponding :class:`COORD` object.
-
-        """
-        return COORD((ctype.x, ctype.y))
-    # end def from_ctype
-# end class COORD
 
 class LCID(ActiveStructuple):
     """Represents a Locale ID data type.

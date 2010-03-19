@@ -1,4 +1,4 @@
-# Copyright 2009 Michael Murr
+# Copyright 2010 Michael Murr
 #
 # This file is part of LibForensics.
 #
@@ -15,14 +15,15 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
-"""
-Constants for working with the Shell
-
-.. moduleauthor:: Michael Murr (mmurr@codeforensics.net)
-"""
+"""Window state constants"""
 
 __docformat__ = "restructuredtext en"
 __all__ = [
+    "SW_HIDE", "SW_SHOWNORMAL", "SW_SHOWMINIMIZED", "SW_SHOWMAXIMIZED",
+    "SW_SHOWNOACTIVATE", "SW_SHOW", "SW_MINIMIZE", "SW_SHOWMINNOACTIVATE",
+    "SW_SHOWNA", "SW_RESTORE", "SW_SHOWDEFAULT",
+
+    "sw_names"
 ]
 
 SW_HIDE = 0

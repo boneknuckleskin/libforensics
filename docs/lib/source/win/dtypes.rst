@@ -76,8 +76,6 @@ The following data types inherit from :class:`lf.dtypes.Record`.
 .. class:: GUID_BE
 .. class:: CLSID_LE
 .. class:: CLSID_BE
-.. class:: COORD_LE
-.. class:: COORD_BE
 .. class:: LCID_LE
 .. class:: LCID_BE
 .. class:: FILETIME_LE

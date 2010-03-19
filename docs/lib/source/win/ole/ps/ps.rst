@@ -1,5 +1,5 @@
-:mod:`lf.win.ole.ps` - OLE property sets
-========================================
+:mod:`lf.win.ole.ps` --- OLE property sets
+==========================================
 
 .. module:: lf.win.ole.ps
    :synopsis: OLE property sets
@@ -336,6 +336,7 @@ Typed Property Value (TPV) classes
 
 		PropertyPacket -> TypedPropertyValue;
 		TypedPropertyValue -> VT_EMPTY;
+		TypedPropertyValue -> VT_NULL;
 		TypedPropertyValue -> VT_I2;
 		TypedPropertyValue -> VT_I4;
 		TypedPropertyValue -> VT_R4;
@@ -868,7 +869,7 @@ Common OLE data types
 
 	.. classmethod:: from_stream(stream, offset=None, decoder=None)
 
-		Creates a :class:`Array` object from a stream.
+		Creates an :class:`Array` object from a stream.
 
 		:type stream: :class:`~lf.dec.IStream`
 		:param stream: A stream that contains the Array structure.
@@ -1127,8 +1128,8 @@ The following classes represent typed values of a property.
 
 	.. note::
 
-		The :attr:`value` attribute is an instance of a
-		:class:`~lf.win.ctypes.HRESULT` class.
+		The :attr:`value` attribute is an instance of an
+		:class:`~lf.win.objects.HRESULT` class.
 
 
 	.. classmethod:: from_stream(stream, offset=None, decoder=None)
@@ -1394,7 +1395,7 @@ The following classes represent typed values of a property.
 
 	.. attribute:: value
 
-		An instance of a :class:`Array` object.
+		An instance of an :class:`Array` object.
 
 	.. classmethod:: from_stream(stream, offset=None, decoder=None)
 
@@ -1471,7 +1472,7 @@ These classes are used to build properties and property sets.
 
 	.. attribute:: pair_count
 
-		The nubmer of pid/offset pairs.
+		The number of pid/offset pairs.
 
 	.. attribute:: pids_offsets
 

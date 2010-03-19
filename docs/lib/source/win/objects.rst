@@ -162,45 +162,6 @@ Value Objects
 The following classes subclass :class:`lf.dtypes.ActiveStructuple` to provide a
 Python data type not found in the standard library.
 
-.. class:: COORD
-
-	Represents coordinates.
-
-	.. attribute:: x
-
-		The x coordinate.
-
-	.. attribute:: y
-
-		The y coordinate.
-
-	.. classmethod:: from_stream(stream, offset=None, byte_order=LITTLE_ENDIAN)
-
-		Creates a :class:`COORD` object from a stream.
-
-		:type stream: :class:`~lf.dec.IStream`
-		:param stream: A stream that contains the COORD structure.
-
-		:type offset: ``int`` or ``None``
-		:param offset: The start of the COORD structure in the stream.
-
-		:type byte_order: constant
-		:param byte_order: The byte order to use (from :mod:`lf.dtypes`)
-
-		:rtype: :class:`COORD`
-		:returns: The extracted :class:`COORD` object.
-
-	.. classmethod:: from_ctype(ctype)
-
-		Creates a :class:`COORD` object from a ctype.
-
-		:type ctype: :class:`~lf.win.ctypes.coord_le` or
-					 :class:`~lf.win.ctypes.coord_be`
-		:param ctype: An instance of a coord ctype.
-
-		:rtype: :class:`COORD`
-		:returns: The corresponding :class:`COORD` object.
-
 .. class:: LCID
 
 	Represents a Locale ID data type.

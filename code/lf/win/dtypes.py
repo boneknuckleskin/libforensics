@@ -272,16 +272,6 @@ class CLSID_BE(GUID_BE):
     pass
 # end class CLSID_BE
 
-class COORD_LE(LERecord):
-    x = SHORT
-    y = SHORT
-# end class COORD_LE
-
-class COORD_BE(BERecord):
-    x = SHORT
-    y = SHORT
-# end class COORD_BE
-
 class _LCIDBits_LE(BitTypeU32):
     lang_id = bits(16)
     sort_id = bits(4)

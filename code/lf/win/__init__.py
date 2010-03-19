@@ -16,5 +16,6 @@
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
 __all__ = [
-    "consts", "ctypes", "guid", "ole", "shell", "dtypes", "objects", "codepage"
+    "consts", "ctypes", "guid", "ole", "shell", "dtypes", "objects",
+    "codepage", "con"
 ]

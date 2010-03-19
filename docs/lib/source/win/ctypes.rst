@@ -18,7 +18,5 @@ classes defined in :mod:`lf.win.dtypes`.
 .. class:: filetime_be
 .. class:: hresult_le
 .. class:: hresult_be
-.. class:: coord_le
-.. class:: coord_be
 .. class:: decimal_le
 .. class:: decimal_be

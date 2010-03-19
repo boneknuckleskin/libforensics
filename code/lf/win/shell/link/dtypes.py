@@ -1,4 +1,4 @@
-# Copyright 2009 Michael Murr
+# Copyright 2010 Michael Murr
 #
 # This file is part of LibForensics.
 #
@@ -15,31 +15,28 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
-"""
-Data structures to work with shell link (.lnk) files.
+"""Data structures to work with shell link files"""
 
-.. moduleauthor:: Michael Murr (mmurr@codeforensics.net)
-"""
-
-from lf.datatype import LERecord, BitTypeU32, bit, array, raw
-from lf.windows.datatypes import (
-    FILETIME, COLORREF, DWORD, WORD, BYTE, CLSID, GUID, COORD
+# local imports
+from lf.dtypes import LERecord, BitTypeU32, bit, raw
+from lf.win.dtypes import (
+    FILETIME_LE, COLORREF, DWORD, WORD, BYTE, CLSID_LE, GUID_LE,
+    LCID_LE
 )
+from lf.win.con.dtypes import COORD_LE
 
 __docformat__ = "restructuredtext en"
 __all__ = [
-    "HotKey", "Header", "LinkInfoHeader", "VolumeIDHeader", "CNRLHeader",
-    "DataBlockNeader", "ConsoleDataBlock", "ConsoleDataBockFull",
-    "DarwinDataBlock", "DarwinDataBlockFull", "EnvironmentVariableDataBlock",
-    "EnvironmentVariableDataBlockFull", "IconEnvironmentDataBlock",
-    "IconEnvironmentDataBlockFull", "KnownFolderDataBlock",
-    "KnownFolderDataBlockFull", "SpecialFolderDataBlock",
-    "SpecialFolderDataBlockFull", "TrackerDataBlock",
-    "TrackerDataBlockFull", "TrackerDataBlockFooter"
+    "HotKey", "ShellLinkHeader", "LinkInfoHeader", "VolumeIDHeader",
+    "CNRLHeader", "DataBlockHeader", "ConsoleDataBlock", "ConsoleFEDataBlock",
+    "DarwinDataBlock", "EnvironmentVariableDataBlock",
+    "IconEnvironmentDataBlock", "KnownFolderDataBlock",
+    "SpecialFolderDataBlock", "TrackerDataBlock", "TrackerDataBlockFooter",
+    "DomainRelativeObjId"
 ]
 
 class LinkFlagsBits(BitTypeU32):
-    has_id_list = bit
+    has_idlist = bit
     has_link_info = bit
     has_name = bit
     has_relative_path = bit
@@ -99,14 +96,14 @@ class HotKey(LERecord):
     vkmod = BYTE
 # end class HotKey
 
-class Header(LERecord):
+class ShellLinkHeader(LERecord):
     size = DWORD
-    clsid = CLSID
+    clsid = CLSID_LE
     flags = LinkFlags
     attrs = FileAttributes
-    btime = FILETIME
-    atime = FILETIME
-    mtime = FILETIME
+    btime = FILETIME_LE
+    atime = FILETIME_LE
+    mtime = FILETIME_LE
     target_size = DWORD
     icon_index = DWORD
     show_cmd = DWORD
@@ -114,7 +111,7 @@ class Header(LERecord):
     reserved1 = raw(2)
     reserved2 = raw(4)
     reserved3 = raw(4)
-# end class Header
+# end class ShellLinkHeader
 
 class LinkInfoFlags(BitTypeU32):
     has_vol_id_and_local_base_path = bit
@@ -129,8 +126,6 @@ class LinkInfoHeader(LERecord):
     local_base_path_offset = DWORD
     cnrl_offset = DWORD
     path_suffix_offset = DWORD
-    local_base_path_uni_offset = DWORD
-    path_suffix_uni_offset = DWORD
 # end class LinkInfoHeader
 
 class VolumeIDHeader(LERecord):
@@ -153,105 +148,75 @@ class CNRLHeader(LERecord):
     net_type = DWORD
 # end class CNRLHeader
 
-class DataBlock(LERecord):
+class DataBlockHeader(LERecord):
     size = DWORD
     sig = DWORD
-# end class DataBlock
+# end class DataBlockHeader
 
-class ConsoleDataBlock(LERecord):
+class ConsoleDataBlock(DataBlockHeader):
     fill_attributes = WORD
     popup_fill_attributes = WORD
-    screen_buffer_size = COORD
-    window_size = COORD
-    window_origin = COORD
-    unused1 = raw(4)
-    unused2 = raw(4)
+    screen_buffer_size = COORD_LE
+    window_size = COORD_LE
+    window_origin = COORD_LE
+    font = DWORD
+    input_buf_size = DWORD
     font_size = DWORD
     font_family = DWORD
     font_weight = DWORD
     face_name = raw(64)
     cursor_size = DWORD
     full_screen = DWORD
+    quick_edit = DWORD
     insert_mode = DWORD
     auto_position = DWORD
-    history_buff_size = DWORD
-    history_buff_count = DWORD
+    history_buf_size = DWORD
+    history_buf_count = DWORD
     history_no_dup = DWORD
-    color_table = array(DWORD, 16)
+    color_table = [COLORREF] * 16
 # end class ConsoleDataBlock
 
-class ConsoleDataBlockFull(DataBlock, ConsoleDataBlock):
-    pass
-# end class ConsoleDataBlockFull
+class ConsoleFEDataBlock(DataBlockHeader):
+    code_page = LCID_LE
+# end class ConsoleFEDataBlock
 
-class DarwinDataBlock(LERecord):
+class DarwinDataBlock(DataBlockHeader):
     darwin_data_ansi = raw(260)
     darwin_data_uni = raw(520)
 # end class DarwinDataBlock
 
-class DarwinDataBlockFull(DataBlock, DarwinDataBlock):
-    pass
-# end class DarwinDataBlockFull
-
-class ExpandableStringsDataBlock(LERecord):
+class ExpandableStringsDataBlock(DataBlockHeader):
     target_ansi = raw(260)
     target_uni = raw(520)
 # end class ExpandableStringsDataBlock
-
-class ExpandableStringsDataBlockFull(
-    DataBlock, ExpandableStringsDataBlock
-):
-
-    pass
-# en class ExpandableStringsDataBlockFull
 
 class EnvironmentVariableDataBlock(ExpandableStringsDataBlock):
     pass
 # end class EnvironmentVariableDataBlock
 
-class EnvironmentVariableDataBlockFull(ExpandableStringsDataBlockFull):
-    pass
-# end class EnvironmentVariableDataBlockFull
-
 class IconEnvironmentDataBlock(ExpandableStringsDataBlock):
     pass
 # end class IconEnvironmentDataBlock
 
-class IconEnvironmentDataBlockFull(ExpandableStringsDataBlockFull):
-    pass
-# end class IconEnvironmentDataBlockFull
-
-class KnownFolderDataBlock(LERecord):
-    kf_id = GUID
+class KnownFolderDataBlock(DataBlockHeader):
+    kf_id = GUID_LE
     offset = DWORD
 # end class KnownFolderDataBlock
 
-class KnownFolderDataBlockFull(DataBlock, KnownFolderDataBlock):
-    pass
-# end class KnownFolderDataBlockFull
-
-class SpecialFolderDataBlock(LERecord):
-    special_folder_id = DWORD
+class SpecialFolderDataBlock(DataBlockHeader):
+    sf_id = DWORD
     offset = DWORD
 # end class SpecialFolderDataBlock
 
-class SpecialFolderDataBlockFull(DataBlock, SpecialFolderDataBlock):
-    pass
-# end class SpecialFolderDataBlockFull
-
 class DomainRelativeObjId(LERecord):
-    volume = GUID
-    object = GUID
+    volume = GUID_LE
+    object = GUID_LE
 # end class DomainRelativeObjId
 
-class TrackerDataBlock(LERecord):
+class TrackerDataBlock(DataBlockHeader):
     length = DWORD
     version = DWORD
 # end class TrackerDataBlock
-
-class TrackerDataBlockFull(DataBlock, TrackerDataBlock):
-    pass
-# end class TrackerDataBlockFull
 
 class TrackerDataBlockFooter(LERecord):
     droid = DomainRelativeObjId

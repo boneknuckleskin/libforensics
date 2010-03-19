@@ -19,6 +19,6 @@
 
 __docformat__ = "restructuredtext en"
 __all__ = [
-    "lcid", "vkcode", "hotkey"
+    "lcid", "vkcode", "hotkey", "fs", "npt", "font"
 ]
 

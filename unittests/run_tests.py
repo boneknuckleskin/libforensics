@@ -25,9 +25,11 @@ names = [
     "dtypes.basic", "dtypes.native", "dtypes.bits", "dtypes.composite",
     "dtypes.dal", "dtypes.reader",
 
-    "win.objects", "time", "utils.time",
+    "win.objects", "win.con.objects", "time", "utils.time",
 
     "win.ole.cfb.objects", "win.ole.ps.objects", "win.ole.ps.metadata",
+
+    "win.shell.objects", "win.shell.link.objects",
 ]
 
 for index in range(len(names)):

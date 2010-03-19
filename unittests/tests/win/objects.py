@@ -28,18 +28,16 @@ from lf.dec import ByteIStream
 from lf.dec.consts import SEEK_SET
 from lf.dtypes import BIG_ENDIAN, LITTLE_ENDIAN
 from lf.win.ctypes import (
-    guid_be, filetime_le, coord_le, lcid_le, hresult_le, decimal_le, decimal_be
+    guid_be, filetime_le, lcid_le, hresult_le, decimal_le, decimal_be
 )
 from lf.win.objects import (
-    GUIDToUUID, CLSIDToUUID, COORD, LCID, HRESULT, DECIMALToDecimal,
-    CURRENCYToDecimal
+    GUIDToUUID, CLSIDToUUID, LCID, HRESULT, DECIMALToDecimal, CURRENCYToDecimal
 )
 
 __docformat__ = "restructuredtext en"
 __all__ = [
-    "GUIDToUUIDTestCase", "CLSIDToUUIDTestCase", "COORDTestCase",
-    "LCIDTestCase", "HRESULTTestCase", "DECIMALToDecimalTestCase",
-    "CURRENCYToDecimalTestCase"
+    "GUIDToUUIDTestCase", "CLSIDToUUIDTestCase", "LCIDTestCase",
+    "HRESULTTestCase", "DECIMALToDecimalTestCase", "CURRENCYToDecimalTestCase"
 ]
 
 class GUIDToUUIDTestCase(TestCase):
@@ -109,39 +107,6 @@ class CLSIDToUUIDTestCase(TestCase):
         ae(uuid1, UUID(bytes=bytes([x for x in range(16)])))
     # end def test_from_ctype
 # end class CLSIDToUUIDTestCase
-
-class COORDTestCase(TestCase):
-    def test_from_stream(self):
-        ae = self.assertEqual
-
-        data = b"\x00\x01\x02\x03"
-
-        stream = ByteIStream(data)
-        coord1 = COORD.from_stream(stream, byte_order=LITTLE_ENDIAN)
-        coord2 = COORD.from_stream(stream, 0, byte_order=LITTLE_ENDIAN)
-
-        stream.seek(0, SEEK_SET)
-        coord3 = COORD.from_stream(stream, byte_order=BIG_ENDIAN)
-        coord4 = COORD.from_stream(stream, 0, byte_order=BIG_ENDIAN)
-
-        ae(coord1.x, 0x0100)
-        ae(coord1.y, 0x0302)
-        ae(coord2.x, 0x0100)
-        ae(coord2.y, 0x0302)
-        ae(coord3.x, 0x0001)
-        ae(coord3.y, 0x0203)
-        ae(coord4.x, 0x0001)
-        ae(coord4.y, 0x0203)
-    # end def test_from_stream
-
-    def test_from_ctype(self):
-        ae = self.assertEqual
-
-        coord = coord_le.from_buffer_copy(b"\x00\x01\x02\x03")
-        coord = COORD.from_ctype(coord)
-        ae(coord, COORD((0x0100, 0x0302)))
-    # end def test_from_ctype
-# end class COORDTestCase
 
 class LCIDTestCase(TestCase):
     def test_from_stream(self):

@@ -27,6 +27,10 @@ extensions = ["sphinx.ext.graphviz"]
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
+# Uncomment the line below to generate HTML docs that include support for
+# google analytics
+#templates_path.append("_templates_ga")
+
 # The suffix of source filenames.
 source_suffix = '.rst'
 

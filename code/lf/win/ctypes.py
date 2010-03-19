@@ -26,8 +26,8 @@ __all__ = [
     "FILETIME_LE", "FILETIME_BE", "HRESULT_LE", "HRESULT_BE",
 
     "guid_le", "guid_be", "clsid_le", "clsid_be", "lcid_le", "lcid_be",
-    "filetime_le", "filetime_be", "hresult_le", "hresult_be", "coord_le",
-    "coord_be", "decimal_le", "decimal_be"
+    "filetime_le", "filetime_be", "hresult_le", "hresult_be", "decimal_le",
+    "decimal_le", "decimal_be"
 ]
 
 guid_le = dtypes.GUID_LE._ctype_
@@ -54,9 +54,6 @@ hresult_le = dtypes.HRESULT_LE._ctype_
 hresult_be = dtypes.HRESULT_BE._ctype_
 HRESULT_LE = hresult_le
 HRESULT_BE = hresult_be
-
-coord_le = dtypes.COORD_LE._ctype_
-coord_be = dtypes.COORD_BE._ctype_
 
 decimal_le = dtypes.DECIMAL_LE._ctype_
 decimal_be = dtypes.DECIMAL_BE._ctype_
