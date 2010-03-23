@@ -332,6 +332,22 @@ class CtypesWrapper(ActiveStructuple):
     _takes_ctype = True
 
     @classmethod
+    def from_bytes(cls, bytes_):
+        """Creates a :class:`CtypesWrapper` object from a ``bytes`` object.
+
+        :type bytes_: ``bytes``
+        :param bytes_: A ``bytes`` object to read from.
+
+        :rtype: :class:`CtypesWrapper`
+        :returns: The corresponding :class:`CtypesWrapper` class.
+
+        """
+        inst = cls._ctype_.from_buffer_copy(bytes_)
+
+        return cls.from_ctype(inst)
+    # end def from_bytes
+
+    @classmethod
     def from_stream(cls, stream, offset=None):
         """Creates a CtypesWrapper from a stream.
 
@@ -347,8 +363,8 @@ class CtypesWrapper(ActiveStructuple):
 
         :rtype: :class:`CtypesWrapper`
         :returns: The corresponding :class:`CtypesWrapper` object.
-        """
 
+        """
         ctype = cls._ctype_
 
         if offset is not None:
@@ -357,7 +373,7 @@ class CtypesWrapper(ActiveStructuple):
 
         inst = ctype.from_buffer_copy(stream.read(sizeof(ctype)))
 
-        return cls([getattr(inst, name) for name in cls._fields_])
+        return cls.from_ctype(inst)
     # end def from_stream
 
     @classmethod

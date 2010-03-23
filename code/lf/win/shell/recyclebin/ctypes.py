@@ -1,4 +1,4 @@
-# Copyright 2009 Michael Murr
+# Copyright 2010 Michael Murr
 #
 # This file is part of LibForensics.
 #
@@ -15,33 +15,15 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
-"""
-Data structures to read recycle bin files (INFO2).
+"""Ctypes for the data types in lf.win.shell.recyclebin.dtypes"""
 
-.. moduleauthor:: Michael Murr (mmurr@codeforensics.net)
-"""
-
-from lf.datatype import raw, LERecord
-from lf.windows.datatypes import DWORD, FILETIME
+# local imports
+from lf.win.shell.recyclebin.dtypes import INFO2Header, INFO2Item
 
 __docformat__ = "restructuredtext en"
 __all__ = [
-    "Header", "Item"
+    "info2_header", "info2_item"
 ]
 
-class Header(LERecord):
-    unknown1 = DWORD  # Perhaps version?
-    unknown2 = DWORD
-    count = DWORD  # Number of entries in file
-    item_size = DWORD
-    unknown3 = DWORD  # Varies per file, a timestamp?
-# end class Header
-
-class Item(LERecord):
-    name_asc = raw(260)
-    index = DWORD  # DcXX (this is the XX)
-    drive_num = DWORD  # 0 = A, 1 = B, 2 = C, ...
-    dtime = FILETIME
-    phys_size = DWORD
-    name_uni = raw(520)
-# end class Item
+info2_header = INFO2Header._ctype_
+info2_item = INFO2Item._ctype_

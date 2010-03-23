@@ -30,6 +30,8 @@ names = [
     "win.ole.cfb.objects", "win.ole.ps.objects", "win.ole.ps.metadata",
 
     "win.shell.objects", "win.shell.link.objects",
+
+    "win.shell.recyclebin.objects"
 ]
 
 for index in range(len(names)):

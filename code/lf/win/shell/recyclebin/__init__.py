@@ -1,4 +1,4 @@
-# Copyright 2009 Michael Murr
+# Copyright 2010 Michael Murr
 #
 # This file is part of LibForensics.
 #
@@ -15,6 +15,10 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
+# local imports
+from lf.win.shell.recyclebin.objects import INFO2, INFO2Header, INFO2Item
+
+__docformat__ = "restructuredtext en"
 __all__ = [
-    "extractors", "objects", "datatypes"
+    "INFO2" "INFO2Header", "INFO2Item"
 ]

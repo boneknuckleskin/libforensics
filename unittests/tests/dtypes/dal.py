@@ -206,8 +206,9 @@ class CtypesWrapperTestCase(TestCase):
         cwt1 = CtypesWrapperTest.from_stream(ByteIStream(b"\x64\x53"))
         ctype_with_val = ctype.from_buffer_copy(b"\x64\x53")
         cwt2 = CtypesWrapperTest.from_ctype(ctype_with_val)
+        cwt3 = CtypesWrapperTest.from_bytes(b"\x64\x53")
 
-        for cwt in (cwt1, cwt2):
+        for cwt in (cwt1, cwt2, cwt3):
             ae(cwt.field1, 0x64)
             ae(cwt.field2, 0x53)
             ae(cwt, (0x64, 0x53))

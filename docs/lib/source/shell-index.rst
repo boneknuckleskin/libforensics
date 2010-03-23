@@ -19,3 +19,6 @@ The following modules are documented in this chapter:
 	win/shell/link/consts
 	win/shell/link/dtypes
 	win/shell/link/ctypes
+	win/shell/recyclebin/recyclebin
+	win/shell/recyclebin/dtypes
+	win/shell/recyclebin/ctypes

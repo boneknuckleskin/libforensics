@@ -1,4 +1,4 @@
-# Copyright 2009 Michael Murr
+# Copyright 2010 Michael Murr
 #
 # This file is part of LibForensics.
 #
@@ -15,19 +15,30 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
-"""
-Extractors for INFO2 files.
+"""Data structures to read recycle bin INFO2 files."""
 
-.. moduleauthor:: Michael Murr (mmurr@codeforensics.net)
-"""
+# local imports
+from lf.dtypes import raw, LERecord
+from lf.win.dtypes import DWORD, FILETIME_LE
 
 __docformat__ = "restructuredtext en"
 __all__ = [
-    "header", "item"
+    "INFO2Header", "INFO2Item"
 ]
 
-from lf.datatype import Extractor
-from lf.windows.shell.recyclebin.datatypes import Header, Item
+class INFO2Header(LERecord):
+    version = DWORD
+    unknown1 = DWORD
+    unknown2 = DWORD  # Number of entries in file?
+    item_size = DWORD
+    unknown3 = DWORD  # Varies per file, a timestamp?
+# end class Header
 
-header = Extractor(Header)
-item = Extractor(Item)
+class INFO2Item(LERecord):
+    name_asc = raw(260)
+    index = DWORD  # DcXX (this is the XX)
+    drive_num = DWORD  # 0 = A, 1 = B, 2 = C, ...
+    dtime = FILETIME_LE
+    file_size = DWORD
+    name_uni = raw(520)
+# end class Item
