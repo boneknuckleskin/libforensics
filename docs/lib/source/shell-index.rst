@@ -22,3 +22,6 @@ The following modules are documented in this chapter:
 	win/shell/recyclebin/recyclebin
 	win/shell/recyclebin/dtypes
 	win/shell/recyclebin/ctypes
+	win/shell/thumbsdb/thumbsdb
+	win/shell/thumbsdb/dtypes
+	win/shell/thumbsdb/ctypes

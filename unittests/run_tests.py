@@ -31,7 +31,7 @@ names = [
 
     "win.shell.objects", "win.shell.link.objects",
 
-    "win.shell.recyclebin.objects"
+    "win.shell.recyclebin.objects", "win.shell.thumbsdb.objects"
 ]
 
 for index in range(len(names)):

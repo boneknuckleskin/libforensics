@@ -1,4 +1,4 @@
-# Copyright 2009 Michael Murr
+# Copyright 2010 Michael Murr
 #
 # This file is part of LibForensics.
 #
@@ -15,11 +15,12 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
-"""
-Extractors for Thumbs.db data structures.
+"""Thumbs.db ctypes"""
 
-.. moduleauthor:: Michael Murr (mmurr@codeforensics.net)
-"""
+# local imports
+from lf.win.shell.thumbsdb.dtypes import (
+    CatalogHeader, CatalogEntryHeader, EntryHeader, EntryHeaderOld
+)
 
 __docformat__ = "restructuredtext en"
 __all__ = [
@@ -27,12 +28,7 @@ __all__ = [
     "entry_header_old"
 ]
 
-from lf.datatype import Extractor
-from lf.windows.shell.thumbsdb.datatypes import (
-    CatalogHeader, CatalogEntryHeader, EntryHeader, EntryHeaderOld
-)
-
-catalog_header = Extractor(CatalogHeader())
-catalog_entry_header = Extractor(CatalogEntryHeader())
-entry_header = Extractor(EntryHeader())
-entry_header_old = Extractor(EntryHeaderOld())
+catalog_header = CatalogHeader._ctype_
+catalog_entry_header = CatalogEntryHeader._ctype_
+entry_header = EntryHeader._ctype_
+entry_header_old = EntryHeaderOld._ctype_

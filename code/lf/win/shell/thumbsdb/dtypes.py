@@ -1,4 +1,4 @@
-# Copyright 2009 Michael Murr
+# Copyright 2010 Michael Murr
 #
 # This file is part of LibForensics.
 #
@@ -15,32 +15,29 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
-"""
-Data structures to work with thumbs.db files.
+"""Data types to read thumbs.db files."""
 
-.. moduleauthor:: Michael Murr (mmurr@codeforensics.net)
-"""
+# local imports
+from lf.dtypes import raw, LERecord
+from lf.win.dtypes import UINT32, FILETIME_LE
 
 __docformat__ = "restructuredtext en"
 __all__ = [
     "CatalogHeader", "CatalogEntryHeader", "EntryHeader", "EntryHeaderOld"
 ]
 
-from lf.datatype import raw, LERecord
-from lf.windows.datatypes import UINT32, FILETIME
-
 class CatalogHeader(LERecord):
     unknown1 = raw(2)  # Header Size?  Identifier?
     unknown2 = raw(2)  # Appears to be a version number?
-    count = UINT32
+    item_count = UINT32
     width = UINT32
     height = UINT32
 # end class CatalogHeader
 
 class CatalogEntryHeader(LERecord):
     size = UINT32  # Size of the entry
-    index = UINT32
-    mtime = FILETIME
+    id = UINT32
+    mtime = FILETIME_LE
 # end class CatalogEntryHeader
 
 class EntryHeader(LERecord):

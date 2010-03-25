@@ -15,12 +15,12 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
-
 """Tool to demonstrate some of the capabilities in lf.win.shell.thumbsdb"""
 
 # stdlib imports
 import sys
 from optparse import OptionParser
+from datetime import datetime
 
 # local imports
 from lf.dec import RawIStream, ByteIStream
@@ -37,13 +37,51 @@ VERSION_STR = "%prog {ver_major}.{ver_minor} (c) 2010 Code Forensics".format(
 
 __docformat__ = "restructuredtext en"
 __all__ = [
-    "main"
+    "format_timestamp", "format_entry", "main"
 ]
 
+def format_timestamp(timestamp):
+    if isinstance(timestamp, datetime):
+        new_timestamp = timestamp.replace(microsecond=0)
+        new_timestamp = new_timestamp.isoformat(" ")
+    else:
+        new_timestamp = timestamp
+    # end if
+
+    return new_timestamp
+# end def format_timestamp
+
+def format_catalog(tdb):
+    output = list()
+    catalog = tdb.catalog
+
+    output.append("Thumbnail width: {0}".format(catalog.width))
+    output.append("Thumbnail height: {0}".format(catalog.height))
+    output.append("Thumbnail count: {0}".format(catalog.item_count))
+
+    return output
+# end def format_catalog
+
+def format_entry(tdb, entry):
+    output = list()
+
+    thumbnail = tdb.thumbnails[entry.id]
+    mtime = format_timestamp(entry.mtime)
+
+    output.append("ID: {0}".format(entry.id))
+    output.append("Catalog entry size: {0}".format(entry.size))
+    output.append("File name: {0}".format(entry.file_name))
+    output.append("File size: {0}".format(thumbnail.size))
+    output.append("Stream name: {0}".format(entry.stream_name))
+    output.append("Modification time: {0}".format(mtime))
+
+    return output
+# end def format_entry
+
 def main():
-    usage = "%prog [options] thumbsdb id"
+    usage = "%prog thumbsdb id"
     description = "\n".join([
-        "Extracts raw thumbnail data from a thumbs.db file."
+        "Displays statistics about a specific entry in a thumbs.db file."
         "",
         "If thumbsdb is '-', then stdin is read."
     ])
@@ -63,19 +101,35 @@ def main():
     (options, args) = parser.parse_args()
 
     if len(args) < 2:
-        parser.error("You must specify a thumbs.db file or '-' and an id")
-    # end if
+        parser.error("You must specify both an thumbs.db file and an id")
+    # end fi
+
 
     if args[0] == "-":
         cfb = CompoundFile(ByteIStream(sys.stdin.buffer.read()))
     else:
         cfb = CompoundFile(RawIStream(args[0]))
     # end if
-
     tdb = ThumbsDb(cfb, options.catalog_name)
+
     entry_id = int(args[1])
 
-    sys.stdout.buffer.write(tdb.thumbnails[entry_id].data)
+    entries = tdb.catalog.entries
+    key_values = dict([(getattr(entry, "id"), entry) for entry in entries])
+    ids = list(key_values.keys())
+    ids.append(ids[-1] + 1)  # $Catalog
+
+    if entry_id not in ids:
+        parser.error("Unknown id {0}".format(entry_id))
+    # end if
+
+    if entry_id == ids[-1]:
+        output = format_catalog(tdb)
+    else:
+        output = format_entry(tdb, key_values[entry_id])
+    # end if
+
+    print("\n".join(output))
 # end def main
 
 if __name__ == "__main__":
