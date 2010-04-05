@@ -2159,7 +2159,7 @@ class Builder():
         """Builds a dictionary of :class:`PropertyPacket` objects.
 
         :type stream: :class:`~lf.dec.IStream`
-        :param stream: A straem that contains the property structures.
+        :param stream: A stream that contains the property structures.
 
         :type fmtid: :class:`UUID`
         :param fmtid: The FMTID of the property set.
