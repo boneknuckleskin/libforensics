@@ -1686,7 +1686,7 @@ subset of the existing properties in a property set.
 
 		A set of the attribute names that were found in the property set.
 
-	.. classmethod from_properties(properties)
+	.. classmethod:: from_properties(properties)
 
 		Creates a :class:`PropertiesMetadata` object from properties.
 
