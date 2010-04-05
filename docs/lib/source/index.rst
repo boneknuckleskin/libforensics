@@ -13,6 +13,7 @@ Contents:
    win-common
    shell-index
    ole-index
+   msoffice-index
 
 Indices and tables
 ==================

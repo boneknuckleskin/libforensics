@@ -15,6 +15,22 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with LibForensics.  If not, see <http://www.gnu.org/licenses/>.
 
+"""Common Microsoft Office ctypes."""
+
+# local imports
+from lf.apps.msoffice.shared.dtypes import (
+    PropertySetSystemIdentifier,
+    VtHyperlinkHeader, DigSigInfoSerializedHeader, DigSigBlobHeader
+)
+
+__docformat__ = "restructuredtext en"
 __all__ = [
-    "shared", "word"
+    "property_set_system_identifier",
+    "vt_hyperlink_header", "dig_sig_info_serialized_header",
+    "dig_sig_blob_header"
 ]
+
+property_set_system_identifier = PropertySetSystemIdentifier._ctype_
+vt_hyperlink_header = VtHyperlinkHeader._ctype_
+dig_sig_info_serialized_header = DigSigInfoSerializedHeader._ctype_
+dig_sig_blob_header = DigSigBlobHeader._ctype_
