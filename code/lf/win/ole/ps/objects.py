@@ -830,7 +830,7 @@ class HRESULT(ValuePacket):
 
     """
 
-    takes_ctype = True
+    _takes_ctype = True
 
     @classmethod
     def from_stream(cls, stream, offset=None, decoder=None):
@@ -1233,7 +1233,7 @@ class TypedPropertyValue(PropertyPacket):
 
     _fields_ = ("type", "size", "value")
 
-    takes_stream = True
+    _takes_stream = True
     _ctype = typed_property_value_header
 
     @classmethod
