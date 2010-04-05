@@ -3390,7 +3390,6 @@ class BuilderTestCase(TestCase):
             0x11: 0x1B8
         }
 
-        sample_si_stream.seek(0x214, SEEK_SET)
         sample_si_stream.seek(0x1F4, SEEK_SET)
         cf_data = sample_si_stream.read(0x0254AA)
         control_properties = {
