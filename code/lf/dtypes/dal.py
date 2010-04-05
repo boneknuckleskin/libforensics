@@ -224,8 +224,37 @@ class Structuple(tuple, metaclass=MetaStructuple):
         automatically for all subclasses, until a subclass sets _auto_slots_ to
         ``False``.
 
-    """
+    .. note::
 
+        When inheriting from this class (or a subclass) the _fields_ attribute
+        in subclasses *appends* to the _fields_ attribute of the parent(s).
+        This means that subclasses will have all of the fields of the
+        parent(s).
+
+        The caveat is that if a subclass defines a field or alias that is
+        already defined in the parent class, then the field is kept in the
+        position specified by the subclass.
+
+        For example:
+
+            >>> from lf.dtypes import Structuple
+            >>> class ParentClass(Structuple):
+            ...     _fields_ = ("field0", "field1", "field2")
+            ...
+            >>> class SubClass1(ParentClass):
+            ...     _fields_ = ("field3", "field4", "field5")
+            ...
+            >>> class SubClass2(ParentClass):
+            ...     _fields_ = ("field6", "field1", "field7")
+            ...
+            >>> ParentClass._fields_
+            ('field0', 'field1', 'field2')
+            >>> SubClass1._fields_
+            ('field0', 'field1', 'field2', 'field3', 'field4', 'field5')
+            >>> SubClass2._fields_
+            ('field0', 'field2', 'field6', 'field1', 'field7')
+
+    """
     # Lists the fields that get created as attributes (in order)
     _fields_ = tuple()
 
@@ -351,14 +380,10 @@ class CtypesWrapper(ActiveStructuple):
     def from_stream(cls, stream, offset=None):
         """Creates a CtypesWrapper from a stream.
 
-        .. note::
-
-            This method is available if :attr:`_takes_stream` is ``True``.
-
         :type stream: :class:`lf.dec.IStream`
         :param stream: A stream that contains the :class:`CtypesWrapper`
 
-        :type offset: int or ``None``
+        :type offset: ``int`` or ``None``
         :param offset: The start of the :class:`CtypesWrapper`
 
         :rtype: :class:`CtypesWrapper`
@@ -379,10 +404,6 @@ class CtypesWrapper(ActiveStructuple):
     @classmethod
     def from_ctype(cls, ctype):
         """Creates a CtypesWrapper from a ctype.
-
-       .. note::
-
-            This method is available if :attr:`_takes_stream` is ``True``.
 
         :type ctype: :class:`ctypes._CData`
         :param ctype: A :mod:`ctypes` object that describes the values of the

@@ -1,11 +1,11 @@
-:mod:`lf.win.ctypes` --- Ctypes classes for record data types in lf.win.dtypes
-==============================================================================
+:mod:`lf.win.ctypes` --- Common Microsoft Windows ctypes
+========================================================
 
 .. module:: lf.win.ctypes
-   :synopsis: Ctypes classes for the record data types defined in lf.win.dtypes
+   :synopsis: Common Microsoft Windows ctypes
 .. moduleauthor:: Michael Murr <mmurr@codeforensics.net>
 
-This module contains :mod:`ctypes` objects for the :class:`lf.dtypes.Record`
+This module contains :mod:`ctypes` objects for the :class:`~lf.dtypes.Record`
 classes defined in :mod:`lf.win.dtypes`.
 
 .. class:: guid_le

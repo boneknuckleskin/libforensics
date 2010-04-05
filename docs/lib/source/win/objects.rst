@@ -1,8 +1,8 @@
-:mod:`lf.win.objects` --- Objects and converters for Microsoft data types.
+:mod:`lf.win.objects` --- Common Microsoft Windows objects and converters
 ==========================================================================
 
 .. module:: lf.win.objects
-   :synopsis: Objects and converters for common Microsoft data types.
+   :synopsis: Common Microsoft Windows objects and converters
 .. moduleauthor:: Michael Murr <mmurr@codeforensics.net>
 
 

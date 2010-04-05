@@ -496,7 +496,8 @@ The DAL provides three types of functionality, :class:`Structuple`,
 :class:`Structuple` classes
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. function:: structuple(name, fields, aliases=None, auto_slots=False, rename=False)
+.. function::
+	structuple(name, fields, aliases=None, auto_slots=False, rename=False)
 
 	Factory function to create new :class:`Structuple` classes.
 
@@ -553,6 +554,37 @@ The DAL provides three types of functionality, :class:`Structuple`,
 		If ``True``, then the :attr:`__slots__` attribute is created
 		automatically for all subclasses, until a subclass sets _auto_slots_ to
 		``False``.
+
+	.. note::
+
+		When inheriting from this class (or a subclass) the _fields_ attribute
+		in subclasses *appends* to the _fields_ attribute of the parent(s).
+		This means that subclasses will have all of the fields of the
+		parent(s).
+
+		The caveat is that if a subclass defines a field or alias that is
+		already defined in the parent class, then the field is kept in the
+		position specified by the subclass.
+
+		For example:
+
+			>>> from lf.dtypes import Structuple
+			>>> class ParentClass(Structuple):
+			... 	_fields_ = ("field0", "field1", "field2")
+			...
+			>>> class SubClass1(ParentClass):
+			... 	_fields_ = ("field3", "field4", "field5")
+			...
+			>>> class SubClass2(ParentClass):
+			... 	_fields_ = ("field6", "field1", "field7")
+			...
+			>>> ParentClass._fields_
+			('field0', 'field1', 'field2')
+			>>> SubClass1._fields_
+			('field0', 'field1', 'field2', 'field3', 'field4', 'field5')
+			>>> SubClass2._fields_
+			('field0', 'field2', 'field6', 'field1', 'field7')
+
 
 .. class:: ActiveStructuple(iterable)
 
@@ -618,12 +650,52 @@ The DAL provides three types of functionality, :class:`Structuple`,
 .. class:: CtypesWrapper()
 
 	An :class:`ActiveStructuple` that is a wrapper around a :mod:`ctypes`
-	object.  This class provides :meth:`from_stream` and
+	object.  This class provides :meth:`from_stream`, :meth:`from_bytes`, and
 	:meth:`from_ctype` methods.
+
+	The way this class is designed, :meth:`from_stream` and :meth:`from_bytes`
+	depend on :meth:`from_ctype`.  Therefore, just overriding
+	:meth:`from_ctype` in a subclass will affect :meth:`from_stream` and
+	:meth:`from_bytes`.
 
 	.. attribute:: _ctype_
 
 		The :mod:`ctypes` instance to wrap.
+
+	.. classmethod:: from_bytes(bytes_)
+
+		Creates a :class:`CtypesWrapper` object from a ``bytes`` object.
+
+        :type bytes_: ``bytes``
+        :param bytes_: A ``bytes`` object to read from.
+
+        :rtype: :class:`CtypesWrapper`
+        :returns: The corresponding :class:`CtypesWrapper` class.
+
+	.. classmethod:: from_stream(stream, offset=None)
+
+		Creates a CtypesWrapper from a stream.
+
+        :type stream: :class:`lf.dec.IStream`
+        :param stream: A stream that contains the :class:`CtypesWrapper`
+
+        :type offset: ``int`` or ``None``
+        :param offset: The start of the :class:`CtypesWrapper`
+
+        :rtype: :class:`CtypesWrapper`
+        :returns: The corresponding :class:`CtypesWrapper` object.
+
+	.. classmethod:: from_ctype(ctype)
+
+		Creates a CtypesWrapper from a ctype.
+
+        :type ctype: :class:`ctypes._CData`
+        :param ctype: A :mod:`ctypes` object that describes the values of the
+                      attributes.
+
+        :rtype: :class:`CtypesWrapper`
+        :returns: The corresponding :class:`CtypesWrapper`.
+
 
 :class:`Converter` classes
 ^^^^^^^^^^^^^^^^^^^^^^^^^^

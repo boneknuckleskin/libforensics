@@ -1,8 +1,8 @@
-:mod:`lf.win.dtypes` --- Common data types for Microsoft Windows artifacts
-==========================================================================
+:mod:`lf.win.dtypes` --- Common Microsoft Windows data types
+============================================================
 
 .. module:: lf.win.dtypes
-   :synopsis: Commmon data types for Microsoft Windows artifacts
+   :synopsis: Commmon Microsoft Windows data types
 .. moduleauthor:: Michael Murr <mmurr@codeforensics.net>
 
 This module provides support for several data types that are common to multiple
