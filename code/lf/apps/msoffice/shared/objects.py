@@ -315,13 +315,13 @@ class VtVecUnalignedLpstrValue(Vector):
         (:class:`~lf.win.ole.ps.VT_VECTOR` | :class:`~lf.win.ole.ps.VT_LPSTR`)
         with :class:`UnalignedLpstr` strings.
 
-    .. attribute:: value
-
-        A list of (unaligned) strings.
-
     .. attribute:: scalar_count
 
         The number of strings in the data.
+
+    .. attribute:: value
+
+        A list of (unaligned) strings.
 
     """
 
@@ -353,7 +353,7 @@ class VtVecUnalignedLpstrValue(Vector):
             stream, UnalignedLpstr.from_stream, count, offset + 4, decoder
         )
 
-        return cls((seq.size + 4, seq.value, count))
+        return cls((seq.size + 4, count, seq.value))
     # end def from_stream
 # end class VtVecUnalignedLpstrValue
 
@@ -458,7 +458,7 @@ class VtVecLpwstrValue(Vector):
         )
         values = [value.value for value in seq.value]
 
-        return cls((seq.size + 4, values, count))
+        return cls((seq.size + 4, count, values))
     # end def from_stream
 # end class VtVecLpwstrValue
 
@@ -712,7 +712,7 @@ class VtVecHeadingPairValue(Vector):
             stream, VtHeadingPair.from_stream, seq_count, offset + 4, decoder
         )
 
-        return cls((seq.size + 4, seq.value, count))
+        return cls((seq.size + 4, count, seq.value))
     # end def from_stream
 # end class VtVecHeadingPairValue
 

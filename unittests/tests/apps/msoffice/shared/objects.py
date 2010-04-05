@@ -1661,14 +1661,14 @@ class BuilderTestCase(TestCase):
                 0x50,
                 VtVecUnalignedLpstrValue((
                     0x4C,
+                    1,
                     [
                         UnalignedLpstr((
                             0x48,
                             "Iraq- ITS INFRASTRUCTURE OF CONCEALMENT, "
                             "DECEPTION AND INTIMIDATION"
                         ))
-                    ],
-                    1
+                    ]
                 ))
             )),
             0xC: VtVecHeadingPair((
@@ -1676,14 +1676,14 @@ class BuilderTestCase(TestCase):
                 30,
                 VtVecHeadingPairValue((
                     26,
+                    2,
                     [
                         VtHeadingPair((
                             22,
                             VtUnalignedString((0x1E, 0xE, "Title")),
                             VT_I4((3, 8, 1))
                         ))
-                    ],
-                    2
+                    ]
                 ))
             ))
         }
@@ -1753,14 +1753,14 @@ class BuilderTestCase(TestCase):
                 0x53,
                 VtVecUnalignedLpstrValue((
                     0x4F,
+                    5,
                     [
                         UnalignedLpstr((0x10, "title_value")),
                         UnalignedLpstr((5, "")),
                         UnalignedLpstr((0x10, "TOC Entry 1")),
                         UnalignedLpstr((0x16, "    TOC Entry 1.1")),
                         UnalignedLpstr((0x10, "TOC Entry 2")),
-                    ],
-                    5
+                    ]
                 ))
             )),
             0xC: VtVecHeadingPair((
@@ -1768,6 +1768,7 @@ class BuilderTestCase(TestCase):
                 0x37,
                 VtVecHeadingPairValue((
                     0x33,
+                    4,
                     [
                         VtHeadingPair((
                             0x16,
@@ -1779,8 +1780,7 @@ class BuilderTestCase(TestCase):
                             VtUnalignedString((0x1E, 0x11, "Headings")),
                             VT_I4((3, 8, 4))
                         ))
-                    ],
-                    4
+                    ]
                 ))
             ))
         }
@@ -1979,14 +1979,14 @@ class BuilderTestCase(TestCase):
                 0x50,
                 VtVecUnalignedLpstrValue((
                     0x4C,
+                    1,
                     [
                         UnalignedLpstr((
                             0x48,
                             "Iraq- ITS INFRASTRUCTURE OF CONCEALMENT, "
                             "DECEPTION AND INTIMIDATION"
                         ))
-                    ],
-                    1
+                    ]
                 ))
             )),
             0xC: VtVecHeadingPair((
@@ -1994,14 +1994,14 @@ class BuilderTestCase(TestCase):
                 30,
                 VtVecHeadingPairValue((
                     26,
+                    2,
                     [
                         VtHeadingPair((
                             22,
                             VtUnalignedString((0x1E, 0xE, "Title")),
                             VT_I4((3, 8, 1))
                         ))
-                    ],
-                    2
+                    ]
                 ))
             ))
         }
@@ -2077,14 +2077,14 @@ class BuilderTestCase(TestCase):
                 0x53,
                 VtVecUnalignedLpstrValue((
                     0x4F,
+                    5,
                     [
                         UnalignedLpstr((0x10, "title_value")),
                         UnalignedLpstr((5, "")),
                         UnalignedLpstr((0x10, "TOC Entry 1")),
                         UnalignedLpstr((0x16, "    TOC Entry 1.1")),
                         UnalignedLpstr((0x10, "TOC Entry 2")),
-                    ],
-                    5
+                    ]
                 ))
             )),
             0xC: VtVecHeadingPair((
@@ -2092,6 +2092,7 @@ class BuilderTestCase(TestCase):
                 0x37,
                 VtVecHeadingPairValue((
                     0x33,
+                    4,
                     [
                         VtHeadingPair((
                             0x16,
@@ -2103,8 +2104,7 @@ class BuilderTestCase(TestCase):
                             VtUnalignedString((0x1E, 0x11, "Headings")),
                             VT_I4((3, 8, 4))
                         ))
-                    ],
-                    4
+                    ]
                 ))
             ))
         }

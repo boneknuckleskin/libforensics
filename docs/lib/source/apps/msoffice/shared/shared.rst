@@ -432,13 +432,13 @@ Common data types
 		(:class:`~lf.win.ole.ps.VT_VECTOR` | :class:`~lf.win.ole.ps.VT_LPSTR`)
 		with :class:`UnalignedLpstr` strings.
 
-	.. attribute:: value
-
-		A list of (unaligned) strings.
-
 	.. attribute:: scalar_count
 
 		The number of strings in the data.
+
+	.. attribute:: value
+
+		A list of (unaligned) strings.
 
 	.. classmethod:: from_stream(stream, offset=None, decoder=None)
 

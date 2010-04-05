@@ -855,6 +855,10 @@ Common OLE data types
 
 		The property type contained in the array.  This is an extracted value.
 
+	.. attribute:: dimension_count
+
+		The number of dimensions in the array.
+
 	.. attribute:: dimensions
 
 		A list of the (size, index_offset) attributes for each dimension.
@@ -862,10 +866,6 @@ Common OLE data types
 	.. attribute:: value
 
 		A flattened list of the values.
-
-	.. attribute:: dimension_count
-
-		The number of dimensions in the array.
 
 	.. classmethod:: from_stream(stream, offset=None, decoder=None)
 
@@ -890,13 +890,13 @@ Common OLE data types
 
 	Represents the value from a VT_VECTOR packet.
 
-	.. attribute:: value
-
-		A list of elements in the vector.
-
 	.. attribute:: scalar_count
 
 		The number of elements in the vector.
+
+	.. attribute:: value
+
+		A list of elements in the vector.
 
 	.. classmethod::
 		from_stream(stream, scalar_type, offset=None, decoder=None)

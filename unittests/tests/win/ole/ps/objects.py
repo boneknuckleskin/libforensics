@@ -3299,14 +3299,14 @@ class BuilderTestCase(TestCase):
                 0x50,
                 Vector((
                     76,
+                    1,
                     [
                         CodePageString((
                             72,
                             "Iraq- ITS INFRASTRUCTURE OF CONCEALMENT, "
                             "DECEPTION AND INTIMIDATION"
                         ))
-                    ],
-                    1
+                    ]
                 ))
             )),
             0xC: VT_VECTOR((
@@ -3314,11 +3314,11 @@ class BuilderTestCase(TestCase):
                 28,
                 Vector((
                     24,
+                    2,
                     [
                         VT_LPSTR((0x1E, 16, "Title")),
                         VT_EMPTY((0, 4, None))
                     ],
-                    2
                 ))
             ))
         }
@@ -3517,12 +3517,12 @@ class BuilderTestCase(TestCase):
                 0x434F5424,
                 Vector((
                     0x434F5420,
+                    5,
                     [
                         CodePageString((16, "title_value")),
                         CodePageString((8, "")),
                         CodePageString((0x434F5404, " Entry 1"))
-                    ],
-                    5,
+                    ]
                     )),
             )),
             0xC: VT_VECTOR((
@@ -3530,14 +3530,14 @@ class BuilderTestCase(TestCase):
                 36,
                 Vector((
                     32,
+                    4,
                     [
                         # These are also off, since they are unaligned strings
                         VT_LPSTR((0x1E, 16, "Title")),
                         VT_NULL((0, 4, None)),
                         VT_NULL((0, 4, None)),
                         VT_NULL((0, 4, None))
-                    ],
-                    4
+                    ]
                 ))
             ))
         }
@@ -3769,14 +3769,14 @@ class BuilderTestCase(TestCase):
                 0x50,
                 Vector((
                     76,
+                    1,
                     [
                         CodePageString((
                             72,
                             "Iraq- ITS INFRASTRUCTURE OF CONCEALMENT, "
                             "DECEPTION AND INTIMIDATION"
                         ))
-                    ],
-                    1
+                    ]
                 ))
             )),
             0xC: VT_VECTOR((
@@ -3784,11 +3784,11 @@ class BuilderTestCase(TestCase):
                 28,
                 Vector((
                     24,
+                    2,
                     [
                         VT_LPSTR((0x1E, 16, "Title")),
                         VT_EMPTY((0, 4, None))
-                    ],
-                    2
+                    ]
                 ))
             ))
         }
@@ -3910,12 +3910,12 @@ class BuilderTestCase(TestCase):
                 0x434F5424,
                 Vector((
                     0x434F5420,
+                    5,
                     [
                         CodePageString((16, "title_value")),
                         CodePageString((8, "")),
                         CodePageString((0x434F5404, " Entry 1"))
                     ],
-                    5,
                     )),
             )),
             0xC: VT_VECTOR((
@@ -3923,6 +3923,7 @@ class BuilderTestCase(TestCase):
                 36,
                 Vector((
                     32,
+                    4,
                     [
                         # These are also off, since they are unaligned strings
                         VT_LPSTR((0x1E, 16, "Title")),
@@ -3930,7 +3931,6 @@ class BuilderTestCase(TestCase):
                         VT_NULL((0, 4, None)),
                         VT_NULL((0, 4, None))
                     ],
-                    4
                 ))
             ))
         }

@@ -879,6 +879,10 @@ class Array(ValuePacket):
 
         The property type contained in the array.  This is an extracted value.
 
+    .. attribute:: dimension_count
+
+        The number of dimensions in the array.
+
     .. attribute:: dimensions
 
         A list of the (size, index_offset) attributes for each dimension.
@@ -887,13 +891,8 @@ class Array(ValuePacket):
 
         A flattened list of the values.
 
-    .. attribute:: dimension_count
-
-        The number of dimensions in the array.
-
     """
-
-    _fields_ = ("scalar_type", "dimension_count", "dimensions")
+    _fields_ = ("scalar_type", "dimension_count", "dimensions", "value")
 
     @classmethod
     def from_stream(cls, stream, offset=None, decoder=None):
@@ -935,24 +934,23 @@ class Array(ValuePacket):
         seq = Sequence.from_stream(stream, scalar_type, count, decoder=decoder)
         size = seq.size + (dim_count * 8) + 8
 
-        return cls((size, seq.value, scalar_type, dim_count, dims,))
+        return cls((size, scalar_type, dim_count, dims, seq.value))
     # end def from_stream
 # end class Array
 
 class Vector(ValuePacket):
     """Represents the value from a VT_VECTOR packet.
 
-    .. attribute:: value
-
-        A list of elements in the vector.
-
     .. attribute:: scalar_count
 
         The number of elements in the vector.
 
-    """
+    .. attribute:: value
 
-    _fields_ = ("scalar_count",)
+        A list of elements in the vector.
+
+    """
+    _fields_ = ("scalar_count","value")
 
     @classmethod
     def from_stream(cls, stream, scalar_type, offset=None, decoder=None):
@@ -987,7 +985,7 @@ class Vector(ValuePacket):
             stream, scalar_type, count, offset + 4, decoder
         )
 
-        return cls((seq.size + 4, seq.value, count))
+        return cls((seq.size + 4, count, seq.value))
     # end def from_stream
 # end class Vector
 
