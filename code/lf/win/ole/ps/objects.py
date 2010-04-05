@@ -2066,7 +2066,7 @@ class Builder():
 
         for (fmtid, property_set_offset) in zip(fmtids, property_set_offsets):
             property_set_headers.append(cls.build_property_set_header(
-                stream, fmtid, property_set_offset
+                stream, property_set_offset, fmtid
             ))
         # end for
 
@@ -2075,7 +2075,7 @@ class Builder():
             property_set_offset = property_set_offsets[index]
 
             properties.append(cls.build_properties(
-                stream, fmtid, property_set, property_set_offset, decoder
+                stream, property_set, property_set_offset, fmtid, decoder
             ))
         # end for
 
@@ -2129,18 +2129,18 @@ class Builder():
     # end def build_property_set_stream_header
 
     @classmethod
-    def build_property_set_header(cls, stream, fmtid, offset=None):
+    def build_property_set_header(cls, stream, offset=None, fmtid=None):
         """Builds a :class:`PropertySetHeader` object.
 
         :type stream: :class:`~lf.dec.IStream`
         :param stream: A stream that contains the property set header
                        structure.
 
-        :type fmtid: :class:`UUID`
-        :param fmtid: The FMTID of the property set.
-
         :type offset: ``int``
         :param offset: The start of the structure in :attr:`stream`.
+
+        :type fmtid: :class:`UUID`
+        :param fmtid: The FMTID of the property set (optional).
 
         :rtype: :class:`PropertySetHeader`
         :returns: The corresponding :class:`PropertySetHeader` object.
@@ -2152,15 +2152,12 @@ class Builder():
 
     @classmethod
     def build_properties(
-        cls, stream, fmtid, property_set, offset=None, decoder=None
+        cls, stream, property_set, offset=None, fmtid=None, decoder=None
     ):
         """Builds a dictionary of :class:`PropertyPacket` objects.
 
         :type stream: :class:`~lf.dec.IStream`
         :param stream: A stream that contains the property structures.
-
-        :type fmtid: :class:`UUID`
-        :param fmtid: The FMTID of the property set.
 
         :type property_set: :class:`PropertySetHeader`
         :param property_set: A :class:`PropertySetHeader` object that describes
@@ -2168,6 +2165,9 @@ class Builder():
 
         :type offset: ``int``
         :param offset: The start of the structures in :attr:`stream`.
+
+        :type fmtid: :class:`UUID`
+        :param fmtid: The FMTID of the property set.
 
         :type decoder: :class:`codecs.codec`
         :param decoder: A codec to decode string properties.

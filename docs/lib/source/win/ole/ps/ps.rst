@@ -1575,7 +1575,7 @@ These classes are used to build properties and property sets.
 		:rtype: :class:`PropertySetStreamHeader`
 		:returns: The corresponding :class:`PropertySetStreamHeader` object.
 
-	.. classmethod:: build_property_set_header(stream, fmtid, offset=None)
+	.. classmethod:: build_property_set_header(stream, offset=None, fmtid=None)
 
 		Builds a :class:`PropertySetHeader` object.
 
@@ -1583,25 +1583,22 @@ These classes are used to build properties and property sets.
 		:param stream: A stream that contains the property set header
 					   structure.
 
-		:type fmtid: :class:`UUID`
-		:param fmtid: The FMTID of the property set.
-
 		:type offset: ``int``
 		:param offset: The start of the structure in :attr:`stream`.
+
+		:type fmtid: :class:`UUID`
+		:param fmtid: The FMTID of the property set.
 
 		:rtype: :class:`PropertySetHeader`
 		:returns: The corresponding :class:`PropertySetHeader` object.
 
 	.. classmethod::
-		build_properties(stream, fmtid, property_set, offset=None, decoder=None)
+		build_properties(stream, property_set, offset=None, fmtid=None, decoder=None)
 
 		Builds a dictionary of :class:`PropertyPacket` objects.
 
 		:type stream: :class:`~lf.dec.IStream`
 		:param stream: A stream that contains the property structures.
-
-		:type fmtid: :class:`UUID`
-		:param fmtid: The FMTID of the property set.
 
 		:type property_set: :class:`PropertySetHeader`
 		:param property_set: A :class:`PropertySetHeader` object that describes
@@ -1609,6 +1606,9 @@ These classes are used to build properties and property sets.
 
 		:type offset: ``int``
 		:param offset: The start of the structures in :attr:`stream`.
+
+		:type fmtid: :class:`UUID`
+		:param fmtid: The FMTID of the property set.
 
 		:type decoder: :class:`codecs.codec`
 		:param decoder: A codec to decode string properties.

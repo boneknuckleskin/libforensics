@@ -1435,15 +1435,12 @@ class Builder(_oleps_Builder):
 
     @classmethod
     def build_properties(
-        cls, stream, fmtid, property_set, offset=None, decoder=None
+        cls, stream, property_set, offset=None, fmtid=None, decoder=None
     ):
         """Builds a dictionary of :class:`~lf.win.ole.ps.PropertyPacket`
 
         :type stream: :class:`~lf.dec.IStream`
         :param stream: A stream that contains the property structures.
-
-        :type fmtid: :class:`UUID`
-        :param fmtid: The FMTID of the property set.
 
         :type property_set: :class:`PropertySetHeader`
         :param property_set: A :class:`PropertySetHeader` object that describes
@@ -1451,6 +1448,9 @@ class Builder(_oleps_Builder):
 
         :type offset: ``int``
         :param offset: The start of the structures in :attr:`stream`.
+
+        :type fmtid: :class:`UUID`
+        :param fmtid: The FMTID of the property set.
 
         :type decoder: :class:`codecs.codec`
         :param decoder: A codec to decode string properties.
@@ -1467,11 +1467,11 @@ class Builder(_oleps_Builder):
 
         if fmtid == FMTID_SummaryInformation:
             return cls.build_summary_info_properties(
-                stream, fmtid, property_set, offset, decoder
+                stream, property_set, offset, fmtid, decoder
             )
         elif fmtid == FMTID_DocSummaryInformation:
             return cls.build_doc_summary_info_properties(
-                stream, fmtid, property_set, offset, decoder
+                stream, property_set, offset, fmtid, decoder
             )
         # end if
 
@@ -1509,15 +1509,12 @@ class Builder(_oleps_Builder):
 
     @classmethod
     def build_summary_info_properties(
-        cls, stream, fmtid, property_set, offset=None, decoder=None
+        cls, stream, property_set, offset=None, fmtid=None, decoder=None
     ):
         """Builds a dictionary of :class:`PropertyPacket` objects.
 
         :type stream: :class:`~lf.dec.IStream`
         :param stream: A stream that contains the property structures.
-
-        :type fmtid: :class:`UUID`
-        :param fmtid: The FMTID of the property set.
 
         :type property_set: :class:`PropertySetHeader`
         :param property_set: A :class:`PropertySetHeader` object that describes
@@ -1525,6 +1522,9 @@ class Builder(_oleps_Builder):
 
         :type offset: ``int``
         :param offset: The start of the structures in :attr:`stream`.
+
+        :type fmtid: :class:`UUID`
+        :param fmtid: The FMTID of the property set.
 
         :type decoder: :class:`codecs.codec`
         :param decoder: A codec to decode string properties.
@@ -1590,15 +1590,12 @@ class Builder(_oleps_Builder):
 
     @classmethod
     def build_doc_summary_info_properties(
-        cls, stream, fmtid, property_set, offset=None, decoder=None
+        cls, stream, property_set, offset=None, fmtid=None, decoder=None
     ):
         """Builds a dictionary of :class:`PropertyPacket` objects.
 
         :type stream: :class:`~lf.dec.IStream`
         :param stream: A stream that contains the property structures.
-
-        :type fmtid: :class:`UUID`
-        :param fmtid: The FMTID of the property set.
 
         :type property_set: :class:`PropertySetHeader`
         :param property_set: A :class:`PropertySetHeader` object that describes
@@ -1606,6 +1603,9 @@ class Builder(_oleps_Builder):
 
         :type offset: ``int``
         :param offset: The start of the structures in :attr:`stream`.
+
+        :type fmtid: :class:`UUID`
+        :param fmtid: The FMTID of the property set.
 
         :type decoder: :class:`codecs.codec`
         :param decoder: A codec to decode string properties.

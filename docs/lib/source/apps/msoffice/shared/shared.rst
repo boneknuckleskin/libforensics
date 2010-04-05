@@ -1087,7 +1087,7 @@ Building properties
 		:returns: The corresponding :class:`PropertySetStreamHeader` object.
 
 	.. classmethod::
-		build_properties(stream, fmtid, property_set, offset=None, decoder=None)
+		build_properties(stream, property_set, offset=None, fmtid=None, decoder=None)
 
 		Builds a dictionary of :class:`~lf.win.ole.ps.PropertyPacket` objects.
 
@@ -1113,15 +1113,12 @@ Building properties
 				  (values).
 
 	.. classmethod::
-		build_summary_info_properties(stream, fmtid, property_set, offset=None, decoder=None)
+		build_summary_info_properties(stream, property_set, offset=None, fmtid=None, decoder=None)
 
 		Builds a dictionary of :class:`PropertyPacket` objects.
 
 		:type stream: :class:`~lf.dec.IStream`
 		:param stream: A stream that contains the property structures.
-
-		:type fmtid: :class:`UUID`
-		:param fmtid: The FMTID of the property set.
 
 		:type property_set: :class:`PropertySetHeader`
 		:param property_set: A :class:`PropertySetHeader` object that describes
@@ -1129,6 +1126,9 @@ Building properties
 
 		:type offset: ``int``
 		:param offset: The start of the structures in :attr:`stream`.
+
+		:type fmtid: :class:`UUID`
+		:param fmtid: The FMTID of the property set.
 
 		:type decoder: :class:`codecs.codec`
 		:param decoder: A codec to decode string properties.
@@ -1139,7 +1139,7 @@ Building properties
 				  (values).
 
 	.. classmethod::
-		build_doc_summary_info_properties(stream, fmtid, property_set, offset=None, decoder=None)
+		build_doc_summary_info_properties(stream, property_set, offset=None, fmtid=None, decoder=None)
 
 		Builds a dictionary of :class:`PropertyPacket` objects.
 

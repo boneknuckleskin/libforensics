@@ -3676,8 +3676,8 @@ class BuilderTestCase(TestCase):
         data[4:8] = b"\x05\x00\x00\x00"
 
         stream = ByteIStream(data)
-        psh0 = Builder.build_property_set_header(stream, None)
-        psh1 = Builder.build_property_set_header(stream, None, 0)
+        psh0 = Builder.build_property_set_header(stream)
+        psh1 = Builder.build_property_set_header(stream, 0)
 
         for psh in (psh0, psh1):
             ae(psh.size, 0x03020100)
@@ -3744,10 +3744,10 @@ class BuilderTestCase(TestCase):
         }
 
         blair_property_set_header = \
-            Builder.build_property_set_header(blair_si_stream, None, 48)
+            Builder.build_property_set_header(blair_si_stream, 48)
 
         blair_properties = Builder.build_properties(
-            blair_si_stream, None, blair_property_set_header, 48
+            blair_si_stream, blair_property_set_header, 48
         )
 
         ae(blair_properties, control_properties)
@@ -3794,9 +3794,9 @@ class BuilderTestCase(TestCase):
         }
 
         blair_property_set_header = \
-            Builder.build_property_set_header(blair_dsi_stream, None, 68)
+            Builder.build_property_set_header(blair_dsi_stream, 68)
         blair_properties = Builder.build_properties(
-            blair_dsi_stream, None, blair_property_set_header, 68
+            blair_dsi_stream, blair_property_set_header, 68
         )
         ae(blair_properties, control_properties)
 
@@ -3826,10 +3826,10 @@ class BuilderTestCase(TestCase):
         }
 
         blair_property_set_header = \
-            Builder.build_property_set_header(blair_dsi_stream, None, 372)
+            Builder.build_property_set_header(blair_dsi_stream, 372)
 
         blair_properties = Builder.build_properties(
-            blair_dsi_stream, None, blair_property_set_header, 372
+            blair_dsi_stream, blair_property_set_header, 372
         )
 
         ae(blair_properties, control_properties)
@@ -3873,10 +3873,10 @@ class BuilderTestCase(TestCase):
         }
 
         sample_property_set_header = Builder.build_property_set_header(
-            sample_si_stream, None, 48
+            sample_si_stream, 48
         )
         sample_properties = Builder.build_properties(
-            sample_si_stream, None, sample_property_set_header, 48
+            sample_si_stream, sample_property_set_header, 48
         )
         ae(sample_properties, control_properties)
 
@@ -3936,10 +3936,10 @@ class BuilderTestCase(TestCase):
         }
 
         sample_property_set_header = Builder.build_property_set_header(
-            sample_dsi_stream, None, 68
+            sample_dsi_stream, 68
         )
         sample_properties = Builder.build_properties(
-            sample_dsi_stream, None, sample_property_set_header, 68
+            sample_dsi_stream, sample_property_set_header, 68
         )
         ae(sample_properties, control_properties)
 
@@ -3994,11 +3994,11 @@ class BuilderTestCase(TestCase):
         }
 
         sample_property_set_header = Builder.build_property_set_header(
-            sample_dsi_stream, None, 0x1F8
+            sample_dsi_stream, 0x1F8
         )
 
         sample_properties = Builder.build_properties(
-            sample_dsi_stream, None, sample_property_set_header, 0x1F8
+            sample_dsi_stream, sample_property_set_header, 0x1F8
         )
 
         ae(sample_properties, control_properties)
