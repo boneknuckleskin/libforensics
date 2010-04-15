@@ -30,7 +30,8 @@ from lf.dtypes.ctypes import float64_le, float64_be, uint64_le, uint64_be
 
 __docformat__ = "restructuredtext en"
 __all__ = [
-    "FILETIMEToUnixTime", "UnixTimeToFILETIME", "FILETIMETodatetime",
+    "FILETIMEToPOSIXTime", "FILETIMEToUnixTime", "POSIXTimeToFILETIME",
+    "UnixTimeToFILETIME", "POSIXTimeTodatetime", "FILETIMETodatetime",
     "DOSDateTimeTodatetime", "VariantTimeTodatetime"
 ]
 
@@ -56,41 +57,65 @@ _MonthLengths = [
     [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 ]
 
-class FILETIMEToUnixTime(Converter):
-    """Converts a FILETIME timestamp to a Unix timestamp."""
+class FILETIMEToPOSIXTime(Converter):
+    """Converts a FILETIME timestamp to a POSIX (unix) timestamp."""
 
     @classmethod
-    def from_int(cls, filetime):
-        """Converts a Microsoft Windows FILETIME timestamp to a Unix timestamp.
+    def from_int(cls, timestamp):
+        """Converts a Microsoft Windows FILETIME timestamp to a POSIX timestamp.
 
-        :type filetime: ``int``
-        :param filetime: The FILETIME timestamp.
+        :type timestamp: ``int``
+        :param timestamp: The FILETIME timestamp.
 
         :rtype: ``int``
-        :returns: The time as a Unix timestamp.
+        :returns: The time as a POSIX timestamp.
 
         """
-        return (filetime - 116444736000000000) // 10000000
+        return (timestamp - 116444736000000000) // 10000000
     # end def from_int
-# end class FILETIMEToUnixtime
+# end class FILETIMEToPOSIXtime
 
-class UnixTimeToFILETIME(Converter):
-    """Converts a Unix timestamp to a FILETIME timestamp."""
+FILETIMEToUnixTime = FILETIMEToPOSIXTime
+
+class POSIXTimeToFILETIME(Converter):
+    """Converts a POSIX (unix) timestamp to a FILETIME timestamp."""
 
     @classmethod
-    def from_int(cls, unix_time):
-        """Converts a Unix timestamp to a Microsoft Windows FILETIME timestamp.
+    def from_int(cls, timestamp):
+        """Converts a POSIX timestamp to a Microsoft Windows FILETIME timestamp.
 
-        :type unix_time: ``int``
-        :param unix_time: The Unix timestamp.
+        :type timestamp: ``int``
+        :param timestamp: The POSIX timestamp.
 
         :rtype: ``int``
         :returns: The time as a FILETIME timestamp.
 
         """
-        return (unix_time * 10000000) + 116444736000000000
+        return (timestamp * 10000000) + 116444736000000000
     # end def from_int
-# end class UnixTimeToFILETIME
+# end class POSIXTimeToFILETIME
+
+UnixTimeToFILETIME = POSIXTimeToFILETIME
+
+class POSIXTimeTodatetime(StdLibConverter):
+    """Converts a POSIX timestamp to a ``datetime``."""
+
+    @classmethod
+    def from_int(cls, timestamp):
+        """Creates a ``datetime`` object from a POSIX (unix) timestamp.
+
+        :type timestamp: ``int``
+        :param timestamp: The timestamp as an integer.
+
+        :rtype: ``datetime``
+        :returns: The corresponding ``datetime`` object.
+
+        """
+        return datetime.utcfromtimestamp(timestamp)
+    # end def from_int
+# end class POSIXTimeTodatetime
+
+UnixTimeTodatetime = POSIXTimeTodatetime
 
 class FILETIMETodatetime(StdLibConverter):
     """Converts a FILETIME to a ``datetime``."""
@@ -150,13 +175,13 @@ class FILETIMETodatetime(StdLibConverter):
     # end def from_ctype
 
     @classmethod
-    def from_int(cls, filetime):
+    def from_int(cls, timestamp):
         """Converts a Microsoft FILETIME timestamp to a ``datetime`` object.
 
-        :type filetime: ``int``
-        :param filetime: The timestamp as a 64 bit integer.
+        :type timestamp: ``int``
+        :param timestamp: The timestamp as a 64 bit integer.
 
-        :raises ValueError: If :attr:`filetime` is an invalid value.
+        :raises ValueError: If :attr:`timestamp` is an invalid value.
 
         :rtype: ``datetime``
         :returns: The corresponding ``datetime`` object.
@@ -164,18 +189,18 @@ class FILETIMETodatetime(StdLibConverter):
         """
         # This algorithm was adapted from ReactOS's FileTimeToSystemTime
         # function so it's a bit more precise than just doing
-        # utcfromtimestamp(filetime_to_unix_time(filetime)).
+        # utcfromtimestamp(timestamp_to_unix_time(timestamp)).
 
-        if filetime & 0x8000000000000000:
-            raise ValueError("invalid filetime {0}".format(filetime))
+        if timestamp & 0x8000000000000000:
+            raise ValueError("invalid timestamp {0}".format(timestamp))
         # end if
 
         # RtlTimeToFileFields
-        milli_secs =  0xFFFF & ((filetime % TICKS_PER_SEC) // TICKS_PER_MSEC)
-        filetime = filetime // TICKS_PER_SEC
+        milli_secs =  0xFFFF & ((timestamp % TICKS_PER_SEC) // TICKS_PER_MSEC)
+        timestamp = timestamp // TICKS_PER_SEC
 
-        days = filetime // SECS_PER_DAY
-        seconds_in_day = filetime % SECS_PER_DAY
+        days = timestamp // SECS_PER_DAY
+        seconds_in_day = timestamp % SECS_PER_DAY
 
         while seconds_in_day < 0:
             seconds_in_day += SECS_PER_DAY
@@ -322,13 +347,13 @@ class VariantTimeTodatetime(StdLibConverter):
     # end def from_stream
 
     @classmethod
-    def from_float(cls, vtime):
+    def from_float(cls, timestamp):
         """Converts a Variant timestamp to a ``datetime``.
 
-        :type vtime: float
-        :param vtime: The Variant timestamp.
+        :type timestamp: float
+        :param timestamp: The Variant timestamp.
 
-        :raises ValueError: If :attr:`vtime` is an invalid value.
+        :raises ValueError: If :attr:`timestamp` is an invalid value.
 
         :rtype: ``datetime``
         :returns: The corresponding ``datetime`` object.
@@ -338,23 +363,23 @@ class VariantTimeTodatetime(StdLibConverter):
         DATE_MIN = -657434
         DATE_MAX = 2958465
 
-        if( (vtime <= (DATE_MIN - 1.0)) or (vtime >= (DATE_MAX + 1.0))):
-            raise ValueError("invalid variant time {0}".format(vtime))
+        if( (timestamp <= (DATE_MIN - 1.0)) or (timestamp >= (DATE_MAX + 1.0))):
+            raise ValueError("invalid variant time {0}".format(timestamp))
         # end if
 
-        if vtime < 0:
-            date_part = ceil(vtime)
+        if timestamp < 0:
+            date_part = ceil(timestamp)
         else:
-            date_part = floor(vtime)
+            date_part = floor(timestamp)
         # end if
 
-        time_part = (vtime - date_part) + 0.00000000001
+        time_part = (timestamp - date_part) + 0.00000000001
         if time_part >= 1:
             time_part -= 0.00000000001
         # end if
 
         # VARIANT_JulianFromDate
-        julian_days = int(vtime)
+        julian_days = int(timestamp)
         julian_days = julian_days - DATE_MIN
         julian_days = julian_days + 1757585
 
@@ -423,7 +448,9 @@ class VariantTimeTodatetime(StdLibConverter):
                                 (secs > 59)):
 
                                 err_msg = \
-                                    "variant time {0} invalid".format(vtime)
+                                    "variant time {0} invalid".format(
+                                        timestamp
+                                    )
                                 raise ValueError(err_msg)
                             # end if
 

@@ -6,33 +6,59 @@
 .. moduleauthor:: Michael Murr <mmurr@codeforensics.net>
 
 
-.. class:: FILETIMEToUnixTime
+.. class:: FILETIMEToPOSIXTime
 
-	Converts a FILETIME timestamp to a Unix timestamp.
+	Converts a FILETIME timestamp to a POSIX (unix) timestamp.
 
-	.. classmethod:: from_int(filetime)
+	.. classmethod:: from_int(timestamp)
 
-		Converts a Microsoft Windows FILETIME timestamp to a Unix timestamp.
+		Converts a Microsoft Windows FILETIME timestamp to a POSIX timestamp.
 
-		:type filetime: ``int``
-		:param filetime: The FILETIME timestamp.
+		:type timestamp: ``int``
+		:param timestamp: The FILETIME timestamp.
 
 		:rtype: ``int``
-		:returns: The time as a Unix timestamp.
+		:returns: The time as a POSIX timestamp.
 
-.. class:: UnixTimeToFILETIME
+.. class:: FILETIMEToUnixtime
 
-	Converts a Unix timestamp to a FILETIME timestamp.
+	An alias for :class:`FILETIMEToPOSIXTime`.
 
-	.. classmethod:: from_int(unix_time)
+.. class:: POSIXTimeToFILETIME
 
-		Converts a Unix timestamp to a Microsoft Windows FILETIME timestamp.
+	Converts a POSIX timestamp to a FILETIME timestamp.
 
-		:type unix_time: ``int``
-		:param unix_time: The Unix timestamp.
+	.. classmethod:: from_int(timestamp)
+
+		Converts a POSIX timestamp to a Microsoft Windows FILETIME timestamp.
+
+		:type timestamp: ``int``
+		:param timestamp: The POSIX timestamp.
 
 		:rtype: ``int``
 		:returns: The time as a FILETIME timestamp.
+
+.. class:: UnixTimeToFILETIME
+
+	An alias for :class:`POSIXTimeToFILETIME`.
+
+.. class:: POSIXTimeTodatetime
+
+	Converts a POSIX (unix) timestamp to a ``datetime``.
+
+	.. classmethod:: from_int(timestamp)
+
+		Creates a ``datetime`` object from a POSIX (unix) timestamp.
+
+		:type timestamp: ``int``
+		:param timestamp: The timestamp as an integer.
+
+		:rtype: ``datetime``
+		:returns: The corresponding ``datetime`` object.
+
+.. class:: UnixTimeTodatetime
+
+	An alias for :class:`POSIXTimeTodatetime`.
 
 .. class:: FILETIMETodatetime
 
@@ -69,14 +95,14 @@
 		:rtype: ``datetime``
 		:returns: The corresponding ``datetime`` object.
 
-	.. classmethod:: from_int(filetime)
+	.. classmethod:: from_int(timestamp)
 
 		Converts a Microsoft FILETIME timestamp to a ``datetime`` object.
 
-		:type filetime: ``int``
-		:param filetime: The timestamp as a 64 bit integer.
+		:type timestamp: ``int``
+		:param timestamp: The timestamp as a 64 bit integer.
 
-		:raises ValueError: If :attr:`filetime` is an invalid value.
+		:raises ValueError: If :attr:`timestamp` is an invalid value.
 
 		:rtype: ``datetime``
 		:returns: The corresponding ``datetime`` object.
@@ -123,14 +149,14 @@
 		:rtype: ``datetime``
 		:returns: The corresponding ``datetime`` object.
 
-	.. classmethod:: from_float(vtime)
+	.. classmethod:: from_float(timestamp)
 
 		Converts a Variant timestamp to a ``datetime``.
 
-		:type vtime: float
-		:param vtime: The Variant timestamp.
+		:type timestamp: float
+		:param timestamp: The Variant timestamp.
 
-		:raises ValueError: If :attr:`vtime` is an invalid value.
+		:raises ValueError: If :attr:`timestamp` is an invalid value.
 
 		:rtype: ``datetime``
 		:returns: The corresponding ``datetime`` object.

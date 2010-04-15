@@ -26,16 +26,28 @@ from lf.dec import ByteIStream
 from lf.dtypes import LITTLE_ENDIAN, BIG_ENDIAN
 from lf.win.ctypes import filetime_le
 from lf.time import (
-    FILETIMEToUnixTime, UnixTimeToFILETIME, FILETIMETodatetime,
-    DOSDateTimeTodatetime, VariantTimeTodatetime
+    FILETIMEToPOSIXTime, FILETIMEToUnixTime, POSIXTimeToFILETIME,
+    UnixTimeToFILETIME, POSIXTimeTodatetime, UnixTimeTodatetime,
+    FILETIMETodatetime, DOSDateTimeTodatetime, VariantTimeTodatetime
 )
 
 __docformat__ = "restructuredtext en"
 __all__ = [
-    "FILETIMEToUnixTimeTestCase", "UnixTimeToFILETIMETestCase",
+    "FILETIMEToPOSIXTimeTestCase", "FILETIMEToUnixTimeTestCase",
+    "POSIXTimeToFILETIMETestCase", "UnixTimeToFILETIMETestCase",
+    "POSIXTimeTodatetimeTestCase", "UnixTimeTodatetimeTestCase",
     "FILETIMETodatetimeTestCase", "DOSDateTimeTodatetimeTestCase",
     "VariantTimeTodatetimeTestCase"
 ]
+
+class FILETIMEToPOSIXTimeTestCase(TestCase):
+    def test_from_int(self):
+        ae = self.assertEqual
+
+        ae(FILETIMEToPOSIXTime.from_int(0x01C295C491150E00), 0x3DE43B0C)
+    # end def test_from_int
+# end class FILETIMEToPOSIXTimeTestCase
+
 
 class FILETIMEToUnixTimeTestCase(TestCase):
     def test_from_int(self):
@@ -45,6 +57,14 @@ class FILETIMEToUnixTimeTestCase(TestCase):
     # end def test_from_int
 # end class FILETIMEToUnixTimeTestCase
 
+class POSIXTimeToFILETIMETestCase(TestCase):
+    def test_from_int(self):
+        ae = self.assertEqual
+
+        ae(POSIXTimeToFILETIME.from_int(0x3DE43B0C), 0x01C295C491150E00)
+    # end def test_from_int
+# end class POSIXTimeToFILETIMETestCase
+
 class UnixTimeToFILETIMETestCase(TestCase):
     def test_from_int(self):
         ae = self.assertEqual
@@ -52,6 +72,24 @@ class UnixTimeToFILETIMETestCase(TestCase):
         ae(UnixTimeToFILETIME.from_int(0x3DE43B0C), 0x01C295C491150E00)
     # end def test_from_int
 # end class UnixTimeToFILETIMETestCase
+
+class POSIXTimeTodatetimeTestCase(TestCase):
+    def test_from_int(self):
+        ae = self.assertEqual
+
+        control_datetime = datetime(2002, 11, 27, 3, 25, 0)
+        ae(POSIXTimeTodatetime.from_int(0x3DE43B0C), control_datetime)
+    # end def test_from_int
+# end class POSIXTimeTodatetimeTestCase
+
+class UnixTimeTodatetimeTestCase(TestCase):
+    def test_from_int(self):
+        ae = self.assertEqual
+
+        control_datetime = datetime(2002, 11, 27, 3, 25, 0)
+        ae(UnixTimeTodatetime.from_int(0x3DE43B0C), control_datetime)
+    # end def test_from_int
+# end class UnixTimeTodatetimeTestCase
 
 class FILETIMETodatetimeTestCase(TestCase):
     def test_from_stream(self):
