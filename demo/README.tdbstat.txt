@@ -1,5 +1,9 @@
 Prints information about a specific entry in a thumbs.db file.
 
+
+Usage:
+------
+
 $ python3.1 tdbstat.py -h
 Usage: tdbstat.py thumbsdb id
 
@@ -14,6 +18,7 @@ Options:
 
 
 Examples:
+---------
 
 1) Print statistics about the entry with id 4 in thumbs.db.
 (thumbs.db from unittests/data/thumbsdb)
@@ -25,7 +30,6 @@ File name: Copy (2) of Makari_the_Tiger.jpg
 File size: 5238
 Stream name: 4
 Modification time: 2010-02-02 03:25:04
-
 
 
 2) Print statistics about the catalog from the same thumbs.db file

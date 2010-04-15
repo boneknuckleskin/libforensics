@@ -1,5 +1,9 @@
 Displays information about shell link (.lnk) files
 
+
+Usage:
+------
+
 $ python3.1 lnkinfo.py -h
 Usage: lnkinfo.py [options] lnkfile
 
@@ -13,6 +17,7 @@ Options:
 
 
 Examples:
+---------
 
 1) Display information from shortcut_to_local_exe.lnk (in unittests/data/lnk)
 

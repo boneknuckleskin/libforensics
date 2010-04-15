@@ -1,5 +1,9 @@
 Decodes various timestamp formats.
 
+
+Usage:
+------
+
 $ python3.1 datedecoder.py  -h
 Usage: datedecoder.py [options] timestamp
 
@@ -34,6 +38,7 @@ Options:
 
 
 Examples:
+---------
 
 1) Decoding a Windows FILETIME timestamp in little endian:
 
@@ -50,11 +55,13 @@ $ python3.1 datedecoder.py -f -e big -d 128920418080000000 \
 
 
 3) Decoding a variant timestamp:
+
 $ python3.1 datedecoder.py -t variant 3.25
 1900-01-02 06:00:00
 
 
 4) Decoding the same timestamp, this time it is a little endian decimal value:
+
 $ python3.1 datedecoder.py -t variant -i int -d -e little 2624
 1900-01-02 06:00:00
 

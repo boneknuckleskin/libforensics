@@ -1,5 +1,9 @@
 Lists information from INFO2 (recycle bin) files.
 
+
+Usage:
+------
+
 $ python3.1 info2.py -h
 Usage: info2ls.py [options] info2file
 
@@ -14,6 +18,7 @@ Options:
 
 
 Examples:
+---------
 
 1) List the entries in the INFO2 file under unittests/data/INFO2/INFO2_1.bin
 

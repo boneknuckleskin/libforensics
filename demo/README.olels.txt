@@ -3,6 +3,7 @@ Lists entries in an OLE compound file.
 
 Usage:
 ------
+
 $ python3.1 olels.py -h
 Usage: olels.py [options] olefile [dir. entry #]
 
@@ -22,6 +23,7 @@ Options:
 
 Examples:
 ---------
+
 (sample.doc is found under the unittests/data/doc directory)
 
 1) List the streams at the root directory (storage)

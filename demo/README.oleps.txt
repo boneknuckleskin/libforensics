@@ -3,6 +3,7 @@ Displays OLE property sets from a stream in an OLE compound file.
 
 Usage:
 ------
+
 $ python3.1 oleps.py -h
 Usage: oleps.py [options] -i sid olefile
 
@@ -18,6 +19,7 @@ Options:
 
 Examples:
 ---------
+
 (sample.doc is found under the unittests/data/doc directory)
 
 1) Extract the property set(s) from the SummaryInformation stream.

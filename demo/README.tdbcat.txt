@@ -1,5 +1,9 @@
 Extracts a thumbnail from a thumbs.db file
 
+
+Usage:
+------
+
 $ python3.1 tdbcat.py -h
 Usage: tdbcat.py [options] thumbsdb id
 
@@ -12,8 +16,8 @@ Options:
   -c CATALOG_NAME  The name of the catalog stream (def: Catalog)
 
 
-
 Examples:
+---------
 
 1) Extract the image with id 4.
 (thumbs.db from unittests/data/thumbsdb)

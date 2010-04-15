@@ -1,5 +1,9 @@
 Lists information from thumbs.db files.
 
+
+Usage:
+------
+
 $ python3.1 tdbls.py -h
 Usage: tdbls.py [options] thumbsdb
 
@@ -17,6 +21,7 @@ Options:
 
 
 Examples:
+---------
 
 1) List the entries in the thumbs.db file under unittests/data/thumbsdb.
 
@@ -37,7 +42,6 @@ r/r 13: Kookaburra_at_Marwell.jpg
 r/r 14: Makari_the_Tiger.jpg
 r/r 15: prairiedogs.jpg
 v/v 16: $Catalog
-
 
 
 2) List the entries in the same thumbs.db file, with long output.
@@ -61,7 +65,6 @@ r/r 15:	prairiedogs.jpg	2010-02-02 03:25:06	2963
 v/v 16:	$Catalog	0	0
 
 
-
 3) List the entries in the same thumbs.db file, with pretty-print output.
 
 $ python3.1 tdbls.py -p thumbs.db
@@ -81,7 +84,6 @@ ID  Modified time        Size    File name
 13  2010-02-02 03:25:02  2878    Kookaburra_at_Marwell.jpg
 14  2010-02-02 03:25:04  5238    Makari_the_Tiger.jpg
 15  2010-02-02 03:25:06  2963    prairiedogs.jpg
-
 
 
 4) List the entries in the same thumbs.db file (read from stdin) in mactime

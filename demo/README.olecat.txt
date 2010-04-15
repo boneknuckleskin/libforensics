@@ -3,6 +3,7 @@ Displays the contents of an OLE stream to standard out.
 
 Usage:
 ------
+
 $ python3.1 olecat.py -h
 Usage: olecat.py [options] olefile sid
 
@@ -17,6 +18,7 @@ Options:
 
 Examples:
 ---------
+
 (blair.doc from http://www.computerbytesman.com/privacy/blair.doc)
 
 1) Extract the contents of stream 2

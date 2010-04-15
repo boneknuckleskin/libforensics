@@ -3,6 +3,7 @@ Displays statistics about a directory entry in an OLE compound file.
 
 Usage:
 ------
+
 $ python3.1 olestat.py -h
 Usage: olestat.py olefile sid
 
@@ -16,6 +17,7 @@ Options:
 
 Examples:
 ---------
+
 (sample.doc is found under the unittests/data/doc directory)
 
 1) Display statistics on the root entry
@@ -97,7 +99,6 @@ Mini FAT sector offset: 13365
 Number of Mini FAT sectors: 3
 
 
-
 3) Display statistics about the double indirect FAT (DI FAT)
 
 $ python3.1 olestat.py sample.doc 49
@@ -125,7 +126,6 @@ FAT:
 13261: 0xFFFFFFFD (FAT sector)
 13262: 0xFFFFFFFD (FAT sector)
 [... output truncated ...]
-
 
 
 5) Displays statistics about the mini FAT

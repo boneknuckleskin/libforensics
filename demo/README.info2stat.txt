@@ -1,5 +1,9 @@
 Prints information about a specific entry in an INFO2 file.
 
+
+Usage:
+------
+
 $ python3.1 info2stat.py -h
 y -h
 Usage: info2stat.py info2file index
@@ -14,6 +18,7 @@ Options:
 
 
 Examples:
+---------
 
 1) Print statistics about the entry with index 3 in an INFO2 ifle.
 (INFO2 from CFReDS hacking case http://www.cfreds.nist.gov/Hacking_Case.html)
