@@ -128,9 +128,10 @@ class INFO2Item(CtypesWrapper):
 
         The name of the deleted file (ASCII).
 
-    .. attribute:: index
+    .. attribute:: id
 
-        The index of the deleted file.
+        The numeric identifier of the deleted file.  Sometimes called the index
+        number.
 
     .. attribute:: drive_num
 
@@ -156,7 +157,7 @@ class INFO2Item(CtypesWrapper):
 
     _ctype_ = info2_item
     _fields_ = (
-        "name_asc", "index", "drive_num", "dtime", "file_size", "name_uni",
+        "name_asc", "id", "drive_num", "dtime", "file_size", "name_uni",
         "exists"
     )
 
@@ -200,7 +201,7 @@ class INFO2Item(CtypesWrapper):
         # end try
 
         return cls((
-            name_asc, ctype.index, ctype.drive_num, dtime, ctype.file_size,
+            name_asc, ctype.id, ctype.drive_num, dtime, ctype.file_size,
             name_uni, exists
         ))
     # end def from_ctype

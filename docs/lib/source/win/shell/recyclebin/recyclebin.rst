@@ -61,9 +61,10 @@ Classes
 
 		The name of the deleted file (ASCII).
 
-	.. attribute:: index
+	.. attribute:: id
 
-		The index of the deleted file.
+		The numeric identifier of the deleted file.  Sometimes called the index
+		number.
 
 	.. attribute:: drive_num
 

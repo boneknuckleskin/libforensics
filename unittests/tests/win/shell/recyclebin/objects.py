@@ -86,7 +86,7 @@ class INFO2ItemTestCase(TestCase):
 
         data = bytearray()
         data.extend(b"".join([b"abc123", b"\x00" * 254]))  # name_asc
-        data.extend(b"\x00\x01\x02\x03")  # index
+        data.extend(b"\x00\x01\x02\x03")  # id
         data.extend(b"\x04\x05\x06\x07")  # drive_num
         data.extend(b"\x00\x0E\x15\x91\xC4\x95\xC2\x01")  # dtime
         data.extend(b"\x08\x09\x0A\x0B")  # file_size
@@ -95,7 +95,7 @@ class INFO2ItemTestCase(TestCase):
         item = INFO2Item.from_ctype(inst)
 
         ae(item.name_asc, b"abc123")
-        ae(item.index, 0x03020100)
+        ae(item.id, 0x03020100)
         ae(item.drive_num, 0x07060504)
         ae(item.dtime, datetime(2002, 11, 27, 3, 25))
         ae(item.file_size, 0x0B0A0908)
@@ -110,7 +110,7 @@ class INFO2ItemTestCase(TestCase):
         item = INFO2Item.from_ctype(inst)
 
         ae(item.name_asc, b"\x00bc123")
-        ae(item.index, 0x03020100)
+        ae(item.id, 0x03020100)
         ae(item.drive_num, 0x07060504)
         ae(item.dtime, 0xFFFFFFFFFFFFFFFF)
         ae(item.file_size, 0x0B0A0908)

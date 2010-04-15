@@ -36,7 +36,7 @@ class INFO2Header(LERecord):
 
 class INFO2Item(LERecord):
     name_asc = raw(260)
-    index = DWORD  # DcXX (this is the XX)
+    id = DWORD  # DcXX (this is the XX)
     drive_num = DWORD  # 0 = A, 1 = B, 2 = C, ...
     dtime = FILETIME_LE
     file_size = DWORD
