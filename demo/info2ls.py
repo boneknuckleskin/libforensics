@@ -85,8 +85,8 @@ def format_output(i2, options):
             "{size}",  # size
             "0",  # atime (n/a)
             "0",  # mtime (n/a)
-            "{dtime}",  # ctime (really dtime)
-            "0"  # btime (really dtime, time entry was created)
+            "{dtime}",  # ctime (really dtime, time entry was created)
+            "0"  # btime (n/a)
         ])
     elif options.long_output:
         format_str = "\t".join([
@@ -114,7 +114,7 @@ def format_output(i2, options):
             name = "Original name"
         ))
     else:
-        format_str = "{mode}{del}{index} {name}"
+        format_str = "{mode}{del}{index}: {name}"
     # end if
 
     format_args = {
@@ -129,13 +129,9 @@ def format_output(i2, options):
 
         if item.exists:
             format_args["deleted"] = "No"
-        else:
-            format_args["deleted"] = "Yes"
-        # end if
-
-        if item.exists:
             format_args["del"] = " "
         else:
+            format_args["deleted"] = "Yes"
             format_args["del"] = " * "
         # end if
 
@@ -157,7 +153,7 @@ def format_output(i2, options):
         # end if
 
         if options.mactime_output and not item.exists:
-            name = "".join([name, " (deleted )"])
+            name = "".join([name, " (deleted)"])
         # end if
 
         format_args["name"] = name
@@ -225,9 +221,9 @@ def main():
     if options.mactime_output and options.long_output:
         parser.error("You can't specify both -l and -m")
     elif options.mactime_output and options.rifiuti_output:
-        parser.error("You can't specify both -m and -r")
+        parser.error("You can't specify both -m and -R")
     elif options.long_output and options.rifiuti_output:
-        parser.error("You can't specify both -l and -r")
+        parser.error("You can't specify both -l and -R")
     elif len(args) == 0:
         parser.error("You must specify an INFO2 file or '-'")
     # end if
