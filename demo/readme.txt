@@ -10,7 +10,7 @@ information and examples.
 Feel free to use the tools, and report and bugs you find to the issue tracker
 at libforensics.com.
 
-- datedecoder.py: decodes various timestamp formats
+- datedecoder.py: Decodes various timestamp formats
 - info2ls.py: Lists the contents of INFO2 (recycle bin) files
 - info2stat.py: Prints statistics about a specific entry in an INFO2 file 
 - olels.py: Lists the directory entries in an OLE compound file
@@ -21,5 +21,5 @@ at libforensics.com.
 - tdbstat.py: Displays statistics about a specific entry in a thumbs.db file
 - tdbcat.py: Extracts thumbnail images from thumbs.db files
 - wmg.py: extracts metadata from Microsoft Word documents
-- dspe.py: prints and extracts data structures
+- recdump.py: Dumps information about record data types (data structures)
 - lnkinfo.py: Dumps information from shell link (.lnk, shortcut) files
